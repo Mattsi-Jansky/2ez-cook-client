@@ -1,9 +1,11 @@
 import { useState } from "react";
+import type { CSSProperties } from "react";
 import type { Recipe, RecipeTrack, BackgroundTimerMap } from "../../types";
 import { ProgressBar, SkipTimerModal } from "../common";
 import { StepCard } from "./StepCard";
 import { BackgroundTimerPill } from "./BackgroundTimerPill";
 import { TrackInterruptCard } from "./TrackInterruptCard";
+import css from "./CookingView.module.css";
 
 interface CookingViewProps {
   recipe: Recipe;
@@ -55,7 +57,10 @@ export function CookingView({
     : null;
 
   return (
-    <div style={{ paddingBottom: bgTimers.active.length > 0 ? 100 : 40 }}>
+    <div
+      className={css.container}
+      data-has-bg-timers={bgTimers.active.length > 0 || undefined}
+    >
       {/* Background skip confirmation */}
       {showBgSkipFor &&
         bgTimers.timers[showBgSkipFor] &&
@@ -72,74 +77,31 @@ export function CookingView({
         )}
 
       {/* Sticky header */}
-      <div
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 100,
-          background: "rgba(251,246,240,0.92)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid var(--color-card-border)",
-          padding: "16px 20px 14px",
-        }}
-      >
-        <div style={{ maxWidth: 520, margin: "0 auto" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: 12,
-            }}
-          >
+      <div className={css.stickyHeader}>
+        <div className={css.headerInner}>
+          <div className={css.headerRow}>
             <div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: "var(--color-heading)" }}>
-                {recipe.title}
-              </div>
-              <div style={{ fontSize: 12, color: "var(--color-muted)", marginTop: 2 }}>
-                {stage.label}
-              </div>
+              <div className={css.recipeTitle}>{recipe.title}</div>
+              <div className={css.stageLabel}>{stage.label}</div>
             </div>
-            <button
-              onClick={onExit}
-              style={{
-                background: "transparent",
-                border: "1px solid var(--color-border)",
-                borderRadius: 10,
-                padding: "5px 12px",
-                fontSize: 12,
-                color: "var(--color-muted)",
-                cursor: "pointer",
-                fontFamily: "var(--font-body)",
-              }}
-            >
+            <button onClick={onExit} className={css.exitBtn}>
               ✕ Exit
             </button>
           </div>
 
           {/* Track switcher */}
           {visTracks.length > 1 && (
-            <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+            <div className={css.trackSwitcher}>
               {visTracks.map((t) => {
                 const done = (trackSteps[t.id] || 0) >= t.steps.length;
                 return (
                   <button
                     key={t.id}
                     onClick={() => onSetActiveTrack(t.id)}
-                    style={{
-                      flex: 1,
-                      background: activeTrack === t.id ? t.color : "transparent",
-                      color: activeTrack === t.id ? "white" : t.color,
-                      border: `2px solid ${t.color}`,
-                      borderRadius: 12,
-                      padding: "8px 12px",
-                      fontSize: 13,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      fontFamily: "var(--font-body)",
-                      opacity: done ? 0.5 : 1,
-                      transition: "all 0.2s",
-                    }}
+                    className={css.trackBtn}
+                    data-active={activeTrack === t.id || undefined}
+                    data-done={done || undefined}
+                    style={{ "--track-color": t.color } as CSSProperties}
                   >
                     {t.label} {done && "✓"}
                   </button>
@@ -158,20 +120,7 @@ export function CookingView({
 
       {/* Background timer pills — fixed bottom */}
       {bgTimers.active.length > 0 && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: 20,
-            left: 20,
-            right: 20,
-            zIndex: 200,
-            maxWidth: 520,
-            margin: "0 auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: 8,
-          }}
-        >
+        <div className={css.bgTimerTray}>
           {bgTimers.active.map(([tid, bt]) => {
             const tr = allTracks.find((x) => x.id === tid);
             if (!tr) return null;
@@ -191,14 +140,14 @@ export function CookingView({
       )}
 
       {/* Main content */}
-      <div style={{ maxWidth: 520, margin: "0 auto", padding: "24px 16px" }}>
+      <div className={css.mainContent}>
         {isTrackDone ? (
-          <div style={{ textAlign: "center", padding: "48px 24px", animation: "fadeIn 0.5s ease" }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
-            <div style={{ fontSize: 18, color: "var(--color-heading)", fontWeight: 600, marginBottom: 8 }}>
+          <div className={css.trackComplete}>
+            <div className={css.trackCompleteEmoji}>✅</div>
+            <div className={css.trackCompleteTitle}>
               {curTrack?.label} — complete
             </div>
-            <div style={{ fontSize: 14, color: "var(--color-muted)" }}>
+            <div className={css.trackCompleteMsg}>
               {bgTimers.active.some(([, bt]) => !bt.dismissed)
                 ? "Waiting for background timers to finish."
                 : "Moving on..."}

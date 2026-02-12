@@ -1,0 +1,92 @@
+.item {
+  background: white;
+  border: 1.5px solid var(--color-border-light);
+  border-radius: 14px;
+  padding: 14px 16px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.item[data-checked] {
+  background: #F8FBF6;
+  border-color: #C5D9B8;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkbox {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  border: 2px solid #D4CBC0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 14px;
+  color: white;
+}
+
+.item[data-checked] .checkbox {
+  border: none;
+  background: var(--color-success);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-heading-dark);
+  transition: color 0.2s;
+}
+
+.item[data-checked] .name {
+  color: #7A917A;
+}
+
+.amount {
+  font-size: 13px;
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+.expandBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 16px;
+  color: #C4B5A4;
+  transition: transform 0.2s;
+  transform: rotate(0deg);
+}
+
+.expandBtn[data-expanded] {
+  transform: rotate(180deg);
+}
+
+.note {
+  margin-top: 10px;
+  margin-left: 38px;
+  font-size: 13px;
+  color: #8B7B6B;
+  line-height: 1.5;
+  animation: fadeIn 0.2s ease;
+}

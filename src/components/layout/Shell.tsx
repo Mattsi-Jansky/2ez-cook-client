@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import css from "./Shell.module.css";
 
 interface ShellProps {
   background: string;
@@ -7,13 +8,7 @@ interface ShellProps {
 
 export function Shell({ background, children }: ShellProps) {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background,
-        fontFamily: "var(--font-body)",
-      }}
-    >
+    <div className={css.shell} style={{ background }}>
       {children}
     </div>
   );

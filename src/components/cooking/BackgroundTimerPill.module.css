@@ -1,0 +1,91 @@
+.pill {
+  background: white;
+  border: 2px solid var(--track-color);
+  border-radius: 20px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.4s ease;
+}
+
+.pill[data-done] {
+  background: #E8F5E2;
+  border-color: var(--color-success);
+  box-shadow: 0 0 0 4px rgba(107, 143, 94, 0.3), 0 4px 16px rgba(0, 0, 0, 0.08);
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+.progress {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: conic-gradient(var(--track-color) calc(var(--progress) * 360deg), var(--color-track-bg) 0deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.progressInner {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.pill[data-done] .progressInner {
+  background: #E8F5E2;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.trackLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.timeLabel {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.dismissBtn {
+  font-size: 11px;
+  background: var(--color-success);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+.skipBtn {
+  font-size: 11px;
+  background: transparent;
+  color: var(--color-muted);
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.2s;
+}
+
+.skipBtn:hover {
+  color: var(--color-text);
+  border-color: #CCC0B4;
+}

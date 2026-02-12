@@ -1,0 +1,258 @@
+/* ─── Main layout ────────────────────────────────────────────────────── */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  animation: fadeIn 0.8s ease;
+}
+
+.card {
+  background: white;
+  border-radius: 28px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 40px rgba(90, 66, 52, 0.1);
+  border: 2px solid var(--color-card-border);
+  overflow: hidden;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────── */
+
+.hero {
+  padding: 36px 32px 0;
+  text-align: center;
+}
+
+.heroEmoji {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--color-heading-dark);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.heroDesc {
+  font-size: 14px;
+  color: var(--color-text);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.metaItem {
+  text-align: center;
+}
+
+.metaIcon {
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+.metaValue {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.metaLabel {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+/* ─── Tabs ───────────────────────────────────────────────────────────── */
+
+.tabBar {
+  display: flex;
+  border-bottom: 2px solid var(--color-card-border);
+}
+
+.tab {
+  flex: 1;
+  padding: 14px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--color-muted);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tab[data-active] {
+  border-bottom-color: var(--color-primary);
+  background: #FDFAF7;
+  color: var(--color-heading);
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #FFF0E8;
+  color: var(--color-primary);
+}
+
+.badge[data-success] {
+  background: #E8F5E2;
+  color: var(--color-success);
+}
+
+.tabContent {
+  padding: 24px 28px 8px;
+  min-height: 200px;
+}
+
+/* ─── Start button area ──────────────────────────────────────────────── */
+
+.startArea {
+  padding: 16px 28px 32px;
+  text-align: center;
+}
+
+.uncheckedHint {
+  font-size: 13px;
+  color: var(--color-muted);
+  margin-bottom: 12px;
+}
+
+.startButton {
+  width: 100%;
+  background: linear-gradient(135deg, #B07D62, #C4956F);
+  color: white;
+  border: none;
+  border-radius: 18px;
+  padding: 16px 40px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  box-shadow: 0 6px 24px rgba(176, 125, 98, 0.35);
+  transition: all 0.2s;
+}
+
+.startButton:hover {
+  transform: scale(1.02);
+}
+
+/* ─── OverviewTab ────────────────────────────────────────────────────── */
+
+.overviewContainer {
+  animation: fadeIn 0.3s ease;
+}
+
+.stageItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.stageItem:last-child {
+  border-bottom: none;
+}
+
+.stageIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.stageIcon[data-stage="preparation"] {
+  background: #FFF8F0;
+}
+
+.stageIcon[data-stage="cooking"] {
+  background: #FFF0E8;
+}
+
+.stageName {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.stageMeta {
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.howItWorks {
+  background: #FFF8F0;
+  border: 1px solid #F0E0CC;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: #8B7355;
+  line-height: 1.6;
+  margin-top: 20px;
+}
+
+.underlinedExample {
+  border-bottom: 2px dotted var(--color-primary);
+  font-weight: 600;
+}
+
+/* ─── ChecklistTab ───────────────────────────────────────────────────── */
+
+.checklistContainer {
+  animation: fadeIn 0.3s ease;
+}
+
+.checklistIntro {
+  font-size: 13px;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.sectionGroup {
+  margin-bottom: 24px;
+}
+
+.sectionLabel {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}

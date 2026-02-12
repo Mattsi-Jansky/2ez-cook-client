@@ -3,6 +3,7 @@ import { useCookingSession } from "../hooks";
 import { Shell } from "./layout";
 import { RecipeIntro } from "./intro";
 import { StageTransition, CompletedScreen, CookingView } from "./cooking";
+import css from "./App.module.css";
 
 export default function App() {
   const recipe = SAMPLE_RECIPE;
@@ -22,14 +23,7 @@ export default function App() {
   if (session.phase === "stageTransition") {
     return (
       <Shell background={BG_WARM}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "100vh",
-          }}
-        >
+        <div className={css.stageTransitionWrapper}>
           <StageTransition
             toStage={recipe.stages[session.stageTransitionTarget]}
             onContinue={session.handleStageContinue}

@@ -1,0 +1,37 @@
+.container {
+  text-align: center;
+  padding: 48px 24px;
+  animation: fadeIn 0.6s ease;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #FFF8F0;
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.icon[data-stage="cooking"] {
+  background: #FFF0E8;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--color-heading-dark);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.description {
+  font-size: 15px;
+  color: var(--color-text);
+  max-width: 380px;
+  margin: 0 auto 28px;
+  line-height: 1.55;
+}

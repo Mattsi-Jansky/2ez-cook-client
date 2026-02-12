@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.svg {
+  transform: rotate(-90deg);
+}
+
+.progressCircle[data-running] {
+  transition: stroke-dashoffset 1s linear;
+}
+
+.progressCircle:not([data-running]) {
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.overlay {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.time {
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--color-heading);
+  letter-spacing: 2px;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--color-muted);
+  margin-top: 2px;
+  font-weight: 500;
+}

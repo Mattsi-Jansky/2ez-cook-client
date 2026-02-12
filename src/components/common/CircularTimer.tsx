@@ -1,4 +1,5 @@
 import { formatTime } from "../../utils";
+import css from "./CircularTimer.module.css";
 
 interface CircularTimerProps {
   duration: number;
@@ -22,8 +23,8 @@ export function CircularTimer({
   const off = c * (1 - (duration > 0 ? (duration - timeLeft) / duration : 0));
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-      <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
+    <div className={css.container}>
+      <svg width={size} height={size} className={css.svg}>
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -42,40 +43,21 @@ export function CircularTimer({
           strokeDasharray={c}
           strokeDashoffset={off}
           strokeLinecap="round"
-          style={{
-            transition: running
-              ? "stroke-dashoffset 1s linear"
-              : "stroke-dashoffset 0.3s ease",
-          }}
+          className={css.progressCircle}
+          data-running={running || undefined}
         />
       </svg>
       <div
-        style={{
-          position: "relative",
-          marginTop: -size + 10,
-          height: size - 20,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        className={css.overlay}
+        style={{ marginTop: -size + 10, height: size - 20 }}
       >
         <div
-          style={{
-            fontSize: size > 120 ? 42 : 28,
-            fontWeight: 700,
-            fontFamily: "var(--font-mono)",
-            color: "var(--color-heading)",
-            letterSpacing: 2,
-          }}
+          className={css.time}
+          style={{ fontSize: size > 120 ? 42 : 28 }}
         >
           {formatTime(timeLeft)}
         </div>
-        {label && (
-          <div style={{ fontSize: 13, color: "var(--color-muted)", marginTop: 2, fontWeight: 500 }}>
-            {label}
-          </div>
-        )}
+        {label && <div className={css.label}>{label}</div>}
       </div>
     </div>
   );
