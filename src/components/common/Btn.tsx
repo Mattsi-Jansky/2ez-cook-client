@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import css from "./Btn.module.css";
 
-type BtnVariant = "primary" | "success" | "track";
+type BtnVariant = "primary" | "success" | "track" | "ghost";
 type BtnSize = "sm" | "md" | "lg";
 
 interface BtnProps {
@@ -9,12 +9,11 @@ interface BtnProps {
   children: ReactNode;
   variant?: BtnVariant;
   size?: BtnSize;
-  ghost?: boolean;
   style?: CSSProperties;
 }
 
-export function Btn({ onClick, children, variant, size = "md", ghost, style: sx }: BtnProps) {
-  const className = `${css.btn}${variant && !ghost ? ` ${css[variant]}` : ""}${ghost ? ` ${css.ghost}` : ""}${size !== "md" ? ` ${css[size]}` : ""}`;
+export function Btn({ onClick, children, variant = "primary", size = "md", style: sx }: BtnProps) {
+  const className = `${css.btn} ${css[variant]}${size !== "md" ? ` ${css[size]}` : ""}`;
 
   return (
     <button

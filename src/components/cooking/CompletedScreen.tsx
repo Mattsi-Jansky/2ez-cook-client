@@ -13,7 +13,7 @@ export function CompletedScreen({ recipe, onRestart }: CompletedScreenProps) {
       <div className={css.emoji}>🎉</div>
       <h1 className={css.title}>{recipe.title}</h1>
       <p className={css.message}>All steps complete. Enjoy your meal!</p>
-      <Btn onClick={onRestart} ghost style={{ marginTop: 0 }}>
+      <Btn onClick={onRestart} variant="ghost" style={{ marginTop: 0 }}>
         ← Back to start
       </Btn>
     </div>

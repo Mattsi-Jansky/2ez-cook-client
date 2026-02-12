@@ -86,7 +86,7 @@ export function StepCard({ step, stepIndex, totalSteps, track, stageType, onComp
               </Btn>
             )}
             {timer.running && (
-              <Btn onClick={timer.pause} ghost>
+              <Btn onClick={timer.pause} variant="ghost">
                 ⏸ Pause
               </Btn>
             )}
