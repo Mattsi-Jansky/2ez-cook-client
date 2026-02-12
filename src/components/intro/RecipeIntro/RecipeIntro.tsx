@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Recipe } from "../../../types";
-import { ChecklistItem } from "../../common";
+import { ChecklistTab } from "../ChecklistTab/ChecklistTab";
+import { OverviewTab } from "../OverviewTab/OverviewTab";
 import css from "./RecipeIntro.module.css";
 
 interface RecipeIntroProps {
@@ -103,91 +104,6 @@ export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
           </button>
         </div>
       </div>
-    </div>
-  );
-}
-
-/* ── Sub-components ──────────────────────────────────────────────────────── */
-
-function OverviewTab({ recipe }: { recipe: Recipe }) {
-  return (
-    <div className={css.overviewContainer}>
-      {recipe.stages.map((stage) => {
-        const n = stage.tracks.reduce((s, t) => s + t.steps.length, 0);
-        return (
-          <div key={stage.id} className={css.stageItem}>
-            <div className={css.stageIcon} data-stage={stage.type}>
-              {stage.type === "preparation" ? "🔪" : "🍳"}
-            </div>
-            <div>
-              <div className={css.stageName}>{stage.label}</div>
-              <div className={css.stageMeta}>
-                {n} step{n !== 1 ? "s" : ""}
-                {stage.tracks.length > 1 ? ` · ${stage.tracks.length} parallel tracks` : ""}
-              </div>
-            </div>
-          </div>
-        );
-      })}
-      <div className={css.howItWorks}>
-        <strong>How this works:</strong> One step at a time. Tap{" "}
-        <span className={css.underlinedExample}>underlined words</span>{" "}
-        for explanations. Parallel steps are managed automatically.
-      </div>
-    </div>
-  );
-}
-
-function ChecklistTab({
-  recipe,
-  checked,
-  onToggle,
-}: {
-  recipe: Recipe;
-  checked: Record<string, boolean>;
-  onToggle: (id: string) => void;
-}) {
-  return (
-    <div className={css.checklistContainer}>
-      <p className={css.checklistIntro}>
-        Check off each item to confirm you have it. Tap the ▾ arrow for more detail on any item.
-      </p>
-
-      {recipe.ingredients && recipe.ingredients.length > 0 && (
-        <div className={css.sectionGroup}>
-          <div className={css.sectionLabel}>
-            <span>🥘</span> Ingredients
-          </div>
-          <div className={css.itemList}>
-            {recipe.ingredients.map((it) => (
-              <ChecklistItem
-                key={it.id}
-                item={it}
-                checked={!!checked[it.id]}
-                onToggle={() => onToggle(it.id)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {recipe.equipment && recipe.equipment.length > 0 && (
-        <div>
-          <div className={css.sectionLabel}>
-            <span>🍳</span> Equipment
-          </div>
-          <div className={css.itemList}>
-            {recipe.equipment.map((it) => (
-              <ChecklistItem
-                key={it.id}
-                item={it}
-                checked={!!checked[it.id]}
-                onToggle={() => onToggle(it.id)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
