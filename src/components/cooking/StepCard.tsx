@@ -91,7 +91,7 @@ export function StepCard({ step, stepIndex, totalSteps, track, stageType, onComp
               </Btn>
             )}
             {timer.paused && (
-              <Btn onClick={timer.resume} variant="track" small>
+              <Btn onClick={timer.resume} variant="track" size="sm">
                 ▶ Resume
               </Btn>
             )}
@@ -104,7 +104,7 @@ export function StepCard({ step, stepIndex, totalSteps, track, stageType, onComp
             <div className={css.completionHint}>{step.completionHint}</div>
           )}
           {(step.completionType === "manual" || timer.done || isFinal) && (
-            <Btn onClick={onComplete} variant={isFinal ? "success" : "track"} big={isFinal}>
+            <Btn onClick={onComplete} variant={isFinal ? "success" : "track"} size={isFinal ? "lg" : "md"}>
               {step.actionLabel || "Next step →"}
             </Btn>
           )}

@@ -35,13 +35,13 @@
   box-shadow: none;
 }
 
-.big {
+.lg {
   border-radius: 20px;
   padding: 18px 48px;
   font-size: 18px;
 }
 
-.small {
+.sm {
   padding: 10px 28px;
   font-size: 14px;
 }
