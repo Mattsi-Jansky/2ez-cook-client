@@ -20,7 +20,7 @@ export function StageTransition({ toStage, onContinue }: StageTransitionProps) {
       </div>
       <h2 className={css.title}>{toStage.label}</h2>
       <p className={css.description}>{toStage.description}</p>
-      <Btn onClick={onContinue} color="var(--color-primary)" style={{ marginTop: 0 }}>
+      <Btn onClick={onContinue} style={{ marginTop: 0 }}>
         Continue →
       </Btn>
     </div>

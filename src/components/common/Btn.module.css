@@ -7,17 +7,27 @@
   cursor: pointer;
   font-family: var(--font-body);
   transition: all 0.2s;
-  background: var(--btn-color, var(--color-primary));
+  background: var(--color-primary);
   color: white;
   border: none;
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--btn-color, var(--color-primary)) 27%, transparent);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 27%, transparent);
 }
 
 .btn:hover {
   transform: scale(1.03);
 }
 
-.btn.ghost {
+.success {
+  background: var(--color-success);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--color-success) 27%, transparent);
+}
+
+.track {
+  background: var(--track-color);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--track-color) 27%, transparent);
+}
+
+.ghost {
   background: transparent;
   color: var(--color-muted);
   border: 2px solid var(--color-border);
@@ -25,13 +35,13 @@
   box-shadow: none;
 }
 
-.btn.big {
+.big {
   border-radius: 20px;
   padding: 18px 48px;
   font-size: 18px;
 }
 
-.btn.small {
+.small {
   padding: 10px 28px;
   font-size: 14px;
 }

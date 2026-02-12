@@ -81,7 +81,7 @@ export function StepCard({ step, stepIndex, totalSteps, track, stageType, onComp
               label={step.timerLabel}
             />
             {timer.notStarted && (
-              <Btn onClick={timer.start} color={track.color}>
+              <Btn onClick={timer.start} variant="track">
                 {step.actionLabel || "Start timer"}
               </Btn>
             )}
@@ -91,7 +91,7 @@ export function StepCard({ step, stepIndex, totalSteps, track, stageType, onComp
               </Btn>
             )}
             {timer.paused && (
-              <Btn onClick={timer.resume} color={track.color} small>
+              <Btn onClick={timer.resume} variant="track" small>
                 ▶ Resume
               </Btn>
             )}
@@ -104,7 +104,7 @@ export function StepCard({ step, stepIndex, totalSteps, track, stageType, onComp
             <div className={css.completionHint}>{step.completionHint}</div>
           )}
           {(step.completionType === "manual" || timer.done || isFinal) && (
-            <Btn onClick={onComplete} color={isFinal ? "var(--color-success)" : track.color} big={isFinal}>
+            <Btn onClick={onComplete} variant={isFinal ? "success" : "track"} big={isFinal}>
               {step.actionLabel || "Next step →"}
             </Btn>
           )}

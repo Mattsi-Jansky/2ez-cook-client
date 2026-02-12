@@ -19,7 +19,7 @@ export function TrackInterruptCard({ track, onSwitch }: TrackInterruptCardProps)
       <div className={css.description}>
         This needs to happen now so the timing works out.
       </div>
-      <Btn onClick={onSwitch} color={track.color} small style={{ marginTop: 0 }}>
+      <Btn onClick={onSwitch} variant="track" small style={{ marginTop: 0 }}>
         Switch to {track.label} →
       </Btn>
     </div>
