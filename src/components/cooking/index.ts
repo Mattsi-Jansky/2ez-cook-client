@@ -1,8 +1,8 @@
-export { GlossaryTerm } from "./GlossaryTerm";
-export { InstructionText } from "./InstructionText";
-export { StepCard } from "./StepCard";
-export { BackgroundTimerPill } from "./BackgroundTimerPill";
-export { TrackInterruptCard } from "./TrackInterruptCard";
-export { StageTransition } from "./StageTransition";
-export { CompletedScreen } from "./CompletedScreen";
-export { CookingView } from "./CookingView";
+export { GlossaryTerm } from "./GlossaryTerm/GlossaryTerm";
+export { InstructionText } from "./InstructionText/InstructionText";
+export { StepCard } from "./StepCard/StepCard";
+export { BackgroundTimerPill } from "./BackgroundTimerPill/BackgroundTimerPill";
+export { TrackInterruptCard } from "./TrackInterruptCard/TrackInterruptCard";
+export { StageTransition } from "./StageTransition/StageTransition";
+export { CompletedScreen } from "./CompletedScreen/CompletedScreen";
+export { CookingView } from "./CookingView/CookingView";

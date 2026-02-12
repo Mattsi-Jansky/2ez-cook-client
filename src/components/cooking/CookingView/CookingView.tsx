@@ -1,10 +1,10 @@
 import { useState } from "react";
 import type { CSSProperties } from "react";
-import type { Recipe, RecipeTrack, BackgroundTimerMap } from "../../types";
-import { ProgressBar, SkipTimerModal } from "../common";
-import { StepCard } from "./StepCard";
-import { BackgroundTimerPill } from "./BackgroundTimerPill";
-import { TrackInterruptCard } from "./TrackInterruptCard";
+import type { Recipe, RecipeTrack, BackgroundTimerMap } from "../../../types";
+import { ProgressBar, SkipTimerModal } from "../../common";
+import { StepCard } from "../StepCard/StepCard";
+import { BackgroundTimerPill } from "../BackgroundTimerPill/BackgroundTimerPill";
+import { TrackInterruptCard } from "../TrackInterruptCard/TrackInterruptCard";
 import css from "./CookingView.module.css";
 
 interface CookingViewProps {

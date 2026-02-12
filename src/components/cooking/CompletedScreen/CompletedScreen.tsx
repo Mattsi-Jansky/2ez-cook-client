@@ -1,5 +1,5 @@
-import type { Recipe } from "../../types";
-import { Btn } from "../common";
+import type { Recipe } from "../../../types";
+import { Btn } from "../../common";
 import css from "./CompletedScreen.module.css";
 
 interface CompletedScreenProps {

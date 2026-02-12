@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
-import type { RecipeTrack } from "../../types";
-import { Btn } from "../common";
+import type { RecipeTrack } from "../../../types";
+import { Btn } from "../../common";
 import css from "./TrackInterruptCard.module.css";
 
 interface TrackInterruptCardProps {

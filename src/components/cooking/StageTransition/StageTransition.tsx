@@ -1,5 +1,5 @@
-import type { RecipeStage } from "../../types";
-import { Btn } from "../common";
+import type { RecipeStage } from "../../../types";
+import { Btn } from "../../common";
 import css from "./StageTransition.module.css";
 
 interface StageTransitionProps {

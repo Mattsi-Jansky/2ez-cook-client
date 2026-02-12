@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { RecipeItem } from "../../types";
+import type { RecipeItem } from "../../../types";
 import css from "./ChecklistItem.module.css";
 
 interface ChecklistItemProps {

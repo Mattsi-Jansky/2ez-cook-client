@@ -1,4 +1,4 @@
-import { formatTime } from "../../utils";
+import { formatTime } from "../../../utils";
 import css from "./SkipTimerModal.module.css";
 
 interface SkipTimerModalProps {

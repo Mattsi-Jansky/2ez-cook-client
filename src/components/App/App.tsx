@@ -1,8 +1,8 @@
-import { SAMPLE_RECIPE } from "../data/sample-recipe";
-import { useCookingSession } from "../hooks";
-import { Shell } from "./layout";
-import { RecipeIntro } from "./intro";
-import { StageTransition, CompletedScreen, CookingView } from "./cooking";
+import { SAMPLE_RECIPE } from "../../data/sample-recipe";
+import { useCookingSession } from "../../hooks";
+import { Shell } from "../layout";
+import { RecipeIntro } from "../intro";
+import { StageTransition, CompletedScreen, CookingView } from "../cooking";
 import css from "./App.module.css";
 
 export default function App() {

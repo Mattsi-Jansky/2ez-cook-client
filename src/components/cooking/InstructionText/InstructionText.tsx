@@ -1,5 +1,5 @@
-import type { Glossary } from "../../types";
-import { GlossaryTerm } from "./GlossaryTerm";
+import type { Glossary } from "../../../types";
+import { GlossaryTerm } from "../GlossaryTerm/GlossaryTerm";
 
 interface InstructionTextProps {
   text: string;

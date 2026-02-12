@@ -1,9 +1,9 @@
 import { useState } from "react";
 import type { CSSProperties } from "react";
-import type { RecipeStep, RecipeTrack, StageType } from "../../types";
-import { useStepTimer } from "../../hooks";
-import { Btn, CircularTimer, SkipTimerModal } from "../common";
-import { InstructionText } from "./InstructionText";
+import type { RecipeStep, RecipeTrack, StageType } from "../../../types";
+import { useStepTimer } from "../../../hooks";
+import { Btn, CircularTimer, SkipTimerModal } from "../../common";
+import { InstructionText } from "../InstructionText/InstructionText";
 import css from "./StepCard.module.css";
 
 interface StepCardProps {

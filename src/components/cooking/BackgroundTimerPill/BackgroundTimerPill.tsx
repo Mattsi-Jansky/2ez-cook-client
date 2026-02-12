@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
-import type { RecipeTrack } from "../../types";
-import { formatTime } from "../../utils";
+import type { RecipeTrack } from "../../../types";
+import { formatTime } from "../../../utils";
 import css from "./BackgroundTimerPill.module.css";
 
 interface BackgroundTimerPillProps {

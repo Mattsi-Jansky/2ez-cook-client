@@ -1,1 +1,1 @@
-export { RecipeIntro } from "./RecipeIntro";
+export { RecipeIntro } from "./RecipeIntro/RecipeIntro";

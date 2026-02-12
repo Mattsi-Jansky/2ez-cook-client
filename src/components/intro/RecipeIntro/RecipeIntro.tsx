@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Recipe } from "../../types";
-import { ChecklistItem } from "../common";
+import type { Recipe } from "../../../types";
+import { ChecklistItem } from "../../common";
 import css from "./RecipeIntro.module.css";
 
 interface RecipeIntroProps {

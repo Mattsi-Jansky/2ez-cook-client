@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import type { GlossaryEntry } from "../../types";
+import type { GlossaryEntry } from "../../../types";
 import css from "./GlossaryTerm.module.css";
 
 interface GlossaryTermProps {
