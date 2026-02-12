@@ -25,7 +25,7 @@ export function ChecklistTab({ recipe, checked, onToggle }: ChecklistTabProps) {
               <ChecklistItem
                 key={it.id}
                 item={it}
-                checked={!!checked[it.id]}
+                checked={checked[it.id]}
                 onToggle={() => onToggle(it.id)}
               />
             ))}
