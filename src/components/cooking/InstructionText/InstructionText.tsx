@@ -1,4 +1,5 @@
 import type { Glossary } from "../../../types";
+import { GLOBAL_GLOSSARY } from "../../../data/glossary";
 import { GlossaryTerm } from "../GlossaryTerm/GlossaryTerm";
 
 interface InstructionTextProps {
@@ -7,9 +8,10 @@ interface InstructionTextProps {
 }
 
 export function InstructionText({ text, glossary }: InstructionTextProps) {
-  if (!glossary || Object.keys(glossary).length === 0) return <span>{text}</span>;
+  const merged = { ...GLOBAL_GLOSSARY, ...glossary };
+  if (Object.keys(merged).length === 0) return <span>{text}</span>;
 
-  const terms = Object.keys(glossary).sort((a, b) => b.length - a.length);
+  const terms = Object.keys(merged).sort((a, b) => b.length - a.length);
   const re = new RegExp(
     `(${terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`,
     "gi",
@@ -20,7 +22,7 @@ export function InstructionText({ text, glossary }: InstructionTextProps) {
       {text.split(re).map((part, i) => {
         const match = terms.find((t) => t.toLowerCase() === part.toLowerCase());
         return match ? (
-          <GlossaryTerm key={i} term={part} info={glossary[match]} />
+          <GlossaryTerm key={i} term={part} info={merged[match]} />
         ) : (
           <span key={i}>{part}</span>
         );

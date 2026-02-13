@@ -91,18 +91,6 @@ export const SAMPLE_RECIPE: Recipe = {
               id: "p1",
               instruction:
                 "Peel 3 cloves of garlic and mince them into small pieces. Set aside on a small plate or bowl.",
-              glossary: {
-                mince: {
-                  title: "How to mince",
-                  visual: "🔪",
-                  text: "Chop into the smallest pieces you can manage. They don't need to be uniform — just small enough to melt into the sauce. You can also use pre-minced garlic from a jar (about 1 tsp per clove).",
-                },
-                "cloves of garlic": {
-                  title: "Cloves vs bulbs",
-                  visual: "🧄",
-                  text: "A garlic bulb is the whole thing. A clove is one of the individual segments inside. Peel the papery outer skin off the bulb, snap off 3 cloves and peel those too.",
-                },
-              },
               completionType: "manual",
               actionLabel: "Garlic is minced",
             },
@@ -110,13 +98,6 @@ export const SAMPLE_RECIPE: Recipe = {
               id: "p2",
               instruction:
                 "Cut the broccoli into bite-sized florets. You'll need about 2 cups — roughly one medium head.",
-              glossary: {
-                florets: {
-                  title: "What are florets?",
-                  visual: "🥦",
-                  text: "The tree-shaped tops of broccoli. Cut where the stems branch off to make bite-sized pieces. They don't need to be uniform.",
-                },
-              },
               completionType: "manual",
               actionLabel: "Broccoli is cut",
             },
@@ -124,13 +105,6 @@ export const SAMPLE_RECIPE: Recipe = {
               id: "p3",
               instruction:
                 "Measure out: 2 tablespoons of butter, ½ cup of cream cheese (or heavy cream), and your pasta (about 200g).",
-              glossary: {
-                "cream cheese": {
-                  title: "Cream cheese for sauce?",
-                  visual: "🧀",
-                  text: "It melts into a creamy sauce. Regular cream cheese from a block or tub works. If using heavy cream instead, use about ½ cup (120ml).",
-                },
-              },
               completionType: "manual",
               actionLabel: "Everything is measured out",
               hint: "Having everything pre-measured means you won't need to hunt for things while the stove is on.",
@@ -156,16 +130,6 @@ export const SAMPLE_RECIPE: Recipe = {
               instruction:
                 "Fill a large pot about ¾ full with water and place it on the stove over high heat. Add a generous pinch of salt.",
               glossary: {
-                "large pot": {
-                  title: "Large pot",
-                  visual: "🍳",
-                  text: "Any pot that holds about 3–4 litres. If unsure, use the biggest one you have.",
-                },
-                "high heat": {
-                  title: "High heat",
-                  visual: "🔥",
-                  text: "Turn the dial all the way up (or close to it). You'll hear it rumble before you see bubbles.",
-                },
                 "generous pinch of salt": {
                   title: "How much salt?",
                   visual: "🧂",
@@ -192,18 +156,6 @@ export const SAMPLE_RECIPE: Recipe = {
               id: "m3",
               instruction:
                 "Before draining: scoop out a mugful of the cooking water and set it aside. Then drain the pasta in a colander.",
-              glossary: {
-                "cooking water": {
-                  title: "Why save pasta water?",
-                  visual: "💧",
-                  text: "The starch dissolved in it helps the sauce become silky. Use a mug to scoop some out before draining.",
-                },
-                colander: {
-                  title: "What's a colander?",
-                  visual: "🥣",
-                  text: "A bowl with holes for draining water. If you don't have one, hold a lid slightly ajar on the pot and pour through the gap. The steam is hot.",
-                },
-              },
               completionType: "manual",
               actionLabel: "Pasta is drained",
             },
@@ -211,13 +163,6 @@ export const SAMPLE_RECIPE: Recipe = {
               id: "m4",
               instruction:
                 "In the same pot (no need to wash it), add the butter and minced garlic over medium heat. Stir gently.",
-              glossary: {
-                "medium heat": {
-                  title: "Medium heat",
-                  visual: "🔥",
-                  text: "Turn the dial to roughly the middle. The butter should melt and gently sizzle, not smoke.",
-                },
-              },
               completionType: "timer",
               timerDuration: 75,
               timerLabel: "Garlic sizzling",
@@ -228,13 +173,6 @@ export const SAMPLE_RECIPE: Recipe = {
               id: "m5",
               instruction:
                 "Turn the heat to low. Add the cream cheese (or cream) and a splash of the saved pasta water. Stir until smooth.",
-              glossary: {
-                "a splash": {
-                  title: "How much is 'a splash'?",
-                  visual: "💧",
-                  text: "About 2–3 tablespoons, or just tip the mug briefly. You can always add more.",
-                },
-              },
               completionType: "manual",
               actionLabel: "Sauce looks smooth",
               completionHint:
@@ -244,13 +182,6 @@ export const SAMPLE_RECIPE: Recipe = {
               id: "m6",
               instruction:
                 "Add the drained pasta back into the pot with the sauce. Toss to coat every piece. Serve in bowls topped with the roasted broccoli.",
-              glossary: {
-                toss: {
-                  title: "How to toss pasta",
-                  visual: "🍝",
-                  text: "Use tongs or two forks to lift and turn the pasta, or just stir. The goal is sauce on all the pasta.",
-                },
-              },
               completionType: "final",
               actionLabel: "All done",
             },
@@ -267,13 +198,6 @@ export const SAMPLE_RECIPE: Recipe = {
               id: "b1",
               instruction:
                 "Preheat your oven to 200°C (400°F). Spread the broccoli on a baking tray, drizzle with olive oil, and season with salt and pepper.",
-              glossary: {
-                drizzle: {
-                  title: "How much oil?",
-                  visual: "🫒",
-                  text: "About 1–2 tablespoons. Zigzag the oil over the broccoli, then toss with your hands until lightly coated.",
-                },
-              },
               completionType: "manual",
               actionLabel: "Broccoli is in the oven",
               completionHint:
