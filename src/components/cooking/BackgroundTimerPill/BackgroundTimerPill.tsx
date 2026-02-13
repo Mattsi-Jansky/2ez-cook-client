@@ -8,7 +8,7 @@ interface BackgroundTimerPillProps {
   timeLeft: number;
   total: number;
   done: boolean;
-  onDismiss: () => void;
+  onView: () => void;
   onSkip: () => void;
 }
 
@@ -17,7 +17,7 @@ export function BackgroundTimerPill({
   timeLeft,
   total,
   done,
-  onDismiss,
+  onView,
   onSkip,
 }: BackgroundTimerPillProps) {
   const prog = total > 0 ? (total - timeLeft) / total : 1;
@@ -37,13 +37,13 @@ export function BackgroundTimerPill({
       <div className={css.info}>
         <div className={css.trackLabel}>{track.label}</div>
         <div className={css.timeLabel}>
-          {done ? "Done — tap Dismiss" : `${formatTime(timeLeft)} remaining`}
+          {done ? "Done — tap View" : `${formatTime(timeLeft)} remaining`}
         </div>
       </div>
 
       {done ? (
-        <button onClick={onDismiss} className={css.dismissBtn}>
-          Dismiss
+        <button onClick={onView} className={css.dismissBtn}>
+          View
         </button>
       ) : (
         <button onClick={onSkip} className={css.skipBtn}>

@@ -50,10 +50,8 @@ export default function App() {
         activeTrack={session.activeTrack}
         pendingTrackStart={session.pendingTrackStart}
         allTracks={session.allTracks}
-        bgTimers={session.bgTimers}
         stepTimers={session.stepTimers}
         onAdvanceStep={session.advanceStep}
-        onDismissBgTimer={session.dismissBgTimer}
         onSwitchTrack={session.switchTrack}
         onSetActiveTrack={session.setActiveTrack}
         onExit={session.restart}

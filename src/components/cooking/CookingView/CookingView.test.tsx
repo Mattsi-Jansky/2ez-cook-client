@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { CookingView } from "./CookingView";
-import type { Recipe, RecipeTrack, BackgroundTimerMap } from "../../../types";
+import type { Recipe, RecipeTrack } from "../../../types";
+import type { StepTimerMap } from "../../../hooks/useStepTimerRegistry";
 
 const mainTrack: RecipeTrack = {
   id: "main",
@@ -41,19 +42,7 @@ const recipe: Recipe = {
   ],
 };
 
-function makeBgTimers(overrides: {
-  timers?: BackgroundTimerMap;
-  active?: [string, BackgroundTimerMap[string]][];
-} = {}) {
-  return {
-    timers: overrides.timers ?? {},
-    active: overrides.active ?? [],
-    dismiss: vi.fn(),
-    skip: vi.fn(),
-  };
-}
-
-function makeStepTimers() {
+function makeStepTimers(timers: StepTimerMap = {}) {
   return {
     getTimer: vi.fn(() => ({
       timeLeft: 0,
@@ -66,6 +55,9 @@ function makeStepTimers() {
       resume: vi.fn(),
       forceComplete: vi.fn(),
     })),
+    startTimer: vi.fn(),
+    forceComplete: vi.fn(),
+    timers,
   };
 }
 
@@ -73,7 +65,7 @@ interface DefaultPropsOverrides {
   trackSteps?: Record<string, number>;
   activeTrack?: string | null;
   pendingTrackStart?: string | null;
-  bgTimers?: ReturnType<typeof makeBgTimers>;
+  stepTimers?: ReturnType<typeof makeStepTimers>;
   allTracks?: RecipeTrack[];
 }
 
@@ -85,10 +77,8 @@ function renderView(overrides: DefaultPropsOverrides = {}) {
     activeTrack: "main",
     pendingTrackStart: null,
     allTracks: [mainTrack, sauceTrack],
-    bgTimers: makeBgTimers(),
     stepTimers: makeStepTimers(),
     onAdvanceStep: vi.fn(),
-    onDismissBgTimer: vi.fn(),
     onSwitchTrack: vi.fn(),
     onSetActiveTrack: vi.fn(),
     onExit: vi.fn(),
@@ -165,19 +155,19 @@ describe("CookingView", () => {
     expect(screen.getByText("✅")).toBeInTheDocument();
   });
 
-  it("shows waiting message when bg timers are active", () => {
+  it("shows waiting message when step timers are running", () => {
     renderView({
       trackSteps: { main: 2, sauce: 0 },
-      bgTimers: makeBgTimers({
-        active: [["sauce", { timeLeft: 30, total: 60, done: false, dismissed: false }]],
+      stepTimers: makeStepTimers({
+        "sauce:0": { timeLeft: 30, running: true, done: false, duration: 60 },
       }),
     });
     expect(
-      screen.getByText("Waiting for background timers to finish."),
+      screen.getByText("Waiting for timers to finish."),
     ).toBeInTheDocument();
   });
 
-  it("shows moving on message when no active bg timers", () => {
+  it("shows moving on message when no running step timers", () => {
     renderView({ trackSteps: { main: 2, sauce: 0 } });
     expect(screen.getByText("Moving on...")).toBeInTheDocument();
   });
@@ -203,42 +193,43 @@ describe("CookingView", () => {
     expect(props.onSwitchTrack).toHaveBeenCalledWith("sauce");
   });
 
-  it("renders background timer pills for active timers", () => {
+  it("renders toast pills for step timers on non-active tracks", () => {
     renderView({
-      bgTimers: makeBgTimers({
-        timers: { sauce: { timeLeft: 30, total: 60, done: false, dismissed: false } },
-        active: [["sauce", { timeLeft: 30, total: 60, done: false, dismissed: false }]],
+      trackSteps: { main: 0, sauce: 0 },
+      stepTimers: makeStepTimers({
+        "sauce:0": { timeLeft: 30, running: true, done: false, duration: 60 },
       }),
     });
     expect(screen.getByText(/remaining/)).toBeInTheDocument();
   });
 
-  it("does not render bg timer tray when no active timers", () => {
+  it("does not render timer tray when no toast pills", () => {
     const { container } = renderView();
     expect(container.querySelector("[class*='bgTimerTray']")).not.toBeInTheDocument();
   });
 
-  it("calls onDismissBgTimer when dismiss is clicked on a done pill", () => {
+  it("calls onSetActiveTrack when View is clicked on a done toast pill", () => {
     const { props } = renderView({
-      bgTimers: makeBgTimers({
-        timers: { sauce: { timeLeft: 0, total: 60, done: true, dismissed: false } },
-        active: [["sauce", { timeLeft: 0, total: 60, done: true, dismissed: false }]],
+      trackSteps: { main: 0, sauce: 0 },
+      stepTimers: makeStepTimers({
+        "sauce:0": { timeLeft: 0, running: false, done: true, duration: 60 },
       }),
     });
-    fireEvent.click(screen.getByRole("button", { name: "Dismiss" }));
-    expect(props.onDismissBgTimer).toHaveBeenCalledWith("sauce");
+    fireEvent.click(screen.getByRole("button", { name: "View" }));
+    expect(props.onSetActiveTrack).toHaveBeenCalledWith("sauce");
   });
 
-  it("sets data-has-bg-timers when background timers are active", () => {
+  it("sets data-has-bg-timers when toast pills are present", () => {
     const { container } = renderView({
-      bgTimers: makeBgTimers({
-        active: [["sauce", { timeLeft: 30, total: 60, done: false, dismissed: false }]],
+      trackSteps: { main: 0, sauce: 0 },
+      stepTimers: makeStepTimers({
+        "sauce:0": { timeLeft: 30, running: true, done: false, duration: 60 },
       }),
     });
     expect(container.firstElementChild).toHaveAttribute("data-has-bg-timers");
   });
 
-  it("does not set data-has-bg-timers when no background timers", () => {
+  it("does not set data-has-bg-timers when no toast pills", () => {
     const { container } = renderView();
     expect(container.firstElementChild).not.toHaveAttribute("data-has-bg-timers");
   });

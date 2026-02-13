@@ -20,7 +20,14 @@ export interface StepTimerState {
   forceComplete: () => void;
 }
 
-type StepTimerMap = Record<string, StepTimerEntry>;
+export type StepTimerMap = Record<string, StepTimerEntry>;
+
+export interface StepTimerRegistry {
+  getTimer: (key: string, duration: number) => StepTimerState;
+  startTimer: (key: string, duration: number) => void;
+  forceComplete: (key: string) => void;
+  timers: StepTimerMap;
+}
 
 /**
  * Manages a registry of step timers that persist across component
@@ -71,6 +78,17 @@ export function useStepTimerRegistry() {
     setTimers((prev) => {
       if (prev[key]) return prev;
       return { ...prev, [key]: { timeLeft: duration, running: false, done: false, duration } };
+    });
+  }, []);
+
+  const startTimer = useCallback((key: string, duration: number) => {
+    setTimers((prev) => {
+      const existing = prev[key];
+      if (existing) {
+        if (existing.running || existing.done) return prev;
+        return { ...prev, [key]: { ...existing, running: true } };
+      }
+      return { ...prev, [key]: { timeLeft: duration, running: true, done: false, duration } };
     });
   }, []);
 
@@ -137,5 +155,5 @@ export function useStepTimerRegistry() {
     [timers, ensureTimer, start, pause, forceComplete],
   );
 
-  return { getTimer };
+  return { getTimer, startTimer, forceComplete, timers } satisfies StepTimerRegistry;
 }

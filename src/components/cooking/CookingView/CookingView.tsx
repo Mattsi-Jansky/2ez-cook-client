@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { CSSProperties } from "react";
-import type { Recipe, RecipeTrack, BackgroundTimerMap } from "../../../types";
-import type { StepTimerState } from "../../../hooks/useStepTimerRegistry";
+import type { Recipe, RecipeTrack } from "../../../types";
+import type { StepTimerRegistry } from "../../../hooks/useStepTimerRegistry";
 import { ProgressBar, SkipTimerModal } from "../../common";
 import { StepCard } from "../StepCard/StepCard";
 import { BackgroundTimerPill } from "../BackgroundTimerPill/BackgroundTimerPill";
@@ -15,20 +15,19 @@ interface CookingViewProps {
   activeTrack: string | null;
   pendingTrackStart: string | null;
   allTracks: RecipeTrack[];
-  bgTimers: {
-    timers: BackgroundTimerMap;
-    active: [string, BackgroundTimerMap[string]][];
-    dismiss: (tid: string) => void;
-    skip: (tid: string) => void;
-  };
-  stepTimers: {
-    getTimer: (key: string, duration: number) => StepTimerState;
-  };
+  stepTimers: StepTimerRegistry;
   onAdvanceStep: (trackId: string) => void;
-  onDismissBgTimer: (tid: string) => void;
   onSwitchTrack: (tid: string) => void;
   onSetActiveTrack: (tid: string) => void;
   onExit: () => void;
+}
+
+interface ToastPill {
+  trackId: string;
+  timerKey: string;
+  timeLeft: number;
+  duration: number;
+  done: boolean;
 }
 
 export function CookingView({
@@ -38,15 +37,13 @@ export function CookingView({
   activeTrack,
   pendingTrackStart,
   allTracks,
-  bgTimers,
   stepTimers,
   onAdvanceStep,
-  onDismissBgTimer,
   onSwitchTrack,
   onSetActiveTrack,
   onExit,
 }: CookingViewProps) {
-  const [showBgSkipFor, setShowBgSkipFor] = useState<string | null>(null);
+  const [showSkipFor, setShowSkipFor] = useState<string | null>(null);
 
   const stage = recipe.stages[currentStageIdx];
   const curTrack = stage.tracks.find((t) => t.id === activeTrack);
@@ -56,30 +53,64 @@ export function CookingView({
   const visTracks = stage.tracks.filter(
     (t) => !t.isParallel || (trackSteps[t.id] || 0) > 0,
   );
-  const nonBgSteps = curTrack?.steps.filter((s) => !s.isBackground) || [];
+  const totalSteps = curTrack?.steps.length ?? 0;
   const pendingTrack = pendingTrackStart
     ? allTracks.find((t) => t.id === pendingTrackStart)
     : null;
 
+  const toastPills: ToastPill[] = useMemo(() => {
+    const pills: ToastPill[] = [];
+    for (const [key, entry] of Object.entries(stepTimers.timers)) {
+      const [trackId, stepIdxStr] = key.split(":");
+      const stepIdx = Number(stepIdxStr);
+      if (
+        trackId !== activeTrack &&
+        stepIdx === (trackSteps[trackId] ?? 0) &&
+        (entry.running || entry.done)
+      ) {
+        pills.push({
+          trackId,
+          timerKey: key,
+          timeLeft: entry.timeLeft,
+          duration: entry.duration,
+          done: entry.done,
+        });
+      }
+    }
+    return pills;
+  }, [stepTimers.timers, activeTrack, trackSteps]);
+
+  const hasRunningStepTimers = useMemo(() => {
+    return stage.tracks.some((t) => {
+      const idx = trackSteps[t.id] ?? 0;
+      const key = `${t.id}:${idx}`;
+      const entry = stepTimers.timers[key];
+      return entry && entry.running && !entry.done;
+    });
+  }, [stage.tracks, trackSteps, stepTimers.timers]);
+
   return (
     <div
       className={css.container}
-      data-has-bg-timers={bgTimers.active.length > 0 || undefined}
+      data-has-bg-timers={toastPills.length > 0 || undefined}
     >
-      {/* Background skip confirmation */}
-      {showBgSkipFor &&
-        bgTimers.timers[showBgSkipFor] &&
-        !bgTimers.timers[showBgSkipFor].done && (
+      {/* Skip confirmation modal */}
+      {showSkipFor && (() => {
+        const entry = stepTimers.timers[showSkipFor];
+        if (!entry || entry.done) return null;
+        const [trackId] = showSkipFor.split(":");
+        return (
           <SkipTimerModal
-            timerLabel={allTracks.find((t) => t.id === showBgSkipFor)?.label || "Background timer"}
-            timeLeft={bgTimers.timers[showBgSkipFor].timeLeft}
+            timerLabel={allTracks.find((t) => t.id === trackId)?.label || "Background timer"}
+            timeLeft={entry.timeLeft}
             onConfirm={() => {
-              bgTimers.skip(showBgSkipFor);
-              setShowBgSkipFor(null);
+              stepTimers.forceComplete(showSkipFor);
+              setShowSkipFor(null);
             }}
-            onCancel={() => setShowBgSkipFor(null)}
+            onCancel={() => setShowSkipFor(null)}
           />
-        )}
+        );
+      })()}
 
       {/* Sticky header */}
       <div className={css.stickyHeader}>
@@ -116,28 +147,28 @@ export function CookingView({
           )}
 
           <ProgressBar
-            current={Math.min(curStepIdx, nonBgSteps.length)}
-            total={nonBgSteps.length}
+            current={Math.min(curStepIdx, totalSteps)}
+            total={totalSteps}
             color={curTrack?.color || "var(--color-primary)"}
           />
         </div>
       </div>
 
-      {/* Background timer pills — fixed bottom */}
-      {bgTimers.active.length > 0 && (
+      {/* Toast timer pills — fixed bottom */}
+      {toastPills.length > 0 && (
         <div className={css.bgTimerTray}>
-          {bgTimers.active.map(([tid, bt]) => {
-            const tr = allTracks.find((x) => x.id === tid);
+          {toastPills.map((pill) => {
+            const tr = allTracks.find((x) => x.id === pill.trackId);
             if (!tr) return null;
             return (
               <BackgroundTimerPill
-                key={tid}
+                key={pill.timerKey}
                 track={tr}
-                timeLeft={bt.timeLeft}
-                total={bt.total}
-                done={bt.done}
-                onDismiss={() => onDismissBgTimer(tid)}
-                onSkip={() => setShowBgSkipFor(tid)}
+                timeLeft={pill.timeLeft}
+                total={pill.duration}
+                done={pill.done}
+                onView={() => onSetActiveTrack(pill.trackId)}
+                onSkip={() => setShowSkipFor(pill.timerKey)}
               />
             );
           })}
@@ -153,8 +184,8 @@ export function CookingView({
               {curTrack?.label} — complete
             </div>
             <div className={css.trackCompleteMsg}>
-              {bgTimers.active.some(([, bt]) => !bt.dismissed)
-                ? "Waiting for background timers to finish."
+              {hasRunningStepTimers
+                ? "Waiting for timers to finish."
                 : "Moving on..."}
             </div>
           </div>
@@ -165,7 +196,7 @@ export function CookingView({
               key={`${activeTrack}-${curStepIdx}`}
               step={curStep}
               stepIndex={curStepIdx}
-              totalSteps={nonBgSteps.length}
+              totalSteps={totalSteps}
               track={curTrack}
               stageType={stage.type}
               stepTimers={stepTimers}

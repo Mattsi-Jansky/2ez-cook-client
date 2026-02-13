@@ -156,6 +156,57 @@ describe("useStepTimerRegistry", () => {
     expect(result.current.getTimer("sauce:0", 20).notStarted).toBe(true);
   });
 
+  it("startTimer atomically creates and starts a timer", () => {
+    const { result } = renderHook(() => useStepTimerRegistry());
+
+    act(() => {
+      result.current.startTimer("broccoli:1", 120);
+    });
+
+    const timer = result.current.getTimer("broccoli:1", 120);
+    expect(timer.running).toBe(true);
+    expect(timer.timeLeft).toBe(120);
+    expect(timer.notStarted).toBe(false);
+
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
+
+    expect(result.current.getTimer("broccoli:1", 120).timeLeft).toBe(117);
+  });
+
+  it("startTimer does not restart an already running timer", () => {
+    const { result } = renderHook(() => useStepTimerRegistry());
+
+    act(() => {
+      result.current.startTimer("broccoli:1", 120);
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
+
+    expect(result.current.getTimer("broccoli:1", 120).timeLeft).toBe(115);
+
+    act(() => {
+      result.current.startTimer("broccoli:1", 120);
+    });
+
+    expect(result.current.getTimer("broccoli:1", 120).timeLeft).toBe(115);
+  });
+
+  it("exposes the raw timers map", () => {
+    const { result } = renderHook(() => useStepTimerRegistry());
+
+    act(() => {
+      result.current.startTimer("main:0", 30);
+    });
+
+    expect(result.current.timers["main:0"]).toBeDefined();
+    expect(result.current.timers["main:0"].running).toBe(true);
+    expect(result.current.timers["main:0"].timeLeft).toBe(30);
+  });
+
   it("preserves timer state across getTimer calls (simulates remount)", () => {
     const { result } = renderHook(() => useStepTimerRegistry());
 

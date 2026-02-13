@@ -18,7 +18,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={120}
         total={300}
         done={false}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
@@ -32,7 +32,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={125}
         total={300}
         done={false}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
@@ -46,11 +46,11 @@ describe("BackgroundTimerPill", () => {
         timeLeft={0}
         total={300}
         done={true}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
-    expect(screen.getByText("Done — tap Dismiss")).toBeInTheDocument();
+    expect(screen.getByText("Done — tap View")).toBeInTheDocument();
   });
 
   it("shows timer icon when running", () => {
@@ -60,7 +60,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={60}
         total={300}
         done={false}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
@@ -74,7 +74,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={0}
         total={300}
         done={true}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
@@ -88,26 +88,26 @@ describe("BackgroundTimerPill", () => {
         timeLeft={60}
         total={300}
         done={false}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
     expect(screen.getByRole("button", { name: "Skip" })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Dismiss" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "View" })).not.toBeInTheDocument();
   });
 
-  it("renders Dismiss button when done", () => {
+  it("renders View button when done", () => {
     render(
       <BackgroundTimerPill
         track={track}
         timeLeft={0}
         total={300}
         done={true}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
-    expect(screen.getByRole("button", { name: "Dismiss" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "View" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Skip" })).not.toBeInTheDocument();
   });
 
@@ -119,7 +119,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={60}
         total={300}
         done={false}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={onSkip}
       />,
     );
@@ -127,20 +127,20 @@ describe("BackgroundTimerPill", () => {
     expect(onSkip).toHaveBeenCalledOnce();
   });
 
-  it("calls onDismiss when Dismiss is clicked", () => {
-    const onDismiss = vi.fn();
+  it("calls onView when View is clicked", () => {
+    const onView = vi.fn();
     render(
       <BackgroundTimerPill
         track={track}
         timeLeft={0}
         total={300}
         done={true}
-        onDismiss={onDismiss}
+        onView={onView}
         onSkip={vi.fn()}
       />,
     );
-    fireEvent.click(screen.getByRole("button", { name: "Dismiss" }));
-    expect(onDismiss).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "View" }));
+    expect(onView).toHaveBeenCalledOnce();
   });
 
   it("sets data-done attribute when done", () => {
@@ -150,7 +150,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={0}
         total={300}
         done={true}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
@@ -164,7 +164,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={60}
         total={300}
         done={false}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
@@ -178,7 +178,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={60}
         total={300}
         done={false}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
@@ -192,7 +192,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={0}
         total={0}
         done={true}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );
@@ -206,7 +206,7 @@ describe("BackgroundTimerPill", () => {
         timeLeft={100}
         total={200}
         done={false}
-        onDismiss={vi.fn()}
+        onView={vi.fn()}
         onSkip={vi.fn()}
       />,
     );

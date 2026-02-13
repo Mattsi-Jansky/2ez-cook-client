@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
 import type { Recipe, AppPhase, TrackStepMap, RecipeTrack } from "../types";
-import { useBackgroundTimers } from "./useBackgroundTimers";
 import { useStepTimerRegistry } from "./useStepTimerRegistry";
 
 /**
@@ -18,7 +17,6 @@ export function useCookingSession(recipe: Recipe) {
   const [pendingTrackStart, setPendingTrackStart] = useState<string | null>(null);
   const [stageTransitionTarget, setStageTransitionTarget] = useState(0);
 
-  const bgTimers = useBackgroundTimers();
   const stepTimers = useStepTimerRegistry();
   const allTracks: RecipeTrack[] = recipe.stages.flatMap((s) => s.tracks);
 
@@ -85,16 +83,10 @@ export function useCookingSession(recipe: Recipe) {
           const allDone = stage.tracks.every(
             (t) => (newSteps[t.id] ?? prev[t.id] ?? 0) >= t.steps.length,
           );
-          const hasBg = bgTimers.active.some(
-            ([tid, bt]) =>
-              !bt.dismissed &&
-              !bt.done &&
-              stage.tracks.some((t) => t.id === tid),
-          );
 
-          if (allDone && !hasBg) {
+          if (allDone) {
             transitionToNextStage();
-          } else if (!allDone) {
+          } else {
             const nxt = stage.tracks.find((t) => {
               const i =
                 t.id === trackId ? nextIdx : (newSteps[t.id] ?? prev[t.id] ?? 0);
@@ -105,55 +97,27 @@ export function useCookingSession(recipe: Recipe) {
           return newSteps;
         }
 
-        // is the *next* step a background timer?
+        // is the *next* step a background timer? Auto-start it and switch back to main track
         const nextStep = track.steps[nextIdx];
         if (nextStep?.isBackground && nextStep?.completionType === "timer") {
-          bgTimers.add(trackId, nextStep.timerDuration!);
-          const afterBg = nextIdx + 1;
-          const newSteps = { ...prev, [trackId]: afterBg };
+          const timerKey = `${trackId}:${nextIdx}`;
+          stepTimers.startTimer(timerKey, nextStep.timerDuration!);
           const stage = recipe.stages[currentStageIdx];
           const main = stage.tracks.find((t) => !t.isParallel);
           if (
             main &&
             main.id !== trackId &&
-            (newSteps[main.id] ?? prev[main.id] ?? 0) < main.steps.length
+            (prev[main.id] ?? 0) < main.steps.length
           ) {
             setActiveTrack(main.id);
           }
-          return newSteps;
+          return { ...prev, [trackId]: nextIdx };
         }
 
         return { ...prev, [trackId]: nextIdx };
       });
     },
-    [allTracks, currentStageIdx, recipe.stages, bgTimers, transitionToNextStage],
-  );
-
-  /* ── Dismiss a background timer and maybe advance ────────────────────── */
-  const dismissBgTimer = useCallback(
-    (tid: string) => {
-      bgTimers.dismiss(tid);
-
-      // check completion after a tick
-      setTimeout(() => {
-        setTrackSteps((ts) => {
-          const stage = recipe.stages[currentStageIdx];
-          const allDone = stage.tracks.every(
-            (t) => (ts[t.id] ?? 0) >= t.steps.length,
-          );
-          const hasBg = bgTimers.active.some(
-            ([id, bt]) =>
-              id !== tid &&
-              !bt.dismissed &&
-              !bt.done &&
-              stage.tracks.some((t) => t.id === id),
-          );
-          if (allDone && !hasBg) transitionToNextStage();
-          return ts;
-        });
-      }, 50);
-    },
-    [bgTimers, currentStageIdx, recipe.stages, transitionToNextStage],
+    [allTracks, currentStageIdx, recipe.stages, stepTimers, transitionToNextStage],
   );
 
   /* ── Switch to a different track ─────────────────────────────────────── */
@@ -175,14 +139,12 @@ export function useCookingSession(recipe: Recipe) {
     activeTrack,
     pendingTrackStart,
     stageTransitionTarget,
-    bgTimers,
     stepTimers,
     allTracks,
 
     handleStart,
     handleStageContinue,
     advanceStep,
-    dismissBgTimer,
     switchTrack,
     restart,
     setActiveTrack,
