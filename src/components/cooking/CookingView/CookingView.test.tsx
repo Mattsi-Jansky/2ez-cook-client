@@ -76,6 +76,7 @@ interface DefaultPropsOverrides {
   trackSteps?: Record<string, number>;
   activeTrack?: string | null;
   pendingTrackStart?: string | null;
+  startedTracks?: Set<string>;
   stepTimers?: ReturnType<typeof makeStepTimers>;
   allTracks?: RecipeTrack[];
 }
@@ -88,6 +89,7 @@ function renderView(overrides: DefaultPropsOverrides = {}) {
     activeTrack: "main",
     pendingTrackStart: null,
     allTracks: [mainTrack, sauceTrack],
+    startedTracks: new Set(["main"]),
     stepTimers: makeStepTimers(),
     onAdvanceStep: vi.fn(),
     onSwitchTrack: vi.fn(),
@@ -134,30 +136,32 @@ describe("CookingView", () => {
     expect(screen.getByText("Add pasta")).toBeInTheDocument();
   });
 
-  it("does not show track switcher when only one track is visible", () => {
+  it("always shows track switcher for multi-track stages", () => {
     renderView({ trackSteps: { main: 0, sauce: 0 } });
-
-    const buttons = screen.queryAllByRole("button");
-    const trackBtns = buttons.filter(
-      (b) => b.textContent === "Main" || b.textContent === "Sauce",
-    );
-    expect(trackBtns).toHaveLength(0);
-  });
-
-  it("shows track switcher when multiple tracks are visible", () => {
-    renderView({ trackSteps: { main: 0, sauce: 1 } });
     expect(screen.getByText("Main")).toBeInTheDocument();
+    expect(screen.getByText(/Sauce/)).toBeInTheDocument();
   });
 
   it("calls onSetActiveTrack when a track button is clicked", () => {
-    const { props } = renderView({ trackSteps: { main: 0, sauce: 1 } });
+    const { props } = renderView();
     fireEvent.click(screen.getByText(/Sauce/));
     expect(props.onSetActiveTrack).toHaveBeenCalledWith("sauce");
   });
 
   it("marks completed tracks with a checkmark", () => {
-    renderView({ trackSteps: { main: 0, sauce: 1 } });
+    renderView({ trackSteps: { main: 0, sauce: 1 }, startedTracks: new Set(["main", "sauce"]) });
     expect(screen.getByText(/Sauce ✓/)).toBeInTheDocument();
+  });
+
+  it("marks not-started parallel tracks with a pending icon", () => {
+    renderView({ trackSteps: { main: 0, sauce: 0 } });
+    expect(screen.getByText(/Sauce ○/)).toBeInTheDocument();
+  });
+
+  it("shows not started message when viewing a pending track", () => {
+    renderView({ activeTrack: "sauce", trackSteps: { main: 0, sauce: 0 } });
+    expect(screen.getByText("Sauce — not started yet")).toBeInTheDocument();
+    expect(screen.getByText("This track will begin later.")).toBeInTheDocument();
   });
 
   it("shows track complete when all steps are done", () => {

@@ -15,6 +15,7 @@ interface CookingViewProps {
   activeTrack: string | null;
   pendingTrackStart: string | null;
   allTracks: RecipeTrack[];
+  startedTracks: Set<string>;
   stepTimers: StepTimerRegistry;
   onAdvanceStep: (trackId: string) => void;
   onSwitchTrack: (tid: string) => void;
@@ -29,6 +30,7 @@ export function CookingView({
   activeTrack,
   pendingTrackStart,
   allTracks,
+  startedTracks,
   stepTimers,
   onAdvanceStep,
   onSwitchTrack,
@@ -41,10 +43,8 @@ export function CookingView({
   const curTrack = stage.tracks.find((t) => t.id === activeTrack);
   const curStepIdx = trackSteps[activeTrack || ""] || 0;
   const curStep = curTrack?.steps[curStepIdx];
+  const isTrackStarted = curTrack ? startedTracks.has(curTrack.id) : false;
   const isTrackDone = !curStep || curStepIdx >= (curTrack?.steps.length ?? 0);
-  const visTracks = stage.tracks.filter(
-    (t) => !t.isParallel || (trackSteps[t.id] || 0) > 0,
-  );
   const totalSteps = curTrack?.steps.length ?? 0;
   const pendingTrack = pendingTrackStart
     ? allTracks.find((t) => t.id === pendingTrackStart)
@@ -94,9 +94,10 @@ export function CookingView({
           </div>
 
           {/* Track switcher */}
-          {visTracks.length > 1 && (
+          {stage.tracks.length > 1 && (
             <div className={css.trackSwitcher}>
-              {visTracks.map((t) => {
+              {stage.tracks.map((t) => {
+                const started = startedTracks.has(t.id);
                 const done = (trackSteps[t.id] || 0) >= t.steps.length;
                 return (
                   <button
@@ -105,9 +106,10 @@ export function CookingView({
                     className={css.trackBtn}
                     data-active={activeTrack === t.id || undefined}
                     data-done={done || undefined}
+                    data-pending={(!started && !done) || undefined}
                     style={{ "--track-color": t.color } as CSSProperties}
                   >
-                    {t.label} {done && "✓"}
+                    {t.label} {done ? "✓" : !started && "○"}
                   </button>
                 );
               })}
@@ -145,7 +147,17 @@ export function CookingView({
 
       {/* Main content */}
       <div className={css.mainContent}>
-        {isTrackDone ? (
+        {!isTrackStarted ? (
+          <div className={css.trackComplete}>
+            <div className={css.trackCompleteEmoji}>○</div>
+            <div className={css.trackCompleteTitle}>
+              {curTrack?.label} — not started yet
+            </div>
+            <div className={css.trackCompleteMsg}>
+              This track will begin later.
+            </div>
+          </div>
+        ) : isTrackDone ? (
           <div className={css.trackComplete}>
             <div className={css.trackCompleteEmoji}>✅</div>
             <div className={css.trackCompleteTitle}>

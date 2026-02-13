@@ -80,6 +80,10 @@
   opacity: 0.5;
 }
 
+.trackBtn[data-pending] {
+  opacity: 0.5;
+}
+
 .bgTimerTray {
   position: fixed;
   bottom: 20px;

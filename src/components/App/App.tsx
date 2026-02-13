@@ -50,10 +50,11 @@ export default function App() {
         activeTrack={session.activeTrack}
         pendingTrackStart={session.pendingTrackStart}
         allTracks={session.allTracks}
+        startedTracks={session.startedTracks}
         stepTimers={session.stepTimers}
         onAdvanceStep={session.advanceStep}
-        onSwitchTrack={session.switchTrack}
-        onSetActiveTrack={session.setActiveTrack}
+        onSwitchTrack={session.switchToTrack}
+        onSetActiveTrack={session.switchToTrack}
         onExit={session.restart}
       />
     </Shell>

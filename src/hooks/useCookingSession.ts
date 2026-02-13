@@ -15,6 +15,7 @@ export function useCookingSession(recipe: Recipe) {
   const [trackSteps, setTrackSteps] = useState<TrackStepMap>({});
   const [activeTrack, setActiveTrack] = useState<string | null>(null);
   const [pendingTrackStart, setPendingTrackStart] = useState<string | null>(null);
+  const [startedTracks, setStartedTracks] = useState<Set<string>>(new Set());
   const [stageTransitionTarget, setStageTransitionTarget] = useState(0);
 
   const stepTimers = useStepTimerRegistry();
@@ -29,6 +30,7 @@ export function useCookingSession(recipe: Recipe) {
         init[t.id] = 0;
       });
       setTrackSteps((prev) => ({ ...prev, ...init }));
+      setStartedTracks(new Set(stage.tracks.filter((t) => !t.isParallel).map((t) => t.id)));
       setActiveTrack(
         (stage.tracks.find((t) => !t.isParallel) || stage.tracks[0]).id,
       );
@@ -71,9 +73,16 @@ export function useCookingSession(recipe: Recipe) {
         const curStep = track.steps[curIdx];
         const nextIdx = curIdx + 1;
 
-        // trigger parallel track
+        // trigger parallel track — start it immediately
         if (curStep?.onComplete?.startTrack) {
-          setPendingTrackStart(curStep.onComplete.startTrack);
+          const tid = curStep.onComplete.startTrack;
+          setPendingTrackStart(tid);
+          setStartedTracks((prev) => {
+            if (prev.has(tid)) return prev;
+            const next = new Set(prev);
+            next.add(tid);
+            return next;
+          });
         }
 
         // track finished?
@@ -121,10 +130,10 @@ export function useCookingSession(recipe: Recipe) {
   );
 
   /* ── Switch to a different track ─────────────────────────────────────── */
-  const switchTrack = useCallback(
+  const switchToTrack = useCallback(
     (tid: string) => {
       setActiveTrack(tid);
-      setPendingTrackStart(null);
+      setPendingTrackStart((prev) => (prev === tid ? null : prev));
     },
     [],
   );
@@ -138,6 +147,7 @@ export function useCookingSession(recipe: Recipe) {
     trackSteps,
     activeTrack,
     pendingTrackStart,
+    startedTracks,
     stageTransitionTarget,
     stepTimers,
     allTracks,
@@ -145,8 +155,7 @@ export function useCookingSession(recipe: Recipe) {
     handleStart,
     handleStageContinue,
     advanceStep,
-    switchTrack,
+    switchToTrack,
     restart,
-    setActiveTrack,
   };
 }
