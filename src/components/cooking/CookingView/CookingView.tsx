@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import type { CSSProperties } from "react";
 import type { Recipe, RecipeTrack } from "../../../types";
 import type { StepTimerRegistry } from "../../../hooks/useStepTimerRegistry";
@@ -20,14 +20,6 @@ interface CookingViewProps {
   onSwitchTrack: (tid: string) => void;
   onSetActiveTrack: (tid: string) => void;
   onExit: () => void;
-}
-
-interface ToastPill {
-  trackId: string;
-  timerKey: string;
-  timeLeft: number;
-  duration: number;
-  done: boolean;
 }
 
 export function CookingView({
@@ -58,36 +50,12 @@ export function CookingView({
     ? allTracks.find((t) => t.id === pendingTrackStart)
     : null;
 
-  const toastPills: ToastPill[] = useMemo(() => {
-    const pills: ToastPill[] = [];
-    for (const [key, entry] of Object.entries(stepTimers.timers)) {
-      const [trackId, stepIdxStr] = key.split(":");
-      const stepIdx = Number(stepIdxStr);
-      if (
-        trackId !== activeTrack &&
-        stepIdx === (trackSteps[trackId] ?? 0) &&
-        (entry.running || entry.done)
-      ) {
-        pills.push({
-          trackId,
-          timerKey: key,
-          timeLeft: entry.timeLeft,
-          duration: entry.duration,
-          done: entry.done,
-        });
-      }
-    }
-    return pills;
-  }, [stepTimers.timers, activeTrack, trackSteps]);
+  const toastPills = stepTimers.getTimersForOtherTracks(activeTrack, trackSteps);
 
-  const hasRunningStepTimers = useMemo(() => {
-    return stage.tracks.some((t) => {
-      const idx = trackSteps[t.id] ?? 0;
-      const key = `${t.id}:${idx}`;
-      const entry = stepTimers.timers[key];
-      return entry && entry.running && !entry.done;
-    });
-  }, [stage.tracks, trackSteps, stepTimers.timers]);
+  const hasRunningStepTimers = stage.tracks.some((t) => {
+    const idx = trackSteps[t.id] ?? 0;
+    return stepTimers.isRunning(`${t.id}:${idx}`);
+  });
 
   return (
     <div
@@ -96,7 +64,7 @@ export function CookingView({
     >
       {/* Skip confirmation modal */}
       {showSkipFor && (() => {
-        const entry = stepTimers.timers[showSkipFor];
+        const entry = stepTimers.getEntry(showSkipFor);
         if (!entry || entry.done) return null;
         const [trackId] = showSkipFor.split(":");
         return (

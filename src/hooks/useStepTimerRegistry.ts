@@ -22,11 +22,24 @@ export interface StepTimerState {
 
 export type StepTimerMap = Record<string, StepTimerEntry>;
 
+export interface ActiveTimerInfo {
+  trackId: string;
+  timerKey: string;
+  timeLeft: number;
+  duration: number;
+  done: boolean;
+}
+
 export interface StepTimerRegistry {
   getTimer: (key: string, duration: number) => StepTimerState;
   startTimer: (key: string, duration: number) => void;
   forceComplete: (key: string) => void;
-  timers: StepTimerMap;
+  getEntry: (key: string) => StepTimerEntry | null;
+  isRunning: (key: string) => boolean;
+  getTimersForOtherTracks: (
+    activeTrack: string | null,
+    trackSteps: Record<string, number>,
+  ) => ActiveTimerInfo[];
 }
 
 /**
@@ -127,6 +140,47 @@ export function useStepTimerRegistry() {
     [],
   );
 
+  const getEntry = useCallback(
+    (key: string): StepTimerEntry | null => timers[key] ?? null,
+    [timers],
+  );
+
+  const isRunning = useCallback(
+    (key: string): boolean => {
+      const entry = timers[key];
+      return !!entry && entry.running && !entry.done;
+    },
+    [timers],
+  );
+
+  const getTimersForOtherTracks = useCallback(
+    (
+      activeTrack: string | null,
+      trackSteps: Record<string, number>,
+    ): ActiveTimerInfo[] => {
+      const result: ActiveTimerInfo[] = [];
+      for (const [key, entry] of Object.entries(timers)) {
+        const [trackId, stepIdxStr] = key.split(":");
+        const stepIdx = Number(stepIdxStr);
+        if (
+          trackId !== activeTrack &&
+          stepIdx === (trackSteps[trackId] ?? 0) &&
+          (entry.running || entry.done)
+        ) {
+          result.push({
+            trackId,
+            timerKey: key,
+            timeLeft: entry.timeLeft,
+            duration: entry.duration,
+            done: entry.done,
+          });
+        }
+      }
+      return result;
+    },
+    [timers],
+  );
+
   /**
    * Get a StepTimerState for a given key. Ensures the timer entry
    * exists and returns current state with bound actions.
@@ -155,5 +209,12 @@ export function useStepTimerRegistry() {
     [timers, ensureTimer, start, pause, forceComplete],
   );
 
-  return { getTimer, startTimer, forceComplete, timers } satisfies StepTimerRegistry;
+  return {
+    getTimer,
+    startTimer,
+    forceComplete,
+    getEntry,
+    isRunning,
+    getTimersForOtherTracks,
+  } satisfies StepTimerRegistry;
 }

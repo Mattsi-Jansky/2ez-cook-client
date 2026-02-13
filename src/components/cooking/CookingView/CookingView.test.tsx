@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { CookingView } from "./CookingView";
 import type { Recipe, RecipeTrack } from "../../../types";
-import type { StepTimerMap } from "../../../hooks/useStepTimerRegistry";
+import type { StepTimerMap, ActiveTimerInfo } from "../../../hooks/useStepTimerRegistry";
 
 const mainTrack: RecipeTrack = {
   id: "main",
@@ -42,7 +42,13 @@ const recipe: Recipe = {
   ],
 };
 
-function makeStepTimers(timers: StepTimerMap = {}) {
+function makeStepTimers({
+  entries = {},
+  toastPills = [],
+}: {
+  entries?: StepTimerMap;
+  toastPills?: ActiveTimerInfo[];
+} = {}) {
   return {
     getTimer: vi.fn(() => ({
       timeLeft: 0,
@@ -57,7 +63,12 @@ function makeStepTimers(timers: StepTimerMap = {}) {
     })),
     startTimer: vi.fn(),
     forceComplete: vi.fn(),
-    timers,
+    getEntry: vi.fn((key: string) => entries[key] ?? null),
+    isRunning: vi.fn((key: string) => {
+      const e = entries[key];
+      return !!e && e.running && !e.done;
+    }),
+    getTimersForOtherTracks: vi.fn(() => toastPills),
   };
 }
 
@@ -159,7 +170,7 @@ describe("CookingView", () => {
     renderView({
       trackSteps: { main: 2, sauce: 0 },
       stepTimers: makeStepTimers({
-        "sauce:0": { timeLeft: 30, running: true, done: false, duration: 60 },
+        entries: { "sauce:0": { timeLeft: 30, running: true, done: false, duration: 60 } },
       }),
     });
     expect(
@@ -195,9 +206,8 @@ describe("CookingView", () => {
 
   it("renders toast pills for step timers on non-active tracks", () => {
     renderView({
-      trackSteps: { main: 0, sauce: 0 },
       stepTimers: makeStepTimers({
-        "sauce:0": { timeLeft: 30, running: true, done: false, duration: 60 },
+        toastPills: [{ trackId: "sauce", timerKey: "sauce:0", timeLeft: 30, duration: 60, done: false }],
       }),
     });
     expect(screen.getByText(/remaining/)).toBeInTheDocument();
@@ -210,9 +220,8 @@ describe("CookingView", () => {
 
   it("calls onSetActiveTrack when View is clicked on a done toast pill", () => {
     const { props } = renderView({
-      trackSteps: { main: 0, sauce: 0 },
       stepTimers: makeStepTimers({
-        "sauce:0": { timeLeft: 0, running: false, done: true, duration: 60 },
+        toastPills: [{ trackId: "sauce", timerKey: "sauce:0", timeLeft: 0, duration: 60, done: true }],
       }),
     });
     fireEvent.click(screen.getByRole("button", { name: "View" }));
@@ -221,9 +230,8 @@ describe("CookingView", () => {
 
   it("sets data-has-bg-timers when toast pills are present", () => {
     const { container } = renderView({
-      trackSteps: { main: 0, sauce: 0 },
       stepTimers: makeStepTimers({
-        "sauce:0": { timeLeft: 30, running: true, done: false, duration: 60 },
+        toastPills: [{ trackId: "sauce", timerKey: "sauce:0", timeLeft: 30, duration: 60, done: false }],
       }),
     });
     expect(container.firstElementChild).toHaveAttribute("data-has-bg-timers");

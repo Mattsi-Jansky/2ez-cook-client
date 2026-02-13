@@ -195,16 +195,68 @@ describe("useStepTimerRegistry", () => {
     expect(result.current.getTimer("broccoli:1", 120).timeLeft).toBe(115);
   });
 
-  it("exposes the raw timers map", () => {
+  it("getEntry returns entry for existing timer", () => {
     const { result } = renderHook(() => useStepTimerRegistry());
 
     act(() => {
       result.current.startTimer("main:0", 30);
     });
 
-    expect(result.current.timers["main:0"]).toBeDefined();
-    expect(result.current.timers["main:0"].running).toBe(true);
-    expect(result.current.timers["main:0"].timeLeft).toBe(30);
+    const entry = result.current.getEntry("main:0");
+    expect(entry).not.toBeNull();
+    expect(entry!.running).toBe(true);
+    expect(entry!.timeLeft).toBe(30);
+  });
+
+  it("getEntry returns null for non-existent timer", () => {
+    const { result } = renderHook(() => useStepTimerRegistry());
+    expect(result.current.getEntry("nope:0")).toBeNull();
+  });
+
+  it("isRunning returns true for a running timer", () => {
+    const { result } = renderHook(() => useStepTimerRegistry());
+
+    act(() => {
+      result.current.startTimer("main:0", 30);
+    });
+
+    expect(result.current.isRunning("main:0")).toBe(true);
+  });
+
+  it("isRunning returns false for a non-existent timer", () => {
+    const { result } = renderHook(() => useStepTimerRegistry());
+    expect(result.current.isRunning("nope:0")).toBe(false);
+  });
+
+  it("getTimersForOtherTracks returns timers not on the active track", () => {
+    const { result } = renderHook(() => useStepTimerRegistry());
+
+    act(() => {
+      result.current.startTimer("sauce:0", 60);
+      result.current.startTimer("main:0", 30);
+    });
+
+    const pills = result.current.getTimersForOtherTracks("main", {
+      main: 0,
+      sauce: 0,
+    });
+    expect(pills).toHaveLength(1);
+    expect(pills[0].trackId).toBe("sauce");
+    expect(pills[0].timeLeft).toBe(60);
+  });
+
+  it("getTimersForOtherTracks excludes timers not at current step", () => {
+    const { result } = renderHook(() => useStepTimerRegistry());
+
+    act(() => {
+      result.current.startTimer("sauce:0", 60);
+    });
+
+    const pills = result.current.getTimersForOtherTracks("main", {
+      main: 0,
+      sauce: 1,
+    });
+    expect(pills).toHaveLength(0);
   });
 
   it("preserves timer state across getTimer calls (simulates remount)", () => {
