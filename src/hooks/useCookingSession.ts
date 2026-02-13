@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import type { Recipe, AppPhase, TrackStepMap, RecipeTrack } from "../types";
 import { useBackgroundTimers } from "./useBackgroundTimers";
+import { useStepTimerRegistry } from "./useStepTimerRegistry";
 
 /**
  * Central hook that drives the entire cooking session:
@@ -18,6 +19,7 @@ export function useCookingSession(recipe: Recipe) {
   const [stageTransitionTarget, setStageTransitionTarget] = useState(0);
 
   const bgTimers = useBackgroundTimers();
+  const stepTimers = useStepTimerRegistry();
   const allTracks: RecipeTrack[] = recipe.stages.flatMap((s) => s.tracks);
 
   /* ── Initialise a stage ──────────────────────────────────────────────── */
@@ -174,6 +176,7 @@ export function useCookingSession(recipe: Recipe) {
     pendingTrackStart,
     stageTransitionTarget,
     bgTimers,
+    stepTimers,
     allTracks,
 
     handleStart,

@@ -3,20 +3,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { CookingView } from "./CookingView";
 import type { Recipe, RecipeTrack, BackgroundTimerMap } from "../../../types";
 
-vi.mock("../../../hooks", () => ({
-  useStepTimer: vi.fn(() => ({
-    timeLeft: 0,
-    running: false,
-    done: false,
-    notStarted: true,
-    paused: false,
-    start: vi.fn(),
-    pause: vi.fn(),
-    resume: vi.fn(),
-    forceComplete: vi.fn(),
-  })),
-}));
-
 const mainTrack: RecipeTrack = {
   id: "main",
   label: "Main",
@@ -67,6 +53,22 @@ function makeBgTimers(overrides: {
   };
 }
 
+function makeStepTimers() {
+  return {
+    getTimer: vi.fn(() => ({
+      timeLeft: 0,
+      running: false,
+      done: false,
+      notStarted: true,
+      paused: false,
+      start: vi.fn(),
+      pause: vi.fn(),
+      resume: vi.fn(),
+      forceComplete: vi.fn(),
+    })),
+  };
+}
+
 interface DefaultPropsOverrides {
   trackSteps?: Record<string, number>;
   activeTrack?: string | null;
@@ -84,6 +86,7 @@ function renderView(overrides: DefaultPropsOverrides = {}) {
     pendingTrackStart: null,
     allTracks: [mainTrack, sauceTrack],
     bgTimers: makeBgTimers(),
+    stepTimers: makeStepTimers(),
     onAdvanceStep: vi.fn(),
     onDismissBgTimer: vi.fn(),
     onSwitchTrack: vi.fn(),

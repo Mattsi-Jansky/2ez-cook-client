@@ -2,14 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { StepCard } from "./StepCard";
 import type { RecipeStep, RecipeTrack } from "../../../types";
-import type { StepTimerState } from "../../../hooks/useStepTimer";
-import { useStepTimer } from "../../../hooks";
-
-vi.mock("../../../hooks", () => ({
-  useStepTimer: vi.fn(),
-}));
-
-const mockedUseStepTimer = vi.mocked(useStepTimer);
+import type { StepTimerState } from "../../../hooks/useStepTimerRegistry";
 
 const mockTimer: StepTimerState = {
   timeLeft: 0,
@@ -54,10 +47,16 @@ function resetTimer(overrides: Partial<StepTimerState> = {}) {
   });
 }
 
+function makeStepTimers() {
+  return { getTimer: vi.fn(() => mockTimer) };
+}
+
 describe("StepCard", () => {
+  let stepTimers: ReturnType<typeof makeStepTimers>;
+
   beforeEach(() => {
     resetTimer();
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
   });
 
   it("renders the step number and progress", () => {
@@ -68,6 +67,7 @@ describe("StepCard", () => {
         totalSteps={5}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -83,6 +83,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -97,6 +98,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="preparation"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -111,6 +113,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="preparation"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -125,6 +128,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -139,6 +143,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -153,6 +158,7 @@ describe("StepCard", () => {
         totalSteps={1}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -167,6 +173,7 @@ describe("StepCard", () => {
         totalSteps={1}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -182,6 +189,7 @@ describe("StepCard", () => {
         totalSteps={1}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -196,6 +204,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -211,6 +220,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={onComplete}
       />,
     );
@@ -226,6 +236,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -240,6 +251,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -254,6 +266,7 @@ describe("StepCard", () => {
         totalSteps={1}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -262,7 +275,7 @@ describe("StepCard", () => {
 
   it("shows Start timer button when timer has not started", () => {
     resetTimer({ notStarted: true, timeLeft: 60 });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -271,6 +284,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -280,7 +294,7 @@ describe("StepCard", () => {
   it("calls timer.start when Start timer is clicked", () => {
     const start = vi.fn();
     resetTimer({ notStarted: true, timeLeft: 60, start });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -289,6 +303,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -298,7 +313,7 @@ describe("StepCard", () => {
 
   it("shows Pause button when timer is running", () => {
     resetTimer({ running: true, notStarted: false, timeLeft: 30 });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -307,6 +322,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -315,7 +331,7 @@ describe("StepCard", () => {
 
   it("shows Resume button when timer is paused", () => {
     resetTimer({ paused: true, notStarted: false, timeLeft: 30 });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -324,6 +340,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -332,7 +349,7 @@ describe("StepCard", () => {
 
   it("does not show Next step button while timer is active", () => {
     resetTimer({ running: true, notStarted: false, timeLeft: 30 });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -341,6 +358,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -349,7 +367,7 @@ describe("StepCard", () => {
 
   it("shows Next step button after timer completes", () => {
     resetTimer({ done: true, notStarted: false, timeLeft: 0 });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -358,6 +376,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -367,7 +386,7 @@ describe("StepCard", () => {
 
   it("shows Skip timer button when timer is running", () => {
     resetTimer({ running: true, notStarted: false, timeLeft: 30 });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -376,6 +395,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -384,7 +404,7 @@ describe("StepCard", () => {
 
   it("shows SkipTimerModal when skip timer is clicked while running", () => {
     resetTimer({ running: true, notStarted: false, timeLeft: 30 });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -393,6 +413,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -404,7 +425,7 @@ describe("StepCard", () => {
 
   it("dismisses SkipTimerModal on cancel", () => {
     resetTimer({ running: true, notStarted: false, timeLeft: 30 });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -413,6 +434,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
@@ -425,7 +447,7 @@ describe("StepCard", () => {
     const forceComplete = vi.fn();
     const onComplete = vi.fn();
     resetTimer({ running: true, notStarted: false, timeLeft: 30, forceComplete });
-    mockedUseStepTimer.mockReturnValue(mockTimer);
+    stepTimers = makeStepTimers();
 
     render(
       <StepCard
@@ -434,6 +456,7 @@ describe("StepCard", () => {
         totalSteps={3}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={onComplete}
       />,
     );
@@ -451,10 +474,26 @@ describe("StepCard", () => {
         totalSteps={1}
         track={track}
         stageType="cooking"
+        stepTimers={stepTimers}
         onComplete={vi.fn()}
       />,
     );
     const card = container.querySelector("[class*='card']");
     expect(card).toHaveStyle("--track-color: #4C8CE0");
+  });
+
+  it("calls getTimer with correct key and duration", () => {
+    render(
+      <StepCard
+        step={makeStep({ completionType: "timer", timerDuration: 120 })}
+        stepIndex={3}
+        totalSteps={5}
+        track={track}
+        stageType="cooking"
+        stepTimers={stepTimers}
+        onComplete={vi.fn()}
+      />,
+    );
+    expect(stepTimers.getTimer).toHaveBeenCalledWith("main:3", 120);
   });
 });

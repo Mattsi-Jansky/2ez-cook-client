@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { CSSProperties } from "react";
 import type { Recipe, RecipeTrack, BackgroundTimerMap } from "../../../types";
+import type { StepTimerState } from "../../../hooks/useStepTimerRegistry";
 import { ProgressBar, SkipTimerModal } from "../../common";
 import { StepCard } from "../StepCard/StepCard";
 import { BackgroundTimerPill } from "../BackgroundTimerPill/BackgroundTimerPill";
@@ -20,6 +21,9 @@ interface CookingViewProps {
     dismiss: (tid: string) => void;
     skip: (tid: string) => void;
   };
+  stepTimers: {
+    getTimer: (key: string, duration: number) => StepTimerState;
+  };
   onAdvanceStep: (trackId: string) => void;
   onDismissBgTimer: (tid: string) => void;
   onSwitchTrack: (tid: string) => void;
@@ -35,6 +39,7 @@ export function CookingView({
   pendingTrackStart,
   allTracks,
   bgTimers,
+  stepTimers,
   onAdvanceStep,
   onDismissBgTimer,
   onSwitchTrack,
@@ -163,6 +168,7 @@ export function CookingView({
               totalSteps={nonBgSteps.length}
               track={curTrack}
               stageType={stage.type}
+              stepTimers={stepTimers}
               onComplete={() => onAdvanceStep(activeTrack!)}
             />
           )

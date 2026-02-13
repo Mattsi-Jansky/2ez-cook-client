@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { CSSProperties } from "react";
 import type { RecipeStep, RecipeTrack, StageType } from "../../../types";
-import { useStepTimer } from "../../../hooks";
+import type { StepTimerState } from "../../../hooks/useStepTimerRegistry";
 import { Btn, CircularTimer, SkipTimerModal } from "../../common";
 import { InstructionText } from "../InstructionText/InstructionText";
 import css from "./StepCard.module.css";
@@ -12,11 +12,12 @@ interface StepCardProps {
   totalSteps: number;
   track: RecipeTrack;
   stageType: StageType;
+  stepTimers: { getTimer: (key: string, duration: number) => StepTimerState };
   onComplete: () => void;
 }
 
-export function StepCard({ step, stepIndex, totalSteps, track, stageType, onComplete }: StepCardProps) {
-  const timer = useStepTimer({ duration: step.timerDuration || 0 });
+export function StepCard({ step, stepIndex, totalSteps, track, stageType, stepTimers, onComplete }: StepCardProps) {
+  const timer = stepTimers.getTimer(`${track.id}:${stepIndex}`, step.timerDuration || 0);
   const [showSkip, setShowSkip] = useState(false);
 
   const isFinal = step.completionType === "final";
