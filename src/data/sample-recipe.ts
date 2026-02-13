@@ -290,6 +290,15 @@ export const SAMPLE_RECIPE: Recipe = {
               isBackground: true,
               hint: "Once started, the timer appears pinned at the bottom of the screen.",
             },
+            {
+              id: "b3",
+              instruction:
+                "Remove the broccoli from the oven. It should be lightly charred on the edges and tender when pierced with a fork.",
+              completionType: "manual",
+              actionLabel: "Broccoli is out of the oven",
+              completionHint:
+                "A few dark spots are good — that's flavour, not burning.",
+            },
           ],
         },
       ],
