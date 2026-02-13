@@ -22,8 +22,8 @@ const recipe: Recipe = {
           label: "Main",
           color: "#4C8CE0",
           steps: [
-            { id: "s1", instruction: "Chop onions", completionType: "manual" },
-            { id: "s2", instruction: "Mince garlic", completionType: "manual" },
+            { instruction: "Chop onions", completionType: "manual" },
+            { instruction: "Mince garlic", completionType: "manual" },
           ],
         },
       ],
@@ -39,7 +39,7 @@ const recipe: Recipe = {
           label: "Pasta",
           color: "#4C8CE0",
           steps: [
-            { id: "s3", instruction: "Boil water", completionType: "manual" },
+            { instruction: "Boil water", completionType: "manual" },
           ],
         },
         {
@@ -48,8 +48,8 @@ const recipe: Recipe = {
           color: "#D94F4F",
           isParallel: true,
           steps: [
-            { id: "s4", instruction: "Heat oil", completionType: "manual" },
-            { id: "s5", instruction: "Add tomatoes", completionType: "manual" },
+            { instruction: "Heat oil", completionType: "manual" },
+            { instruction: "Add tomatoes", completionType: "manual" },
           ],
         },
       ],
@@ -103,7 +103,7 @@ describe("OverviewTab", () => {
               id: "t",
               label: "T",
               color: "#000",
-              steps: [{ id: "x", instruction: "Do it", completionType: "manual" }],
+              steps: [{ instruction: "Do it", completionType: "manual" }],
             },
           ],
         },

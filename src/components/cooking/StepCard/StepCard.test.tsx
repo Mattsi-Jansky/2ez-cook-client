@@ -25,7 +25,6 @@ const track: RecipeTrack = {
 
 function makeStep(overrides: Partial<RecipeStep> = {}): RecipeStep {
   return {
-    id: "s1",
     instruction: "Dice the onions finely.",
     completionType: "manual",
     ...overrides,

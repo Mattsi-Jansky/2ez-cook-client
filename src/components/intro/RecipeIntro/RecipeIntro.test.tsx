@@ -9,11 +9,11 @@ const recipe: Recipe = {
   servings: 4,
   totalTime: "45 min",
   ingredients: [
-    { id: "i1", name: "Spaghetti", amount: "400g" },
-    { id: "i2", name: "Ground beef", amount: "500g" },
+    { id: "ingredient-0", name: "Spaghetti", amount: "400g" },
+    { id: "ingredient-1", name: "Ground beef", amount: "500g" },
   ],
   equipment: [
-    { id: "e1", name: "Large pot" },
+    { id: "equipment-0", name: "Large pot" },
   ],
   stages: [
     {
@@ -27,8 +27,8 @@ const recipe: Recipe = {
           label: "Main",
           color: "#4C8CE0",
           steps: [
-            { id: "s1", instruction: "Dice the onions", completionType: "manual" },
-            { id: "s2", instruction: "Mince garlic", completionType: "manual" },
+            { instruction: "Dice the onions", completionType: "manual" },
+            { instruction: "Mince garlic", completionType: "manual" },
           ],
         },
       ],
@@ -44,7 +44,7 @@ const recipe: Recipe = {
           label: "Pasta",
           color: "#4C8CE0",
           steps: [
-            { id: "s3", instruction: "Boil water", completionType: "manual" },
+            { instruction: "Boil water", completionType: "manual" },
           ],
         },
       ],

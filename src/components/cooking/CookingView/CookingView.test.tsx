@@ -9,8 +9,8 @@ const mainTrack: RecipeTrack = {
   label: "Main",
   color: "#4C8CE0",
   steps: [
-    { id: "s1", instruction: "Boil water", completionType: "manual" },
-    { id: "s2", instruction: "Add pasta", completionType: "manual" },
+    { instruction: "Boil water", completionType: "manual" },
+    { instruction: "Add pasta", completionType: "manual" },
   ],
 };
 
@@ -20,7 +20,7 @@ const sauceTrack: RecipeTrack = {
   color: "#D94F4F",
   isParallel: true,
   steps: [
-    { id: "ss1", instruction: "Heat oil", completionType: "manual" },
+    { instruction: "Heat oil", completionType: "manual" },
   ],
 };
 

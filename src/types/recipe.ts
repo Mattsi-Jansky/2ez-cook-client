@@ -19,7 +19,6 @@ export interface StepOnComplete {
 }
 
 export interface RecipeStep {
-  id: string;
   instruction: string;
   glossary?: Glossary;
   completionType: CompletionType;
@@ -72,3 +71,18 @@ export interface Recipe {
   equipment: RecipeItem[];
   stages: RecipeStage[];
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Authored (input) types — same shape but without generated IDs.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+export type RecipeItemInput = Omit<RecipeItem, "id">;
+export type RecipeTrackInput = Omit<RecipeTrack, "id">;
+export type RecipeStageInput = Omit<RecipeStage, "id" | "tracks"> & {
+  tracks: RecipeTrackInput[];
+};
+export type RecipeInput = Omit<Recipe, "stages" | "ingredients" | "equipment"> & {
+  stages: RecipeStageInput[];
+  ingredients: RecipeItemInput[];
+  equipment: RecipeItemInput[];
+};
