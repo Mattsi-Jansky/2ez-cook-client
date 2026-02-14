@@ -21,8 +21,7 @@ function makeInput(overrides: Partial<RecipeInput> = {}): RecipeInput {
         tracks: [
           {
             label: "Main",
-            color: "#000",
-            steps: [{ instruction: "Do it", completionType: "manual" }],
+            steps: [{ instruction: "Do it" }],
           },
         ],
       },
@@ -51,13 +50,13 @@ describe("hydrateRecipe", () => {
             type: "preparation",
             label: "Prep",
             description: "",
-            tracks: [{ label: "T", color: "#000", steps: [] }],
+            tracks: [{ label: "T", steps: [] }],
           },
           {
             type: "cooking",
             label: "Cook",
             description: "",
-            tracks: [{ label: "T", color: "#000", steps: [] }],
+            tracks: [{ label: "T", steps: [] }],
           },
         ],
       }),
@@ -71,7 +70,54 @@ describe("hydrateRecipe", () => {
     expect(recipe.stages[0].tracks[0].id).toBe("Main");
   });
 
-  it("preserves startTrack when it matches a track label", () => {
+  it("defaults completionType to manual when no timerDuration", () => {
+    const recipe = hydrateRecipe(makeInput());
+    expect(recipe.stages[0].tracks[0].steps[0].completionType).toBe("manual");
+  });
+
+  it("infers completionType timer from timerDuration", () => {
+    const recipe = hydrateRecipe(
+      makeInput({
+        stages: [
+          {
+            type: "cooking",
+            label: "Cook",
+            description: "",
+            tracks: [
+              {
+                label: "Main",
+                steps: [{ instruction: "Wait", timerDuration: 60 }],
+              },
+            ],
+          },
+        ],
+      }),
+    );
+    expect(recipe.stages[0].tracks[0].steps[0].completionType).toBe("timer");
+  });
+
+  it("preserves explicit completionType over inference", () => {
+    const recipe = hydrateRecipe(
+      makeInput({
+        stages: [
+          {
+            type: "cooking",
+            label: "Cook",
+            description: "",
+            tracks: [
+              {
+                label: "Main",
+                steps: [{ instruction: "Done", completionType: "final" }],
+              },
+            ],
+          },
+        ],
+      }),
+    );
+    expect(recipe.stages[0].tracks[0].steps[0].completionType).toBe("final");
+  });
+
+  it("converts flat startTrack to onComplete", () => {
     const recipe = hydrateRecipe(
       makeInput({
         stages: [
@@ -82,20 +128,12 @@ describe("hydrateRecipe", () => {
             tracks: [
               {
                 label: "Pasta",
-                color: "#000",
-                steps: [
-                  {
-                    instruction: "Boil",
-                    completionType: "manual",
-                    onComplete: { startTrack: "Sauce" },
-                  },
-                ],
+                steps: [{ instruction: "Boil", startTrack: "Sauce" }],
               },
               {
                 label: "Sauce",
-                color: "#f00",
                 isParallel: true,
-                steps: [{ instruction: "Heat", completionType: "manual" }],
+                steps: [{ instruction: "Heat" }],
               },
             ],
           },
@@ -117,14 +155,7 @@ describe("hydrateRecipe", () => {
               tracks: [
                 {
                   label: "Main",
-                  color: "#000",
-                  steps: [
-                    {
-                      instruction: "Go",
-                      completionType: "manual",
-                      onComplete: { startTrack: "Nonexistent" },
-                    },
-                  ],
+                  steps: [{ instruction: "Go", startTrack: "Nonexistent" }],
                 },
               ],
             },
@@ -132,6 +163,44 @@ describe("hydrateRecipe", () => {
         }),
       ),
     ).toThrow('startTrack "Nonexistent" does not match any track label in stage "Cook"');
+  });
+
+  it("assigns colors from palette by track index", () => {
+    const recipe = hydrateRecipe(
+      makeInput({
+        stages: [
+          {
+            type: "cooking",
+            label: "Cook",
+            description: "",
+            tracks: [
+              { label: "A", steps: [] },
+              { label: "B", isParallel: true, steps: [] },
+              { label: "C", isParallel: true, steps: [] },
+            ],
+          },
+        ],
+      }),
+    );
+    expect(recipe.stages[0].tracks[0].color).toBe("#B07D62");
+    expect(recipe.stages[0].tracks[1].color).toBe("#6B8F5E");
+    expect(recipe.stages[0].tracks[2].color).toBe("#4C8CE0");
+  });
+
+  it("preserves explicit color over palette", () => {
+    const recipe = hydrateRecipe(
+      makeInput({
+        stages: [
+          {
+            type: "cooking",
+            label: "Cook",
+            description: "",
+            tracks: [{ label: "Main", color: "#FF0000", steps: [] }],
+          },
+        ],
+      }),
+    );
+    expect(recipe.stages[0].tracks[0].color).toBe("#FF0000");
   });
 
   it("preserves all other recipe fields", () => {

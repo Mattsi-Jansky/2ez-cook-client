@@ -73,24 +73,20 @@ const input: RecipeInput = {
       tracks: [
         {
           label: "Ingredients",
-          color: "#B07D62",
           steps: [
             {
               instruction:
                 "Peel 3 cloves of garlic and mince them into small pieces. Set aside on a small plate or bowl.",
-              completionType: "manual",
               actionLabel: "Garlic is minced",
             },
             {
               instruction:
                 "Cut the broccoli into bite-sized florets. You'll need about 2 cups — roughly one medium head.",
-              completionType: "manual",
               actionLabel: "Broccoli is cut",
             },
             {
               instruction:
                 "Measure out: 2 tablespoons of butter, ½ cup of cream cheese (or heavy cream), and your pasta (about 200g).",
-              completionType: "manual",
               actionLabel: "Everything is measured out",
               hint: "Having everything pre-measured means you won't need to hunt for things while the stove is on.",
             },
@@ -106,7 +102,6 @@ const input: RecipeInput = {
       tracks: [
         {
           label: "Pasta & Sauce",
-          color: "#B07D62",
           steps: [
             {
               instruction:
@@ -118,16 +113,14 @@ const input: RecipeInput = {
                   text: "About 1 tablespoon, or grab some between your thumb and fingers and toss it in.",
                 },
               },
-              completionType: "manual",
               actionLabel: "Water is at a rolling boil",
               completionHint:
                 "Big, vigorous bubbles breaking the surface — not just tiny bubbles on the bottom.",
-              onComplete: { startTrack: "Roasted Broccoli" },
+              startTrack: "Roasted Broccoli",
             },
             {
               instruction:
                 "Pour the pasta into the boiling water and give it a stir.",
-              completionType: "timer",
               timerDuration: 600,
               timerLabel: "Pasta cooking",
               actionLabel: "Pasta is in the water",
@@ -136,13 +129,11 @@ const input: RecipeInput = {
             {
               instruction:
                 "Before draining: scoop out a mugful of the cooking water and set it aside. Then drain the pasta in a colander.",
-              completionType: "manual",
               actionLabel: "Pasta is drained",
             },
             {
               instruction:
                 "In the same pot (no need to wash it), add the butter and minced garlic over medium heat. Stir gently.",
-              completionType: "timer",
               timerDuration: 75,
               timerLabel: "Garlic sizzling",
               actionLabel: "Butter and garlic are in the pot",
@@ -151,7 +142,6 @@ const input: RecipeInput = {
             {
               instruction:
                 "Turn the heat to low. Add the cream cheese (or cream) and a splash of the saved pasta water. Stir until smooth.",
-              completionType: "manual",
               actionLabel: "Sauce looks smooth",
               completionHint:
                 "A few small lumps are fine — they'll melt as you stir.",
@@ -166,14 +156,12 @@ const input: RecipeInput = {
         },
         {
           label: "Roasted Broccoli",
-          color: "#6B8F5E",
           isParallel: true,
           autoStart: false,
           steps: [
             {
               instruction:
                 "Preheat your oven to 200°C (400°F). Spread the broccoli on a baking tray, drizzle with olive oil, and season with salt and pepper.",
-              completionType: "manual",
               actionLabel: "Broccoli is in the oven",
               completionHint:
                 "Spread pieces out — don't pile them. Spacing helps them crisp.",
@@ -181,7 +169,6 @@ const input: RecipeInput = {
             {
               instruction:
                 "The broccoli roasts in the background while you continue with the pasta. You'll be alerted when it's done.",
-              completionType: "timer",
               timerDuration: 1200,
               timerLabel: "Broccoli roasting",
               actionLabel: "Broccoli is roasting",
@@ -191,7 +178,6 @@ const input: RecipeInput = {
             {
               instruction:
                 "Remove the broccoli from the oven. It should be lightly charred on the edges and tender when pierced with a fork.",
-              completionType: "manual",
               actionLabel: "Broccoli is out of the oven",
               completionHint:
                 "A few dark spots are good — that's flavour, not burning.",

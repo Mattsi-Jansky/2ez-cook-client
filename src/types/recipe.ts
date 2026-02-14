@@ -77,7 +77,14 @@ export interface Recipe {
    ───────────────────────────────────────────────────────────────────────────── */
 
 export type RecipeItemInput = Omit<RecipeItem, "id">;
-export type RecipeTrackInput = Omit<RecipeTrack, "id">;
+export type RecipeStepInput = Omit<RecipeStep, "completionType" | "onComplete"> & {
+  completionType?: CompletionType;
+  startTrack?: string;
+};
+export type RecipeTrackInput = Omit<RecipeTrack, "id" | "steps" | "color"> & {
+  color?: string;
+  steps: RecipeStepInput[];
+};
 export type RecipeStageInput = Omit<RecipeStage, "id" | "tracks"> & {
   tracks: RecipeTrackInput[];
 };
