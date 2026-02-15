@@ -20,7 +20,6 @@
   flex-direction: column;
   gap: 16px;
   max-width: 500px;
-  width: 100%;
 }
 
 @keyframes fadeIn {

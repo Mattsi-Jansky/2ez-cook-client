@@ -15,8 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: 20px 24px;
+  padding: 12px 20px;
   background: none;
   border: none;
   cursor: pointer;
@@ -39,7 +38,7 @@
   font-size: 18px;
   font-weight: 700;
   color: var(--color-heading-dark);
-  margin: 0 0 6px;
+  margin: 0 0 2px;
   line-height: 1.3;
 }
 
