@@ -9,8 +9,18 @@ import { useStepTimerRegistry } from "./useStepTimerRegistry";
  * – active and pending tracks
  * – background timers
  */
-export function useCookingSession(recipe: Recipe) {
-  const [phase, setPhase] = useState<AppPhase>("intro");
+interface CookingSessionOptions {
+  skipIntro?: boolean;
+}
+
+export function useCookingSession(
+  recipe: Recipe,
+  options?: CookingSessionOptions,
+) {
+  const skipIntro = options?.skipIntro ?? false;
+  const [phase, setPhase] = useState<AppPhase>(
+    skipIntro ? "stageTransition" : "intro",
+  );
   const [currentStageIdx, setCurrentStageIdx] = useState(0);
   const [trackSteps, setTrackSteps] = useState<TrackStepMap>({});
   const [activeTrack, setActiveTrack] = useState<string | null>(null);

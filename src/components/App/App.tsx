@@ -1,24 +1,45 @@
-import { SAMPLE_RECIPE } from "../../data/sample-recipe";
+import { useState } from "react";
+import type { Recipe } from "../../types";
+import { recipes } from "../../data/recipes";
 import { useCookingSession } from "../../hooks";
 import { Shell } from "../layout";
-import { RecipeIntro } from "../intro";
+import { RecipeLanding } from "../landing";
 import { StageTransition, CompletedScreen, CookingView } from "../cooking";
 import css from "./App.module.css";
 
+const BG_WARM = "linear-gradient(180deg,#FBF6F0 0%,#F5EDE3 100%)";
+const BG_DONE = "linear-gradient(180deg,#F0F7ED 0%,#FBF6F0 100%)";
+
 export default function App() {
-  const recipe = SAMPLE_RECIPE;
-  const session = useCookingSession(recipe);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
-  const BG_WARM = "linear-gradient(180deg,#FBF6F0 0%,#F5EDE3 100%)";
-  const BG_DONE = "linear-gradient(180deg,#F0F7ED 0%,#FBF6F0 100%)";
-
-  if (session.phase === "intro") {
+  if (!selectedRecipe) {
     return (
       <Shell background={BG_WARM}>
-        <RecipeIntro recipe={recipe} onStart={session.handleStart} />
+        <RecipeLanding
+          recipes={recipes}
+          onSelectRecipe={setSelectedRecipe}
+        />
       </Shell>
     );
   }
+
+  return (
+    <CookingSession
+      recipe={selectedRecipe}
+      onBackToRecipes={() => setSelectedRecipe(null)}
+    />
+  );
+}
+
+function CookingSession({
+  recipe,
+  onBackToRecipes,
+}: {
+  recipe: Recipe;
+  onBackToRecipes: () => void;
+}) {
+  const session = useCookingSession(recipe, { skipIntro: true });
 
   if (session.phase === "stageTransition") {
     return (
@@ -36,7 +57,7 @@ export default function App() {
   if (session.phase === "done") {
     return (
       <Shell background={BG_DONE}>
-        <CompletedScreen recipe={recipe} onRestart={session.restart} />
+        <CompletedScreen recipe={recipe} onRestart={onBackToRecipes} />
       </Shell>
     );
   }
@@ -55,7 +76,7 @@ export default function App() {
         onAdvanceStep={session.advanceStep}
         onSwitchTrack={session.switchToTrack}
         onSetActiveTrack={session.switchToTrack}
-        onExit={session.restart}
+        onExit={onBackToRecipes}
       />
     </Shell>
   );
