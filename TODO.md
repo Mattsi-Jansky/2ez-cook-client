@@ -9,3 +9,5 @@
 - Do something about 'utils'
 - CI/CD
 - Support for 'sources' metadata
+- The ability to go back to previous instructions
+- Review the glossaries, can be improved
