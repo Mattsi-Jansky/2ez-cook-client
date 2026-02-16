@@ -22,6 +22,14 @@ function save(recipeTitle: string, checked: Record<string, boolean>) {
   }
 }
 
+export function clearCheckedStorage(recipeTitle: string) {
+  try {
+    localStorage.removeItem(getStorageKey(recipeTitle))
+  } catch {
+    /* ignore unavailable storage */
+  }
+}
+
 export function useCheckedItems(recipeTitle: string) {
   const [checked, setChecked] = useState<Record<string, boolean>>(() =>
     load(recipeTitle),
@@ -37,5 +45,18 @@ export function useCheckedItems(recipeTitle: string) {
     [recipeTitle],
   )
 
-  return { checked, toggle }
+  const resetItems = useCallback(
+    (ids: string[]) =>
+      setChecked((prev) => {
+        const next = { ...prev }
+        for (const id of ids) {
+          delete next[id]
+        }
+        save(recipeTitle, next)
+        return next
+      }),
+    [recipeTitle],
+  )
+
+  return { checked, toggle, resetItems }
 }

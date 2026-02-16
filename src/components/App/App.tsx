@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Recipe } from '../../types'
 import { recipes } from '../../data/recipes'
 import { useCookingSession } from '../../hooks'
 import { Shell } from '../layout'
 import { RecipeLanding } from '../landing'
 import { StageTransition, CompletedScreen, CookingView } from '../cooking'
+import { clearCheckedStorage } from '../intro/RecipeIntro/useCheckedItems'
 import css from './App.module.css'
 
 const BG_WARM = 'linear-gradient(180deg,#FBF6F0 0%,#F5EDE3 100%)'
@@ -46,6 +47,12 @@ function CookingSession({
   onBackToRecipes: () => void
 }) {
   const session = useCookingSession(recipe, { skipIntro: true })
+
+  useEffect(() => {
+    if (session.phase === 'done') {
+      clearCheckedStorage(recipe.title)
+    }
+  }, [session.phase, recipe.title])
 
   if (session.phase === 'stageTransition') {
     return (

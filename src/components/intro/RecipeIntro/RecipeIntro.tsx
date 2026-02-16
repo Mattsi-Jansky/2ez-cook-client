@@ -22,7 +22,7 @@ function getPortionOptions(baseServings: number) {
 
 export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
   const [tab, setTab] = useState<Tab>('overview')
-  const { checked, toggle } = useCheckedItems(recipe.title)
+  const { checked, toggle, resetItems } = useCheckedItems(recipe.title)
   const [portionMultiplier, setPortionMultiplier] = useState(1)
 
   const portionOptions = getPortionOptions(recipe.servings)
@@ -120,6 +120,7 @@ export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
               recipe={recipe}
               checked={checked}
               onToggle={toggle}
+              onResetItems={resetItems}
               portionMultiplier={portionMultiplier}
             />
           )}

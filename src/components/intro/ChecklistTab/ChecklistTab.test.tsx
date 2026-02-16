@@ -29,6 +29,7 @@ describe('ChecklistTab', () => {
         recipe={recipe}
         checked={{}}
         onToggle={vi.fn()}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
@@ -41,6 +42,7 @@ describe('ChecklistTab', () => {
         recipe={recipe}
         checked={{}}
         onToggle={vi.fn()}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
@@ -53,6 +55,7 @@ describe('ChecklistTab', () => {
         recipe={recipe}
         checked={{}}
         onToggle={vi.fn()}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
@@ -65,6 +68,7 @@ describe('ChecklistTab', () => {
         recipe={recipe}
         checked={{}}
         onToggle={vi.fn()}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
@@ -78,6 +82,7 @@ describe('ChecklistTab', () => {
         recipe={recipe}
         checked={{}}
         onToggle={vi.fn()}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
@@ -90,6 +95,7 @@ describe('ChecklistTab', () => {
         recipe={recipe}
         checked={{}}
         onToggle={vi.fn()}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
@@ -104,6 +110,7 @@ describe('ChecklistTab', () => {
         recipe={recipe}
         checked={{}}
         onToggle={onToggle}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
@@ -118,6 +125,7 @@ describe('ChecklistTab', () => {
         recipe={noIngredients}
         checked={{}}
         onToggle={vi.fn()}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
@@ -131,6 +139,7 @@ describe('ChecklistTab', () => {
         recipe={noEquipment}
         checked={{}}
         onToggle={vi.fn()}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
@@ -143,10 +152,83 @@ describe('ChecklistTab', () => {
         recipe={recipe}
         checked={{ i1: true }}
         onToggle={vi.fn()}
+        onResetItems={vi.fn()}
         portionMultiplier={1}
       />,
     )
     const checkedItems = container.querySelectorAll('[data-checked]')
     expect(checkedItems.length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('shows ingredients reset button when an ingredient is checked', () => {
+    render(
+      <ChecklistTab
+        recipe={recipe}
+        checked={{ i1: true }}
+        onToggle={vi.fn()}
+        onResetItems={vi.fn()}
+        portionMultiplier={1}
+      />,
+    )
+    const resetButtons = screen.getAllByText('Reset')
+    expect(resetButtons).toHaveLength(1)
+  })
+
+  it('shows both reset buttons when items in both sections are checked', () => {
+    render(
+      <ChecklistTab
+        recipe={recipe}
+        checked={{ i1: true, e1: true }}
+        onToggle={vi.fn()}
+        onResetItems={vi.fn()}
+        portionMultiplier={1}
+      />,
+    )
+    const resetButtons = screen.getAllByText('Reset')
+    expect(resetButtons).toHaveLength(2)
+  })
+
+  it('does not show reset buttons when nothing is checked', () => {
+    render(
+      <ChecklistTab
+        recipe={recipe}
+        checked={{}}
+        onToggle={vi.fn()}
+        onResetItems={vi.fn()}
+        portionMultiplier={1}
+      />,
+    )
+    expect(screen.queryByText('Reset')).not.toBeInTheDocument()
+  })
+
+  it('calls onResetItems with ingredient ids when ingredients reset is clicked', () => {
+    const onResetItems = vi.fn()
+    render(
+      <ChecklistTab
+        recipe={recipe}
+        checked={{ i1: true }}
+        onToggle={vi.fn()}
+        onResetItems={onResetItems}
+        portionMultiplier={1}
+      />,
+    )
+    fireEvent.click(screen.getByText('Reset'))
+    expect(onResetItems).toHaveBeenCalledWith(['i1', 'i2'])
+  })
+
+  it('calls onResetItems with equipment ids when equipment reset is clicked', () => {
+    const onResetItems = vi.fn()
+    render(
+      <ChecklistTab
+        recipe={recipe}
+        checked={{ i1: true, e1: true }}
+        onToggle={vi.fn()}
+        onResetItems={onResetItems}
+        portionMultiplier={1}
+      />,
+    )
+    const resetButtons = screen.getAllByText('Reset')
+    fireEvent.click(resetButtons[1])
+    expect(onResetItems).toHaveBeenCalledWith(['e1'])
   })
 })

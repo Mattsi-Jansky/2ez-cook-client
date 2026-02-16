@@ -25,6 +25,25 @@
   gap: 8px;
 }
 
+.resetBtn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.15s;
+}
+
+.resetBtn:hover {
+  color: var(--color-primary);
+}
+
 .itemList {
   display: flex;
   flex-direction: column;
