@@ -15,7 +15,7 @@ const RATIOS = [1 / 8, 1 / 4, 1 / 2, 1, 2, 4, 8]
 
 function getPortionOptions(baseServings: number) {
   return RATIOS.map((r) => ({ ratio: r, portions: baseServings * r })).filter(
-    (o) => o.portions >= 1 && o.portions <= 32,
+    (o) => o.portions >= 1 && o.portions <= 32 && Number.isInteger(o.portions),
   )
 }
 
