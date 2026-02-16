@@ -22,7 +22,7 @@ export function InstructionText({
 
   const terms = Object.keys(mergedGlossary).sort((a, b) => b.length - a.length)
   const re = new RegExp(
-    `(${terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+    `(${terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})\\b`,
     'gi',
   )
 

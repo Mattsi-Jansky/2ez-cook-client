@@ -49,6 +49,13 @@ describe('InstructionText', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
   })
 
+  it('does not split words that contain a glossary term as a prefix', () => {
+    render(<InstructionText text="Add the minced garlic." />)
+
+    expect(screen.getByText(/minced/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /mince/i })).not.toBeInTheDocument()
+  })
+
   it('highlights step-level terms not in global glossary', () => {
     const stepGlossary = {
       'julienne cut': {

@@ -1,6 +1,6 @@
 # Todos
 
-- [ ] Bug: Words like 'Minced' get split into 'Mince' and 'd' because 'Mince' is a glossary word.
+- [x] Bug: Words like 'Minced' get split into 'Mince' and 'd' because 'Mince' is a glossary word.
   - Fix: Only glossary full words (though perhaps we need aliases for glossary words, too)
 - [x] Remove 'autoStart' property of recipes, as 'isParallel' implies it. Update README.
 - [ ] Review the UI/UX
