@@ -3,6 +3,7 @@ import type { Recipe } from '../../../types'
 import { ChecklistTab } from '../ChecklistTab/ChecklistTab'
 import { OverviewTab } from '../OverviewTab/OverviewTab'
 import css from './RecipeIntro.module.css'
+import { useCheckedItems } from './useCheckedItems'
 
 interface RecipeIntroProps {
   recipe: Recipe
@@ -21,7 +22,7 @@ function getPortionOptions(baseServings: number) {
 
 export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
   const [tab, setTab] = useState<Tab>('overview')
-  const [checked, setChecked] = useState<Record<string, boolean>>({})
+  const { checked, toggle } = useCheckedItems(recipe.title)
   const [portionMultiplier, setPortionMultiplier] = useState(1)
 
   const portionOptions = getPortionOptions(recipe.servings)
@@ -34,8 +35,6 @@ export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
   const allItems = [...(recipe.ingredients || []), ...(recipe.equipment || [])]
   const checkedCount = allItems.filter((it) => checked[it.id]).length
   const allChecked = allItems.length > 0 && checkedCount === allItems.length
-  const toggle = (id: string) =>
-    setChecked((prev) => ({ ...prev, [id]: !prev[id] }))
 
   const tabs: { key: Tab; label: string; badge?: string }[] = [
     { key: 'overview', label: 'Overview' },
