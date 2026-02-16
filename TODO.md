@@ -8,3 +8,4 @@
 - Introduce Prettier
 - Do something about 'utils'
 - CI/CD
+- Support for 'sources' metadata
