@@ -51,96 +51,94 @@ export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
   ]
 
   return (
-    <div className={css.page}>
-      <div className={css.card}>
-        {/* Hero */}
-        <div className={css.hero}>
-          <div className={css.heroEmoji}>🍝</div>
-          <h1 className={css.heroTitle}>{recipe.title}</h1>
-          <p className={css.heroDesc}>{recipe.description}</p>
-          <div className={css.metaRow}>
-            {[
-              { l: 'Time', v: recipe.totalTime, i: '⏱' },
-              { l: 'Serves', v: String(scaledServings), i: '🍽' },
-              { l: 'Steps', v: String(totalSteps), i: '📋' },
-            ].map((x) => (
-              <div key={x.l} className={css.metaItem}>
-                <div className={css.metaIcon}>{x.i}</div>
-                <div className={css.metaValue}>{x.v}</div>
-                <div className={css.metaLabel}>{x.l}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Portion selector */}
-          <div className={css.portionSelector}>
-            <div className={css.portionLabel}>Portions</div>
-            <div className={css.portionButtons}>
-              {portionOptions.map((o) => (
-                <button
-                  key={o.ratio}
-                  className={css.portionBtn}
-                  data-active={portionMultiplier === o.ratio || undefined}
-                  onClick={() => setPortionMultiplier(o.ratio)}
-                >
-                  {o.portions}
-                </button>
-              ))}
+    <div className={css.card}>
+      {/* Hero */}
+      <div className={css.hero}>
+        <div className={css.heroEmoji}>🍝</div>
+        <h1 className={css.heroTitle}>{recipe.title}</h1>
+        <p className={css.heroDesc}>{recipe.description}</p>
+        <div className={css.metaRow}>
+          {[
+            { l: 'Time', v: recipe.totalTime, i: '⏱' },
+            { l: 'Serves', v: String(scaledServings), i: '🍽' },
+            { l: 'Steps', v: String(totalSteps), i: '📋' },
+          ].map((x) => (
+            <div key={x.l} className={css.metaItem}>
+              <div className={css.metaIcon}>{x.i}</div>
+              <div className={css.metaValue}>{x.v}</div>
+              <div className={css.metaLabel}>{x.l}</div>
             </div>
-          </div>
-        </div>
-
-        {/* Tabs */}
-        <div className={css.tabBar}>
-          {tabs.map((t) => (
-            <button
-              key={t.key}
-              onClick={() => setTab(t.key)}
-              className={css.tab}
-              data-active={tab === t.key || undefined}
-            >
-              {t.label}
-              {t.badge && (
-                <span
-                  className={css.badge}
-                  data-success={t.badge === '✓' || undefined}
-                >
-                  {t.badge}
-                </span>
-              )}
-            </button>
           ))}
         </div>
 
-        {/* Tab content */}
-        <div className={css.tabContent}>
-          {tab === 'overview' && <OverviewTab recipe={recipe} />}
-          {tab === 'checklist' && (
-            <ChecklistTab
-              recipe={recipe}
-              checked={checked}
-              onToggle={toggle}
-              onResetItems={resetItems}
-              portionMultiplier={portionMultiplier}
-            />
-          )}
+        {/* Portion selector */}
+        <div className={css.portionSelector}>
+          <div className={css.portionLabel}>Portions</div>
+          <div className={css.portionButtons}>
+            {portionOptions.map((o) => (
+              <button
+                key={o.ratio}
+                className={css.portionBtn}
+                data-active={portionMultiplier === o.ratio || undefined}
+                onClick={() => setPortionMultiplier(o.ratio)}
+              >
+                {o.portions}
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
 
-        {/* Start button */}
-        <div className={css.startArea}>
-          {tab === 'checklist' && !allChecked && allItems.length > 0 && (
-            <div className={css.uncheckedHint}>
-              {allItems.length - checkedCount} item
-              {allItems.length - checkedCount !== 1 ? 's' : ''} not yet checked
-            </div>
-          )}
+      {/* Tabs */}
+      <div className={css.tabBar}>
+        {tabs.map((t) => (
           <button
-            onClick={() => onStart(portionMultiplier)}
-            className={css.startButton}
+            key={t.key}
+            onClick={() => setTab(t.key)}
+            className={css.tab}
+            data-active={tab === t.key || undefined}
           >
-            Start cooking →
+            {t.label}
+            {t.badge && (
+              <span
+                className={css.badge}
+                data-success={t.badge === '✓' || undefined}
+              >
+                {t.badge}
+              </span>
+            )}
           </button>
-        </div>
+        ))}
+      </div>
+
+      {/* Tab content */}
+      <div className={css.tabContent}>
+        {tab === 'overview' && <OverviewTab recipe={recipe} />}
+        {tab === 'checklist' && (
+          <ChecklistTab
+            recipe={recipe}
+            checked={checked}
+            onToggle={toggle}
+            onResetItems={resetItems}
+            portionMultiplier={portionMultiplier}
+          />
+        )}
+      </div>
+
+      {/* Start button */}
+      <div className={css.startArea}>
+        {tab === 'checklist' && !allChecked && allItems.length > 0 && (
+          <div className={css.uncheckedHint}>
+            {allItems.length - checkedCount} item
+            {allItems.length - checkedCount !== 1 ? 's' : ''} not yet checked
+          </div>
+        )}
+        <button
+          onClick={() => onStart(portionMultiplier)}
+          className={css.startButton}
+        >
+          Start cooking →
+        </button>
       </div>
     </div>
   )
