@@ -221,7 +221,7 @@ export function useStepTimerRegistry() {
         forceComplete: () => forceComplete(key),
       }
     },
-    [timers, ensureTimer, start, pause, forceComplete],
+    [timers, ensureTimer, start, pause, resume, forceComplete],
   )
 
   return {
