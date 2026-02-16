@@ -6,38 +6,43 @@
   "ingredients": [
     {
       "name": "Pasta",
-      "amount": "200g",
+      "quantity": 200,
+      "unit": "g",
       "note": "About half a standard packet. Any shape works — penne, fusilli, spaghetti."
     },
     {
       "name": "Garlic",
-      "amount": "3 cloves",
+      "quantity": 3,
+      "unit": "cloves",
       "note": "Or 3 teaspoons of pre-minced garlic from a jar."
     },
     {
       "name": "Broccoli",
-      "amount": "1 medium head",
+      "quantity": 1,
+      "unit": "medium head",
       "note": "About 2 cups when cut into pieces."
     },
     {
       "name": "Butter",
-      "amount": "2 tablespoons",
+      "quantity": 2,
+      "unit": "tablespoons",
       "note": "About the size of two thumb-tips."
     },
     {
       "name": "Cream cheese",
-      "amount": "½ cup (125g)",
+      "quantity": 125,
+      "unit": "g",
       "note": "From a block or tub. Or substitute ½ cup heavy cream."
     },
     {
       "name": "Olive oil",
-      "amount": "1–2 tablespoons",
+      "quantity": [1, 2],
+      "unit": "tablespoons",
       "note": "For the broccoli. Any cooking oil works."
     },
-    { "name": "Salt", "amount": "To taste" },
+    { "name": "Salt" },
     {
       "name": "Pepper",
-      "amount": "To taste",
       "note": "For the broccoli. Optional."
     }
   ],
@@ -70,15 +75,22 @@
           "label": "Ingredients",
           "steps": [
             {
-              "instruction": "Peel 3 cloves of garlic and mince them into small pieces. Set aside on a small plate or bowl.",
+              "instruction": "Peel {1} of garlic and mince them into small pieces. Set aside on a small plate or bowl.",
+              "quantities": [{ "value": 3, "unit": "cloves" }],
               "actionLabel": "Garlic is minced"
             },
             {
-              "instruction": "Cut the broccoli into bite-sized florets. You'll need about 2 cups — roughly one medium head.",
+              "instruction": "Cut the broccoli into bite-sized florets. You'll need about {1} — roughly one medium head.",
+              "quantities": [{ "value": 2, "unit": "cups" }],
               "actionLabel": "Broccoli is cut"
             },
             {
-              "instruction": "Measure out: 2 tablespoons of butter, ½ cup of cream cheese (or heavy cream), and your pasta (about 200g).",
+              "instruction": "Measure out: {1} of butter, {2} of cream cheese (or heavy cream), and your pasta (about {3}).",
+              "quantities": [
+                { "value": 2, "unit": "tablespoons" },
+                { "value": 125, "unit": "g" },
+                { "value": 200, "unit": "g" }
+              ],
               "actionLabel": "Everything is measured out",
               "hint": "Having everything pre-measured means you won't need to hunt for things while the stove is on."
             }

@@ -18,8 +18,14 @@ export interface StepOnComplete {
   startTrack?: string;
 }
 
+export interface StepQuantity {
+  value: number;
+  unit: string;
+}
+
 export interface RecipeStep {
   instruction: string;
+  quantities?: StepQuantity[];
   glossary?: Glossary;
   completionType: CompletionType;
   actionLabel?: string;
@@ -58,7 +64,8 @@ export interface RecipeStage {
 export interface RecipeItem {
   id: string;
   name: string;
-  amount?: string;
+  quantity?: number | [number, number];
+  unit?: string;
   note?: string;
 }
 

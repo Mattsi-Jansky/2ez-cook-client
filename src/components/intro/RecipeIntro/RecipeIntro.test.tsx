@@ -9,8 +9,8 @@ const recipe: Recipe = {
   servings: 4,
   totalTime: "45 min",
   ingredients: [
-    { id: "ingredient-0", name: "Spaghetti", amount: "400g" },
-    { id: "ingredient-1", name: "Ground beef", amount: "500g" },
+    { id: "ingredient-0", name: "Spaghetti", quantity: 400, unit: "g" },
+    { id: "ingredient-1", name: "Ground beef", quantity: 500, unit: "g" },
   ],
   equipment: [
     { id: "equipment-0", name: "Large pot" },
@@ -64,10 +64,12 @@ describe("RecipeIntro", () => {
   });
 
   it("renders meta items for time, servings, and steps", () => {
-    render(<RecipeIntro recipe={recipe} onStart={vi.fn()} />);
+    const { container } = render(<RecipeIntro recipe={recipe} onStart={vi.fn()} />);
     expect(screen.getByText("45 min")).toBeInTheDocument();
-    expect(screen.getByText("4")).toBeInTheDocument();
-    expect(screen.getByText("3")).toBeInTheDocument();
+    const metaValues = container.querySelectorAll("[class*='metaValue']");
+    const values = Array.from(metaValues).map((el) => el.textContent);
+    expect(values).toContain("4");
+    expect(values).toContain("3");
   });
 
   it("renders meta labels", () => {
@@ -109,11 +111,11 @@ describe("RecipeIntro", () => {
     expect(screen.getByRole("button", { name: /Start cooking/ })).toBeInTheDocument();
   });
 
-  it("calls onStart when start button is clicked", () => {
+  it("calls onStart with multiplier when start button is clicked", () => {
     const onStart = vi.fn();
     render(<RecipeIntro recipe={recipe} onStart={onStart} />);
     fireEvent.click(screen.getByRole("button", { name: /Start cooking/ }));
-    expect(onStart).toHaveBeenCalledOnce();
+    expect(onStart).toHaveBeenCalledWith(1);
   });
 
   it("shows checklist badge with count", () => {

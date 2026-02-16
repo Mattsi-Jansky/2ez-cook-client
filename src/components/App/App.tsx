@@ -12,13 +12,19 @@ const BG_DONE = "linear-gradient(180deg,#F0F7ED 0%,#FBF6F0 100%)";
 
 export default function App() {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [portionsMultiplier, setPortionsMultiplier] = useState(1);
+
+  const handleSelectRecipe = (recipe: Recipe, mult: number) => {
+    setSelectedRecipe(recipe);
+    setPortionsMultiplier(mult);
+  };
 
   if (!selectedRecipe) {
     return (
       <Shell background={BG_WARM}>
         <RecipeLanding
           recipes={recipes}
-          onSelectRecipe={setSelectedRecipe}
+          onSelectRecipe={handleSelectRecipe}
         />
       </Shell>
     );
@@ -27,6 +33,7 @@ export default function App() {
   return (
     <CookingSession
       recipe={selectedRecipe}
+      portionsMultiplier={portionsMultiplier}
       onBackToRecipes={() => setSelectedRecipe(null)}
     />
   );
@@ -34,9 +41,11 @@ export default function App() {
 
 function CookingSession({
   recipe,
+  portionsMultiplier,
   onBackToRecipes,
 }: {
   recipe: Recipe;
+  portionsMultiplier: number;
   onBackToRecipes: () => void;
 }) {
   const session = useCookingSession(recipe, { skipIntro: true });
@@ -66,6 +75,7 @@ function CookingSession({
     <Shell background={BG_WARM}>
       <CookingView
         recipe={recipe}
+        portionsMultiplier={portionsMultiplier}
         currentStageIdx={session.currentStageIdx}
         trackSteps={session.trackSteps}
         activeTrack={session.activeTrack}

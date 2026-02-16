@@ -5,7 +5,7 @@ import css from "./RecipeLanding.module.css";
 
 interface RecipeLandingProps {
   recipes: Recipe[];
-  onSelectRecipe: (recipe: Recipe) => void;
+  onSelectRecipe: (recipe: Recipe, multiplier: number) => void;
 }
 
 export function RecipeLanding({ recipes, onSelectRecipe }: RecipeLandingProps) {
@@ -25,7 +25,7 @@ export function RecipeLanding({ recipes, onSelectRecipe }: RecipeLandingProps) {
             recipe={recipe}
             isExpanded={expandedIndex === i}
             onClick={() => handleToggle(i)}
-            onStart={() => onSelectRecipe(recipe)}
+            onStart={(portionMultiplier: number) => onSelectRecipe(recipe, portionMultiplier)}
           />
         ))}
       </div>

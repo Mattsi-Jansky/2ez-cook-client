@@ -12,11 +12,12 @@ interface StepCardProps {
   totalSteps: number;
   track: RecipeTrack;
   stageType: StageType;
+  portionsMultiplier?: number;
   stepTimers: { getTimer: (key: string, duration: number) => StepTimerState };
   onComplete: () => void;
 }
 
-export function StepCard({ step, stepIndex, totalSteps, track, stageType, stepTimers, onComplete }: StepCardProps) {
+export function StepCard({ step, stepIndex, totalSteps, track, stageType, portionsMultiplier, stepTimers, onComplete }: StepCardProps) {
   const timer = stepTimers.getTimer(`${track.id}:${stepIndex}`, step.timerDuration || 0);
   const [showSkip, setShowSkip] = useState(false);
 
@@ -60,7 +61,7 @@ export function StepCard({ step, stepIndex, totalSteps, track, stageType, stepTi
 
         {/* Instruction */}
         <div className={css.instruction}>
-          <InstructionText text={step.instruction} glossary={step.glossary} />
+          <InstructionText text={step.instruction} glossary={step.glossary} quantities={step.quantities} portionsMultiplier={portionsMultiplier} />
         </div>
 
         {/* Hint */}

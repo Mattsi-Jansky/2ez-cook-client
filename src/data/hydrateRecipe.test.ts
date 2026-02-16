@@ -9,7 +9,7 @@ function makeInput(overrides: Partial<RecipeInput> = {}): RecipeInput {
     servings: 2,
     totalTime: "10 min",
     ingredients: [
-      { name: "Salt", amount: "1 tsp" },
+      { name: "Salt", quantity: 1, unit: "tsp" },
       { name: "Pepper" },
     ],
     equipment: [{ name: "Pan" }],
@@ -208,7 +208,8 @@ describe("hydrateRecipe", () => {
     expect(recipe.title).toBe("Test");
     expect(recipe.servings).toBe(2);
     expect(recipe.ingredients[0].name).toBe("Salt");
-    expect(recipe.ingredients[0].amount).toBe("1 tsp");
+    expect(recipe.ingredients[0].quantity).toBe(1);
+    expect(recipe.ingredients[0].unit).toBe("tsp");
     expect(recipe.stages[0].tracks[0].steps[0].instruction).toBe("Do it");
   });
 });

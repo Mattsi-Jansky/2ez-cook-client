@@ -6,7 +6,7 @@ interface RecipeEntryProps {
   recipe: Recipe;
   isExpanded: boolean;
   onClick: () => void;
-  onStart: () => void;
+  onStart: (multiplier: number) => void;
 }
 
 export function RecipeEntry({

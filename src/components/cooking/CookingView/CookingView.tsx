@@ -10,6 +10,7 @@ import css from "./CookingView.module.css";
 
 interface CookingViewProps {
   recipe: Recipe;
+  portionsMultiplier: number;
   currentStageIdx: number;
   trackSteps: Record<string, number>;
   activeTrack: string | null;
@@ -25,6 +26,7 @@ interface CookingViewProps {
 
 export function CookingView({
   recipe,
+  portionsMultiplier,
   currentStageIdx,
   trackSteps,
   activeTrack,
@@ -179,6 +181,7 @@ export function CookingView({
               totalSteps={totalSteps}
               track={curTrack}
               stageType={stage.type}
+              portionsMultiplier={portionsMultiplier}
               stepTimers={stepTimers}
               onComplete={() => onAdvanceStep(activeTrack!)}
             />

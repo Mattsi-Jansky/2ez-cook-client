@@ -47,4 +47,13 @@ src/
 
 ## Adding recipes
 
-Recipes are plain TypeScript objects conforming to the `Recipe` type in `src/types/recipe.ts`. See `src/data/sample-recipe.ts` for the full schema including glossary entries, parallel tracks, and background timers.
+Drop a JSON file into `src/data/recipes/` and it will be picked up automatically. The file should conform to the `RecipeInput` type in `src/types/recipe.ts`.
+
+Key concepts:
+
+- **Stages** — group steps into phases (e.g. "Preparation", "Cooking"). Each stage has a `type` of `"preparation"` or `"cooking"`.
+- **Tracks** — within a stage, steps are organized into tracks. A stage can have parallel tracks (e.g. pasta and broccoli cooking at the same time).
+- **Parallel tracks** — set `isParallel: true` and `autoStart: false` on a track, then use `startTrack` on a step in another track to trigger it.
+- **Timers** — give a step a `timerDuration` (in seconds) and the completion type is inferred as `"timer"` automatically. Set `isBackground: true` to make it a background timer pill.
+- **Glossary** — any step can include a `glossary` map. Underlined terms in the instruction text show a tooltip with a plain-English explanation.
+- **Quantities** — use `quantities` on a step and reference them in the instruction with `{1}`, `{2}`, etc. These scale when servings change.

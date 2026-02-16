@@ -75,6 +75,56 @@
   color: var(--color-muted);
 }
 
+/* ─── Portion selector ────────────────────────────────────────────────── */
+
+.portionSelector {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.portionLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.portionButtons {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.portionBtn {
+  min-width: 40px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 2px solid var(--color-card-border);
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.portionBtn:hover {
+  border-color: #C4956F;
+  background: #FFF8F3;
+}
+
+.portionBtn[data-active] {
+  background: linear-gradient(135deg, #B07D62, #C4956F);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(176, 125, 98, 0.3);
+}
+
 /* ─── Tabs ───────────────────────────────────────────────────────────── */
 
 .tabBar {

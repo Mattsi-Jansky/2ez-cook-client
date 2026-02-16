@@ -6,14 +6,26 @@ import css from "./RecipeIntro.module.css";
 
 interface RecipeIntroProps {
   recipe: Recipe;
-  onStart: () => void;
+  onStart: (multiplier: number) => void;
 }
 
 type Tab = "overview" | "checklist";
 
+const RATIOS = [1 / 8, 1 / 4, 1 / 2, 1, 2, 4, 8];
+
+function getPortionOptions(baseServings: number) {
+  return RATIOS
+    .map((r) => ({ ratio: r, portions: baseServings * r }))
+    .filter((o) => o.portions >= 1 && o.portions <= 32);
+}
+
 export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
   const [tab, setTab] = useState<Tab>("overview");
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [portionMultiplier, setPortionMultiplier] = useState(1);
+
+  const portionOptions = getPortionOptions(recipe.servings);
+  const scaledServings = recipe.servings * portionMultiplier;
 
   const totalSteps = recipe.stages.reduce(
     (sum, st) => sum + st.tracks.reduce((a, t) => a + t.steps.length, 0),
@@ -49,7 +61,7 @@ export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
           <div className={css.metaRow}>
             {[
               { l: "Time", v: recipe.totalTime, i: "⏱" },
-              { l: "Serves", v: String(recipe.servings), i: "🍽" },
+              { l: "Serves", v: String(scaledServings), i: "🍽" },
               { l: "Steps", v: String(totalSteps), i: "📋" },
             ].map((x) => (
               <div key={x.l} className={css.metaItem}>
@@ -58,6 +70,23 @@ export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
                 <div className={css.metaLabel}>{x.l}</div>
               </div>
             ))}
+          </div>
+
+          {/* Portion selector */}
+          <div className={css.portionSelector}>
+            <div className={css.portionLabel}>Portions</div>
+            <div className={css.portionButtons}>
+              {portionOptions.map((o) => (
+                <button
+                  key={o.ratio}
+                  className={css.portionBtn}
+                  data-active={portionMultiplier === o.ratio || undefined}
+                  onClick={() => setPortionMultiplier(o.ratio)}
+                >
+                  {o.portions}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -87,7 +116,7 @@ export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
         <div className={css.tabContent}>
           {tab === "overview" && <OverviewTab recipe={recipe} />}
           {tab === "checklist" && (
-            <ChecklistTab recipe={recipe} checked={checked} onToggle={toggle} />
+            <ChecklistTab recipe={recipe} checked={checked} onToggle={toggle} portionMultiplier={portionMultiplier} />
           )}
         </div>
 
@@ -99,7 +128,7 @@ export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
               {allItems.length - checkedCount !== 1 ? "s" : ""} not yet checked
             </div>
           )}
-          <button onClick={onStart} className={css.startButton}>
+          <button onClick={() => onStart(portionMultiplier)} className={css.startButton}>
             Start cooking →
           </button>
         </div>

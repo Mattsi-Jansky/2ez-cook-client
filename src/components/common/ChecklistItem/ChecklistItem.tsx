@@ -4,11 +4,12 @@ import css from "./ChecklistItem.module.css";
 
 interface ChecklistItemProps {
   item: RecipeItem;
+  displayAmount?: string;
   checked: boolean;
   onToggle: () => void;
 }
 
-export function ChecklistItem({ item, checked, onToggle }: ChecklistItemProps) {
+export function ChecklistItem({ item, displayAmount, checked, onToggle }: ChecklistItemProps) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -22,7 +23,7 @@ export function ChecklistItem({ item, checked, onToggle }: ChecklistItemProps) {
         <div className={css.content}>
           <div className={css.nameRow}>
             <span className={css.name}>{item.name}</span>
-            {item.amount && <span className={css.amount}>{item.amount}</span>}
+            {displayAmount && <span className={css.amount}>{displayAmount}</span>}
           </div>
         </div>
         {item.note && (
