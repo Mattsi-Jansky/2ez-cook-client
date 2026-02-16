@@ -132,3 +132,12 @@
   color: var(--color-text);
   border-color: #ccc0b4;
 }
+
+.reviewIndicator {
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-muted);
+  padding: 10px 16px;
+  background: var(--color-bg, #faf6f1);
+  border-radius: 10px;
+}

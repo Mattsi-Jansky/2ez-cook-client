@@ -40,6 +40,8 @@ export function CookingView({
   onExit,
 }: CookingViewProps) {
   const [showSkipFor, setShowSkipFor] = useState<string | null>(null)
+  const [viewStepIdx, setViewStepIdx] = useState(0)
+  const [prevStepKey, setPrevStepKey] = useState(`${activeTrack}:0`)
 
   const stage = recipe.stages[currentStageIdx]
   const curTrack = stage.tracks.find((t) => t.id === activeTrack)
@@ -48,6 +50,17 @@ export function CookingView({
   const isTrackStarted = curTrack ? startedTracks.has(curTrack.id) : false
   const isTrackDone = !curStep || curStepIdx >= (curTrack?.steps.length ?? 0)
   const totalSteps = curTrack?.steps.length ?? 0
+
+  const stepKey = `${activeTrack}:${curStepIdx}`
+  if (stepKey !== prevStepKey) {
+    setPrevStepKey(stepKey)
+    setViewStepIdx(curStepIdx)
+  }
+
+  const viewStep = curTrack?.steps[viewStepIdx]
+  const isReviewing = viewStepIdx !== curStepIdx
+  const canGoBack = viewStepIdx > 0
+  const canGoForward = viewStepIdx < curStepIdx
   const pendingTrack = pendingTrackStart
     ? allTracks.find((t) => t.id === pendingTrackStart)
     : null
@@ -126,7 +139,27 @@ export function CookingView({
             current={Math.min(curStepIdx, totalSteps)}
             total={totalSteps}
             color={curTrack?.color || 'var(--color-primary)'}
+            viewIndex={isReviewing ? viewStepIdx : undefined}
           />
+
+          {totalSteps > 1 && isTrackStarted && !isTrackDone && (
+            <div className={css.stepNav}>
+              <button
+                disabled={!canGoBack}
+                onClick={() => setViewStepIdx((i) => i - 1)}
+                className={css.stepNavBtn}
+              >
+                ← Prev
+              </button>
+              <button
+                disabled={!canGoForward}
+                onClick={() => setViewStepIdx((i) => i + 1)}
+                className={css.stepNavBtn}
+              >
+                Next →
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -177,17 +210,18 @@ export function CookingView({
           </div>
         ) : (
           curTrack &&
-          curStep && (
+          viewStep && (
             <StepCard
-              key={`${activeTrack}-${curStepIdx}`}
-              step={curStep}
-              stepIndex={curStepIdx}
+              key={`${activeTrack}-${viewStepIdx}`}
+              step={viewStep}
+              stepIndex={viewStepIdx}
               totalSteps={totalSteps}
               track={curTrack}
               stageType={stage.type}
               portionsMultiplier={portionsMultiplier}
               stepTimers={stepTimers}
               onComplete={() => onAdvanceStep(activeTrack!)}
+              readOnly={isReviewing}
             />
           )
         )}

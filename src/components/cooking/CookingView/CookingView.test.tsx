@@ -17,6 +17,17 @@ const mainTrack: RecipeTrack = {
   ],
 }
 
+const threeStepTrack: RecipeTrack = {
+  id: 'main3',
+  label: 'Main',
+  color: '#4C8CE0',
+  steps: [
+    { instruction: 'Boil water', completionType: 'manual' },
+    { instruction: 'Add pasta', completionType: 'manual' },
+    { instruction: 'Drain and serve', completionType: 'final' },
+  ],
+}
+
 const sauceTrack: RecipeTrack = {
   id: 'sauce',
   label: 'Sauce',
@@ -74,6 +85,7 @@ function makeStepTimers({
 }
 
 interface DefaultPropsOverrides {
+  recipe?: Recipe
   trackSteps?: Record<string, number>
   activeTrack?: string | null
   pendingTrackStart?: string | null
@@ -279,5 +291,78 @@ describe('CookingView', () => {
     expect(container.firstElementChild).not.toHaveAttribute(
       'data-has-bg-timers',
     )
+  })
+
+  describe('step review navigation', () => {
+    const threeStepRecipe: Recipe = {
+      ...recipe,
+      stages: [
+        {
+          id: 'stage1',
+          type: 'cooking',
+          label: 'Cooking',
+          description: 'Cook the pasta',
+          tracks: [threeStepTrack, sauceTrack],
+        },
+      ],
+    }
+
+    function renderNavView(overrides: DefaultPropsOverrides = {}) {
+      return renderView({
+        recipe: threeStepRecipe,
+        activeTrack: 'main3',
+        trackSteps: { main3: 2, sauce: 0 },
+        startedTracks: new Set(['main3']),
+        allTracks: [threeStepTrack, sauceTrack],
+        ...overrides,
+      })
+    }
+
+    it('shows nav buttons for multi-step active track', () => {
+      renderNavView()
+      expect(screen.getByText('← Prev')).toBeInTheDocument()
+      expect(screen.getByText('Next →')).toBeInTheDocument()
+    })
+
+    it('does not show nav buttons when track is done', () => {
+      renderNavView({ trackSteps: { main3: 3, sauce: 0 } })
+      expect(screen.queryByText('← Prev')).not.toBeInTheDocument()
+    })
+
+    it('disables Next → when viewing the current step', () => {
+      renderNavView()
+      expect(screen.getByText('Next →')).toBeDisabled()
+    })
+
+    it('clicking Prev shows previous step content', () => {
+      renderNavView()
+      expect(screen.getByText('Drain and serve')).toBeInTheDocument()
+      fireEvent.click(screen.getByText('← Prev'))
+      expect(screen.getByText('Add pasta')).toBeInTheDocument()
+    })
+
+    it('clicking Prev then Next returns to current step', () => {
+      renderNavView()
+      fireEvent.click(screen.getByText('← Prev'))
+      expect(screen.getByText('Add pasta')).toBeInTheDocument()
+      fireEvent.click(screen.getByText('Next →'))
+      expect(screen.getByText('Drain and serve')).toBeInTheDocument()
+    })
+
+    it('shows review indicator when reviewing a previous step', () => {
+      renderNavView()
+      fireEvent.click(screen.getByText('← Prev'))
+      expect(screen.getByText('Reviewing step')).toBeInTheDocument()
+    })
+
+    it('does not show review indicator on the current step', () => {
+      renderNavView()
+      expect(screen.queryByText('Reviewing step')).not.toBeInTheDocument()
+    })
+
+    it('disables Prev when at step 0', () => {
+      renderNavView({ trackSteps: { main3: 0, sauce: 0 } })
+      expect(screen.getByText('← Prev')).toBeDisabled()
+    })
   })
 })

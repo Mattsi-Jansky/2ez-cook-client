@@ -516,4 +516,77 @@ describe('StepCard', () => {
     )
     expect(stepTimers.getTimer).toHaveBeenCalledWith('main:3', 120)
   })
+
+  describe('readOnly mode', () => {
+    it('hides completion area when readOnly is true', () => {
+      render(
+        <StepCard
+          step={makeStep()}
+          stepIndex={0}
+          totalSteps={3}
+          track={track}
+          stageType="cooking"
+          stepTimers={stepTimers}
+          onComplete={vi.fn()}
+          readOnly
+        />,
+      )
+      expect(
+        screen.queryByRole('button', { name: 'Next step →' }),
+      ).not.toBeInTheDocument()
+    })
+
+    it('shows review indicator when readOnly is true', () => {
+      render(
+        <StepCard
+          step={makeStep()}
+          stepIndex={0}
+          totalSteps={3}
+          track={track}
+          stageType="cooking"
+          stepTimers={stepTimers}
+          onComplete={vi.fn()}
+          readOnly
+        />,
+      )
+      expect(screen.getByText('Reviewing step')).toBeInTheDocument()
+    })
+
+    it('still shows instruction text when readOnly is true', () => {
+      render(
+        <StepCard
+          step={makeStep()}
+          stepIndex={0}
+          totalSteps={3}
+          track={track}
+          stageType="cooking"
+          stepTimers={stepTimers}
+          onComplete={vi.fn()}
+          readOnly
+        />,
+      )
+      expect(screen.getByText('Dice the onions finely.')).toBeInTheDocument()
+    })
+
+    it('hides timer controls when readOnly is true', () => {
+      resetTimer({ notStarted: true, timeLeft: 60 })
+      stepTimers = makeStepTimers()
+
+      render(
+        <StepCard
+          step={makeStep({ completionType: 'timer', timerDuration: 60 })}
+          stepIndex={0}
+          totalSteps={3}
+          track={track}
+          stageType="cooking"
+          stepTimers={stepTimers}
+          onComplete={vi.fn()}
+          readOnly
+        />,
+      )
+      expect(
+        screen.queryByRole('button', { name: 'Start timer' }),
+      ).not.toBeInTheDocument()
+    })
+  })
 })

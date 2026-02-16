@@ -15,6 +15,7 @@ interface StepCardProps {
   portionsMultiplier?: number
   stepTimers: { getTimer: (key: string, duration: number) => StepTimerState }
   onComplete: () => void
+  readOnly?: boolean
 }
 
 export function StepCard({
@@ -26,6 +27,7 @@ export function StepCard({
   portionsMultiplier,
   stepTimers,
   onComplete,
+  readOnly,
 }: StepCardProps) {
   const timer = stepTimers.getTimer(
     `${track.id}:${stepIndex}`,
@@ -92,7 +94,7 @@ export function StepCard({
           </div>
         )}
 
-        {/* Timer ring */}
+        {/* Timer ring (show ring in readOnly but hide controls) */}
         {isTimer && !timer.done && (
           <div className={css.timerArea}>
             <CircularTimer
@@ -102,17 +104,17 @@ export function StepCard({
               color={track.color}
               label={step.timerLabel}
             />
-            {timer.notStarted && (
+            {!readOnly && timer.notStarted && (
               <Btn onClick={timer.start} variant="track">
                 {step.actionLabel || 'Start timer'}
               </Btn>
             )}
-            {timer.running && (
+            {!readOnly && timer.running && (
               <Btn onClick={timer.pause} variant="ghost">
                 ⏸ Pause
               </Btn>
             )}
-            {timer.paused && (
+            {!readOnly && timer.paused && (
               <Btn onClick={timer.resume} variant="track" size="sm">
                 ▶ Resume
               </Btn>
@@ -120,31 +122,35 @@ export function StepCard({
           </div>
         )}
 
-        {/* Completion area */}
-        <div className={css.completionArea}>
-          {step.completionHint &&
-            (step.completionType === 'manual' || timer.done) &&
-            !isFinal && (
-              <div className={css.completionHint}>{step.completionHint}</div>
+        {/* Completion area or review indicator */}
+        {readOnly ? (
+          <div className={css.reviewIndicator}>Reviewing step</div>
+        ) : (
+          <div className={css.completionArea}>
+            {step.completionHint &&
+              (step.completionType === 'manual' || timer.done) &&
+              !isFinal && (
+                <div className={css.completionHint}>{step.completionHint}</div>
+              )}
+            {(step.completionType === 'manual' || timer.done || isFinal) && (
+              <Btn
+                onClick={onComplete}
+                variant={isFinal ? 'success' : 'track'}
+                size={isFinal ? 'lg' : 'md'}
+              >
+                {step.actionLabel || 'Next step →'}
+              </Btn>
             )}
-          {(step.completionType === 'manual' || timer.done || isFinal) && (
-            <Btn
-              onClick={onComplete}
-              variant={isFinal ? 'success' : 'track'}
-              size={isFinal ? 'lg' : 'md'}
-            >
-              {step.actionLabel || 'Next step →'}
-            </Btn>
-          )}
-          {timer.done && !isFinal && (
-            <div className={css.timerComplete}>Timer complete</div>
-          )}
-          {timer.running && (
-            <button onClick={handleSkipAttempt} className={css.skipBtn}>
-              Skip timer →
-            </button>
-          )}
-        </div>
+            {timer.done && !isFinal && (
+              <div className={css.timerComplete}>Timer complete</div>
+            )}
+            {timer.running && (
+              <button onClick={handleSkipAttempt} className={css.skipBtn}>
+                Skip timer →
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </>
   )

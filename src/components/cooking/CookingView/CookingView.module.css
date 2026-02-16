@@ -125,3 +125,27 @@
   font-size: 14px;
   color: var(--color-muted);
 }
+
+.stepNav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.stepNavBtn {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 5px 14px;
+  font-size: 12px;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.2s;
+}
+
+.stepNavBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
