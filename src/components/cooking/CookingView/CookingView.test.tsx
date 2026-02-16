@@ -96,6 +96,7 @@ function renderView(overrides: DefaultPropsOverrides = {}) {
     onSwitchTrack: vi.fn(),
     onSetActiveTrack: vi.fn(),
     onExit: vi.fn(),
+    portionsMultiplier: 1,
     ...overrides,
   }
   return { ...render(<CookingView {...props} />), props }
