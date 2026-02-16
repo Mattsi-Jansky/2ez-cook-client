@@ -54,7 +54,6 @@ export function RecipeIntro({ recipe, onStart }: RecipeIntroProps) {
     <div className={css.card}>
       {/* Hero */}
       <div className={css.hero}>
-        <div className={css.heroEmoji}>🍝</div>
         <h1 className={css.heroTitle}>{recipe.title}</h1>
         <p className={css.heroDesc}>{recipe.description}</p>
         <div className={css.metaRow}>
