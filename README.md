@@ -53,7 +53,7 @@ Key concepts:
 
 - **Stages** — group steps into phases (e.g. "Preparation", "Cooking"). Each stage has a `type` of `"preparation"` or `"cooking"`.
 - **Tracks** — within a stage, steps are organized into tracks. A stage can have parallel tracks (e.g. pasta and broccoli cooking at the same time).
-- **Parallel tracks** — set `isParallel: true` and `autoStart: false` on a track, then use `startTrack` on a step in another track to trigger it.
+- **Parallel tracks** — set `isParallel: true` on a track, then use `startTrack` on a step in another track to trigger it.
 - **Timers** — give a step a `timerDuration` (in seconds) and the completion type is inferred as `"timer"` automatically. Set `isBackground: true` to make it a background timer pill.
 - **Glossary** — any step can include a `glossary` map. Underlined terms in the instruction text show a tooltip with a plain-English explanation.
 - **Quantities** — use `quantities` on a step and reference them in the instruction with `{1}`, `{2}`, etc. These scale when servings change.
