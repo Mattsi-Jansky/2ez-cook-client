@@ -29,19 +29,11 @@ src/
 │   ├── layout/          # Shell wrapper
 │   └── App.tsx          # Root component — wires phases together
 ├── data/
-│   └── sample-recipe.ts # Example recipe data
 ├── hooks/
-│   ├── useStepTimer.ts        # Countdown for individual step cards
-│   ├── useBackgroundTimers.ts # Manages parallel background timers
-│   └── useCookingSession.ts   # Central orchestrator hook
 ├── styles/
 │   └── global.css       # CSS custom properties, reset, keyframes
 ├── types/
-│   ├── recipe.ts        # Recipe data model
-│   └── state.ts         # App-level state types
 ├── utils/
-│   ├── audio.ts         # Web Audio chime & tick sounds
-│   └── format.ts        # Time formatting
 └── main.tsx             # Entry point
 ```
 
