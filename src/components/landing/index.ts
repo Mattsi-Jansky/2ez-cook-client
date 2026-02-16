@@ -1,1 +1,1 @@
-export { RecipeLanding } from "./RecipeLanding/RecipeLanding";
+export { RecipeLanding } from './RecipeLanding/RecipeLanding'

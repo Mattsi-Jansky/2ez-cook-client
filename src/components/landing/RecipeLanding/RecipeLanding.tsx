@@ -1,19 +1,19 @@
-import { useState } from "react";
-import type { Recipe } from "../../../types";
-import { RecipeEntry } from "../RecipeEntry/RecipeEntry";
-import css from "./RecipeLanding.module.css";
+import { useState } from 'react'
+import type { Recipe } from '../../../types'
+import { RecipeEntry } from '../RecipeEntry/RecipeEntry'
+import css from './RecipeLanding.module.css'
 
 interface RecipeLandingProps {
-  recipes: Recipe[];
-  onSelectRecipe: (recipe: Recipe, multiplier: number) => void;
+  recipes: Recipe[]
+  onSelectRecipe: (recipe: Recipe, multiplier: number) => void
 }
 
 export function RecipeLanding({ recipes, onSelectRecipe }: RecipeLandingProps) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
   const handleToggle = (index: number) => {
-    setExpandedIndex((prev) => (prev === index ? null : index));
-  };
+    setExpandedIndex((prev) => (prev === index ? null : index))
+  }
 
   return (
     <div className={css.page}>
@@ -25,10 +25,12 @@ export function RecipeLanding({ recipes, onSelectRecipe }: RecipeLandingProps) {
             recipe={recipe}
             isExpanded={expandedIndex === i}
             onClick={() => handleToggle(i)}
-            onStart={(portionMultiplier: number) => onSelectRecipe(recipe, portionMultiplier)}
+            onStart={(portionMultiplier: number) =>
+              onSelectRecipe(recipe, portionMultiplier)
+            }
           />
         ))}
       </div>
     </div>
-  );
+  )
 }

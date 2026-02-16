@@ -1,24 +1,24 @@
-import { useState, useEffect, useRef } from "react";
-import type { GlossaryEntry } from "../../../types";
-import css from "./GlossaryTerm.module.css";
+import { useState, useEffect, useRef } from 'react'
+import type { GlossaryEntry } from '../../../types'
+import css from './GlossaryTerm.module.css'
 
 interface GlossaryTermProps {
-  term: string;
-  info: GlossaryEntry;
+  term: string
+  info: GlossaryEntry
 }
 
 export function GlossaryTerm({ term, info }: GlossaryTermProps) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) return
     const handler = (e: globalThis.MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [open])
 
   return (
     <span ref={ref} className={css.wrapper}>
@@ -26,7 +26,7 @@ export function GlossaryTerm({ term, info }: GlossaryTermProps) {
         onClick={() => setOpen(!open)}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => e.key === "Enter" && setOpen(!open)}
+        onKeyDown={(e) => e.key === 'Enter' && setOpen(!open)}
         className={css.trigger}
         data-open={open || undefined}
       >
@@ -42,5 +42,5 @@ export function GlossaryTerm({ term, info }: GlossaryTermProps) {
         </span>
       )}
     </span>
-  );
+  )
 }

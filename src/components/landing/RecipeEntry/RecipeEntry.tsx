@@ -1,12 +1,12 @@
-import type { Recipe } from "../../../types";
-import { RecipeIntro } from "../../intro";
-import css from "./RecipeEntry.module.css";
+import type { Recipe } from '../../../types'
+import { RecipeIntro } from '../../intro'
+import css from './RecipeEntry.module.css'
 
 interface RecipeEntryProps {
-  recipe: Recipe;
-  isExpanded: boolean;
-  onClick: () => void;
-  onStart: (multiplier: number) => void;
+  recipe: Recipe
+  isExpanded: boolean
+  onClick: () => void
+  onStart: (multiplier: number) => void
 }
 
 export function RecipeEntry({
@@ -28,7 +28,7 @@ export function RecipeEntry({
             <span>— kcal</span>
           </div>
         </div>
-        <span className={css.chevron}>{isExpanded ? "▲" : "▼"}</span>
+        <span className={css.chevron}>{isExpanded ? '▲' : '▼'}</span>
       </button>
 
       {isExpanded && (
@@ -37,5 +37,5 @@ export function RecipeEntry({
         </div>
       )}
     </div>
-  );
+  )
 }

@@ -11,13 +11,13 @@
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: #FFF8F0;
+  background: #fff8f0;
   font-size: 36px;
   margin-bottom: 20px;
 }
 
-.icon[data-stage="cooking"] {
-  background: #FFF0E8;
+.icon[data-stage='cooking'] {
+  background: #fff0e8;
 }
 
 .title {

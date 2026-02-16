@@ -11,9 +11,11 @@
 }
 
 .pill[data-done] {
-  background: #E8F5E2;
+  background: #e8f5e2;
   border-color: var(--color-success);
-  box-shadow: 0 0 0 4px rgba(107, 143, 94, 0.3), 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 0 0 4px rgba(107, 143, 94, 0.3),
+    0 4px 16px rgba(0, 0, 0, 0.08);
   animation: gentlePulse 2s ease-in-out infinite;
 }
 
@@ -21,7 +23,10 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: conic-gradient(var(--track-color) calc(var(--progress) * 360deg), var(--color-track-bg) 0deg);
+  background: conic-gradient(
+    var(--track-color) calc(var(--progress) * 360deg),
+    var(--color-track-bg) 0deg
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,7 +45,7 @@
 }
 
 .pill[data-done] .progressInner {
-  background: #E8F5E2;
+  background: #e8f5e2;
 }
 
 .info {
@@ -87,5 +92,5 @@
 
 .skipBtn:hover {
   color: var(--color-text);
-  border-color: #CCC0B4;
+  border-color: #ccc0b4;
 }

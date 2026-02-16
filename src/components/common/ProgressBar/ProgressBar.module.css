@@ -11,15 +11,15 @@
   overflow: hidden;
 }
 
-.segment[data-state="done"] {
+.segment[data-state='done'] {
   background: var(--bar-color);
 }
 
-.segment[data-state="current"] {
+.segment[data-state='current'] {
   background: color-mix(in srgb, var(--bar-color) 40%, transparent);
 }
 
-.segment[data-state="future"] {
+.segment[data-state='future'] {
   background: var(--color-border);
 }
 

@@ -1,16 +1,21 @@
-import { useState } from "react";
-import type { RecipeItem } from "../../../types";
-import css from "./ChecklistItem.module.css";
+import { useState } from 'react'
+import type { RecipeItem } from '../../../types'
+import css from './ChecklistItem.module.css'
 
 interface ChecklistItemProps {
-  item: RecipeItem;
-  displayAmount?: string;
-  checked: boolean;
-  onToggle: () => void;
+  item: RecipeItem
+  displayAmount?: string
+  checked: boolean
+  onToggle: () => void
 }
 
-export function ChecklistItem({ item, displayAmount, checked, onToggle }: ChecklistItemProps) {
-  const [expanded, setExpanded] = useState(false);
+export function ChecklistItem({
+  item,
+  displayAmount,
+  checked,
+  onToggle,
+}: ChecklistItemProps) {
+  const [expanded, setExpanded] = useState(false)
 
   return (
     <div
@@ -19,18 +24,20 @@ export function ChecklistItem({ item, displayAmount, checked, onToggle }: Checkl
       onClick={onToggle}
     >
       <div className={css.row}>
-        <div className={css.checkbox}>{checked && "✓"}</div>
+        <div className={css.checkbox}>{checked && '✓'}</div>
         <div className={css.content}>
           <div className={css.nameRow}>
             <span className={css.name}>{item.name}</span>
-            {displayAmount && <span className={css.amount}>{displayAmount}</span>}
+            {displayAmount && (
+              <span className={css.amount}>{displayAmount}</span>
+            )}
           </div>
         </div>
         {item.note && (
           <button
             onClick={(e) => {
-              e.stopPropagation();
-              setExpanded(!expanded);
+              e.stopPropagation()
+              setExpanded(!expanded)
             }}
             className={css.expandBtn}
             data-expanded={expanded || undefined}
@@ -39,9 +46,7 @@ export function ChecklistItem({ item, displayAmount, checked, onToggle }: Checkl
           </button>
         )}
       </div>
-      {expanded && item.note && (
-        <div className={css.note}>{item.note}</div>
-      )}
+      {expanded && item.note && <div className={css.note}>{item.note}</div>}
     </div>
-  );
+  )
 }

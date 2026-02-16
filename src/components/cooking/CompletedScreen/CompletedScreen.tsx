@@ -1,10 +1,10 @@
-import type { Recipe } from "../../../types";
-import { Btn } from "../../common";
-import css from "./CompletedScreen.module.css";
+import type { Recipe } from '../../../types'
+import { Btn } from '../../common'
+import css from './CompletedScreen.module.css'
 
 interface CompletedScreenProps {
-  recipe: Recipe;
-  onRestart: () => void;
+  recipe: Recipe
+  onRestart: () => void
 }
 
 export function CompletedScreen({ recipe, onRestart }: CompletedScreenProps) {
@@ -17,5 +17,5 @@ export function CompletedScreen({ recipe, onRestart }: CompletedScreenProps) {
         ← Back to start
       </Btn>
     </div>
-  );
+  )
 }

@@ -10,7 +10,8 @@
   background: var(--color-primary);
   color: white;
   border: none;
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--color-primary) 27%, transparent);
+  box-shadow: 0 4px 16px
+    color-mix(in srgb, var(--color-primary) 27%, transparent);
 }
 
 .btn:hover {
@@ -19,7 +20,8 @@
 
 .success {
   background: var(--color-success);
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--color-success) 27%, transparent);
+  box-shadow: 0 4px 16px
+    color-mix(in srgb, var(--color-success) 27%, transparent);
 }
 
 .track {

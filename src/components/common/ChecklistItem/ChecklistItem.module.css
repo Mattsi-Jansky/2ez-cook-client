@@ -8,8 +8,8 @@
 }
 
 .item[data-checked] {
-  background: #F8FBF6;
-  border-color: #C5D9B8;
+  background: #f8fbf6;
+  border-color: #c5d9b8;
 }
 
 .row {
@@ -23,7 +23,7 @@
   height: 26px;
   border-radius: 8px;
   flex-shrink: 0;
-  border: 2px solid #D4CBC0;
+  border: 2px solid #d4cbc0;
   background: transparent;
   display: flex;
   align-items: center;
@@ -58,7 +58,7 @@
 }
 
 .item[data-checked] .name {
-  color: #7A917A;
+  color: #7a917a;
 }
 
 .amount {
@@ -73,7 +73,7 @@
   cursor: pointer;
   padding: 2px 6px;
   font-size: 16px;
-  color: #C4B5A4;
+  color: #c4b5a4;
   transition: transform 0.2s;
   transform: rotate(0deg);
 }
@@ -86,7 +86,7 @@
   margin-top: 10px;
   margin-left: 38px;
   font-size: 13px;
-  color: #8B7B6B;
+  color: #8b7b6b;
   line-height: 1.5;
   animation: fadeIn 0.2s ease;
 }

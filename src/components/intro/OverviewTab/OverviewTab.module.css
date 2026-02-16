@@ -25,12 +25,12 @@
   flex-shrink: 0;
 }
 
-.stageIcon[data-stage="preparation"] {
-  background: #FFF8F0;
+.stageIcon[data-stage='preparation'] {
+  background: #fff8f0;
 }
 
-.stageIcon[data-stage="cooking"] {
-  background: #FFF0E8;
+.stageIcon[data-stage='cooking'] {
+  background: #fff0e8;
 }
 
 .stageName {
@@ -45,12 +45,12 @@
 }
 
 .howItWorks {
-  background: #FFF8F0;
-  border: 1px solid #F0E0CC;
+  background: #fff8f0;
+  border: 1px solid #f0e0cc;
   border-radius: 14px;
   padding: 14px 18px;
   font-size: 13px;
-  color: #8B7355;
+  color: #8b7355;
   line-height: 1.6;
   margin-top: 20px;
 }

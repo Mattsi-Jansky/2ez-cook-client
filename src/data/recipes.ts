@@ -1,9 +1,9 @@
-import type { RecipeInput, Recipe } from "../types";
-import { hydrateRecipe } from "./hydrateRecipe";
+import type { RecipeInput, Recipe } from '../types'
+import { hydrateRecipe } from './hydrateRecipe'
 
-const modules = import.meta.glob<RecipeInput>("./recipes/*.json", {
+const modules = import.meta.glob<RecipeInput>('./recipes/*.json', {
   eager: true,
-  import: "default",
-});
+  import: 'default',
+})
 
-export const recipes: Recipe[] = Object.values(modules).map(hydrateRecipe);
+export const recipes: Recipe[] = Object.values(modules).map(hydrateRecipe)

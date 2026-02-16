@@ -1,13 +1,13 @@
-import { formatTime } from "../../../utils";
-import css from "./CircularTimer.module.css";
+import { formatTime } from '../../../utils'
+import css from './CircularTimer.module.css'
 
 interface CircularTimerProps {
-  duration: number;
-  timeLeft: number;
-  running: boolean;
-  size?: number;
-  color?: string;
-  label?: string;
+  duration: number
+  timeLeft: number
+  running: boolean
+  size?: number
+  color?: string
+  label?: string
 }
 
 export function CircularTimer({
@@ -15,12 +15,12 @@ export function CircularTimer({
   timeLeft,
   running,
   size = 180,
-  color = "var(--color-primary)",
+  color = 'var(--color-primary)',
   label,
 }: CircularTimerProps) {
-  const r = (size - 16) / 2;
-  const c = 2 * Math.PI * r;
-  const off = c * (1 - (duration > 0 ? (duration - timeLeft) / duration : 0));
+  const r = (size - 16) / 2
+  const c = 2 * Math.PI * r
+  const off = c * (1 - (duration > 0 ? (duration - timeLeft) / duration : 0))
 
   return (
     <div className={css.container}>
@@ -51,14 +51,11 @@ export function CircularTimer({
         className={css.overlay}
         style={{ marginTop: -size + 10, height: size - 20 }}
       >
-        <div
-          className={css.time}
-          style={{ fontSize: size > 120 ? 42 : 28 }}
-        >
+        <div className={css.time} style={{ fontSize: size > 120 ? 42 : 28 }}>
           {formatTime(timeLeft)}
         </div>
         {label && <div className={css.label}>{label}</div>}
       </div>
     </div>
-  );
+  )
 }

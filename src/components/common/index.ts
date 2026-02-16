@@ -1,5 +1,5 @@
-export { Btn } from "./Btn/Btn";
-export { ProgressBar } from "./ProgressBar/ProgressBar";
-export { CircularTimer } from "./CircularTimer/CircularTimer";
-export { SkipTimerModal } from "./SkipTimerModal/SkipTimerModal";
-export { ChecklistItem } from "./ChecklistItem/ChecklistItem";
+export { Btn } from './Btn/Btn'
+export { ProgressBar } from './ProgressBar/ProgressBar'
+export { CircularTimer } from './CircularTimer/CircularTimer'
+export { SkipTimerModal } from './SkipTimerModal/SkipTimerModal'
+export { ChecklistItem } from './ChecklistItem/ChecklistItem'

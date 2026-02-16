@@ -1,20 +1,26 @@
-import type { Recipe } from "../../../types";
-import { formatIngredientAmount } from "../../../utils";
-import { ChecklistItem } from "../../common";
-import css from "./ChecklistTab.module.css";
+import type { Recipe } from '../../../types'
+import { formatIngredientAmount } from '../../../utils'
+import { ChecklistItem } from '../../common'
+import css from './ChecklistTab.module.css'
 
 interface ChecklistTabProps {
-  recipe: Recipe;
-  checked: Record<string, boolean>;
-  onToggle: (id: string) => void;
-  portionMultiplier: number;
+  recipe: Recipe
+  checked: Record<string, boolean>
+  onToggle: (id: string) => void
+  portionMultiplier: number
 }
 
-export function ChecklistTab({ recipe, checked, onToggle, portionMultiplier }: ChecklistTabProps) {
+export function ChecklistTab({
+  recipe,
+  checked,
+  onToggle,
+  portionMultiplier,
+}: ChecklistTabProps) {
   return (
     <div className={css.checklistContainer}>
       <p className={css.checklistIntro}>
-        Check off each item to confirm you have it. Tap the ▾ arrow for more detail on any item.
+        Check off each item to confirm you have it. Tap the ▾ arrow for more
+        detail on any item.
       </p>
 
       {recipe.ingredients && recipe.ingredients.length > 0 && (
@@ -54,5 +60,5 @@ export function ChecklistTab({ recipe, checked, onToggle, portionMultiplier }: C
         </div>
       )}
     </div>
-  );
+  )
 }
