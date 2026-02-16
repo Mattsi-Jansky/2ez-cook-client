@@ -11,4 +11,4 @@
 - [ ] Support for 'sources' metadata
 - [ ] The ability to go back to previous instructions
 - [ ] Review the glossaries, can be improved
-- [ ] Consider how to save and reset the state of ingredients/equipment checkboxes 
+- [ ] Consider how to save and reset the state of ingredients/equipment checkboxes
