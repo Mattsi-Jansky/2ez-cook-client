@@ -47,9 +47,7 @@ describe('ProgressBar', () => {
     const { container } = render(
       <ProgressBar current={1} total={3} color="#4C8CE0" viewIndex={0} />,
     )
-    expect(
-      container.querySelector("[class*='pulse']"),
-    ).not.toBeInTheDocument()
+    expect(container.querySelector("[class*='pulse']")).not.toBeInTheDocument()
   })
 
   it('shows pulse when viewIndex is not set', () => {

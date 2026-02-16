@@ -8,11 +8,7 @@ interface ProgressBarProps {
   viewIndex?: number
 }
 
-function segmentState(
-  i: number,
-  current: number,
-  viewIndex?: number,
-): string {
+function segmentState(i: number, current: number, viewIndex?: number): string {
   if (viewIndex !== undefined && i === viewIndex) return 'viewed'
   if (i < current) return 'done'
   if (i === current) return 'current'

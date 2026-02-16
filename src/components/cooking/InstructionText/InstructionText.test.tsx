@@ -53,7 +53,9 @@ describe('InstructionText', () => {
     render(<InstructionText text="Add the minced garlic." />)
 
     expect(screen.getByText(/minced/)).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /mince/i })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: /mince/i }),
+    ).not.toBeInTheDocument()
   })
 
   it('highlights step-level terms not in global glossary', () => {
