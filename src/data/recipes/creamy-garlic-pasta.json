@@ -152,7 +152,6 @@
         {
           "label": "Roasted Broccoli",
           "isParallel": true,
-          "autoStart": false,
           "steps": [
             {
               "instruction": "Preheat your oven to 200°C (400°F). Spread the broccoli on a baking tray, drizzle with olive oil, and season with salt and pepper.",

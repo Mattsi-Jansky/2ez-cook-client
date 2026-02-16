@@ -47,8 +47,6 @@ export interface RecipeTrack {
   steps: RecipeStep[]
   /** Whether this track runs in parallel with another track. */
   isParallel?: boolean
-  /** If true, this track is not started until triggered by another step. */
-  autoStart?: boolean
 }
 
 export type StageType = 'preparation' | 'cooking'
