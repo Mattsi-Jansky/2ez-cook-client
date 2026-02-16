@@ -15,7 +15,7 @@ interface StepCardProps {
   portionsMultiplier?: number
   stepTimers: { getTimer: (key: string, duration: number) => StepTimerState }
   onComplete: () => void
-  readOnly?: boolean
+  viewMode: 'current' | 'review' | 'preview'
 }
 
 export function StepCard({
@@ -27,8 +27,10 @@ export function StepCard({
   portionsMultiplier,
   stepTimers,
   onComplete,
-  readOnly,
+  viewMode,
 }: StepCardProps) {
+  const readOnly = viewMode !== 'current'
+
   const timer = stepTimers.getTimer(
     `${track.id}:${stepIndex}`,
     step.timerDuration || 0,
@@ -94,7 +96,7 @@ export function StepCard({
           </div>
         )}
 
-        {/* Timer ring (show ring in readOnly but hide controls) */}
+        {/* Timer ring (show ring in viewMode but hide controls) */}
         {isTimer && !timer.done && (
           <div className={css.timerArea}>
             <CircularTimer
@@ -122,9 +124,11 @@ export function StepCard({
           </div>
         )}
 
-        {/* Completion area or review indicator */}
+        {/* Completion area or view-mode indicator */}
         {readOnly ? (
-          <div className={css.reviewIndicator}>Reviewing step</div>
+          <div className={css.viewModeIndicator} data-mode={viewMode}>
+            {viewMode === 'review' ? 'Reviewing step' : 'Previewing step'}
+          </div>
         ) : (
           <div className={css.completionArea}>
             {step.completionHint &&

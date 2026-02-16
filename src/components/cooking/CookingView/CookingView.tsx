@@ -221,7 +221,13 @@ export function CookingView({
               portionsMultiplier={portionsMultiplier}
               stepTimers={stepTimers}
               onComplete={() => onAdvanceStep(activeTrack!)}
-              readOnly={isReviewing}
+              viewMode={
+                !isReviewing
+                  ? 'current'
+                  : viewStepIdx < curStepIdx
+                    ? 'review'
+                    : 'preview'
+              }
             />
           )
         )}

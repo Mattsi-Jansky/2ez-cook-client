@@ -339,11 +339,11 @@ describe('CookingView', () => {
       expect(screen.getByText('Next →')).not.toBeDisabled()
     })
 
-    it('clicking Next shows future step as read-only', () => {
+    it('clicking Next shows future step as preview', () => {
       renderNavView({ trackSteps: { main3: 0, sauce: 0 } })
       fireEvent.click(screen.getByText('Next →'))
       expect(screen.getByText('Add pasta')).toBeInTheDocument()
-      expect(screen.getByText('Reviewing step')).toBeInTheDocument()
+      expect(screen.getByText('Previewing step')).toBeInTheDocument()
     })
 
     it('clicking Prev shows previous step content', () => {
@@ -361,15 +361,16 @@ describe('CookingView', () => {
       expect(screen.getByText('Drain and serve')).toBeInTheDocument()
     })
 
-    it('shows review indicator when reviewing a previous step', () => {
+    it('shows review indicator when viewing a previous step', () => {
       renderNavView()
       fireEvent.click(screen.getByText('← Prev'))
       expect(screen.getByText('Reviewing step')).toBeInTheDocument()
     })
 
-    it('does not show review indicator on the current step', () => {
+    it('does not show view-mode indicator on the current step', () => {
       renderNavView()
       expect(screen.queryByText('Reviewing step')).not.toBeInTheDocument()
+      expect(screen.queryByText('Previewing step')).not.toBeInTheDocument()
     })
 
     it('disables Prev when at step 0', () => {

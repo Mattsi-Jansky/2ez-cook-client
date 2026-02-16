@@ -68,6 +68,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByText('3')).toBeInTheDocument()
@@ -84,6 +85,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByText(/· Main/)).toBeInTheDocument()
@@ -99,6 +101,7 @@ describe('StepCard', () => {
         stageType="preparation"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.queryByText(/· Main/)).not.toBeInTheDocument()
@@ -114,6 +117,7 @@ describe('StepCard', () => {
         stageType="preparation"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByText('Prep')).toBeInTheDocument()
@@ -129,6 +133,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByText('Cook')).toBeInTheDocument()
@@ -144,6 +149,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByText('Cook')).toHaveAttribute('data-stage', 'cooking')
@@ -159,6 +165,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByText('Dice the onions finely.')).toBeInTheDocument()
@@ -174,6 +181,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByText('Use a sharp knife')).toBeInTheDocument()
@@ -190,6 +198,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.queryByText('💡')).not.toBeInTheDocument()
@@ -205,6 +214,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(
@@ -223,6 +233,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={onComplete}
+        viewMode="current"
       />,
     )
     fireEvent.click(screen.getByRole('button', { name: 'Next step →' }))
@@ -239,6 +250,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(
@@ -256,6 +268,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByText('Onions should be translucent')).toBeInTheDocument()
@@ -271,6 +284,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(
@@ -291,6 +305,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(
@@ -312,6 +327,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     fireEvent.click(screen.getByRole('button', { name: 'Start timer' }))
@@ -331,6 +347,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByRole('button', { name: '⏸ Pause' })).toBeInTheDocument()
@@ -349,6 +366,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByRole('button', { name: '▶ Resume' })).toBeInTheDocument()
@@ -367,6 +385,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(
@@ -387,6 +406,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(
@@ -408,6 +428,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(screen.getByText('Skip timer →')).toBeInTheDocument()
@@ -430,6 +451,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     fireEvent.click(screen.getByText('Skip timer →'))
@@ -451,6 +473,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     fireEvent.click(screen.getByText('Skip timer →'))
@@ -478,6 +501,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={onComplete}
+        viewMode="current"
       />,
     )
     fireEvent.click(screen.getByText('Skip timer →'))
@@ -496,6 +520,7 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     const card = container.querySelector("[class*='card']")
@@ -512,13 +537,14 @@ describe('StepCard', () => {
         stageType="cooking"
         stepTimers={stepTimers}
         onComplete={vi.fn()}
+        viewMode="current"
       />,
     )
     expect(stepTimers.getTimer).toHaveBeenCalledWith('main:3', 120)
   })
 
-  describe('readOnly mode', () => {
-    it('hides completion area when readOnly is true', () => {
+  describe('viewMode', () => {
+    it('hides completion area in review mode', () => {
       render(
         <StepCard
           step={makeStep()}
@@ -528,7 +554,7 @@ describe('StepCard', () => {
           stageType="cooking"
           stepTimers={stepTimers}
           onComplete={vi.fn()}
-          readOnly
+          viewMode="review"
         />,
       )
       expect(
@@ -536,7 +562,7 @@ describe('StepCard', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('shows review indicator when readOnly is true', () => {
+    it('shows "Reviewing step" in review mode', () => {
       render(
         <StepCard
           step={makeStep()}
@@ -546,13 +572,13 @@ describe('StepCard', () => {
           stageType="cooking"
           stepTimers={stepTimers}
           onComplete={vi.fn()}
-          readOnly
+          viewMode="review"
         />,
       )
       expect(screen.getByText('Reviewing step')).toBeInTheDocument()
     })
 
-    it('still shows instruction text when readOnly is true', () => {
+    it('shows "Previewing step" in preview mode', () => {
       render(
         <StepCard
           step={makeStep()}
@@ -562,13 +588,29 @@ describe('StepCard', () => {
           stageType="cooking"
           stepTimers={stepTimers}
           onComplete={vi.fn()}
-          readOnly
+          viewMode="preview"
+        />,
+      )
+      expect(screen.getByText('Previewing step')).toBeInTheDocument()
+    })
+
+    it('still shows instruction text in view mode', () => {
+      render(
+        <StepCard
+          step={makeStep()}
+          stepIndex={0}
+          totalSteps={3}
+          track={track}
+          stageType="cooking"
+          stepTimers={stepTimers}
+          onComplete={vi.fn()}
+          viewMode="review"
         />,
       )
       expect(screen.getByText('Dice the onions finely.')).toBeInTheDocument()
     })
 
-    it('hides timer controls when readOnly is true', () => {
+    it('hides timer controls in view mode', () => {
       resetTimer({ notStarted: true, timeLeft: 60 })
       stepTimers = makeStepTimers()
 
@@ -581,7 +623,7 @@ describe('StepCard', () => {
           stageType="cooking"
           stepTimers={stepTimers}
           onComplete={vi.fn()}
-          readOnly
+          viewMode="preview"
         />,
       )
       expect(
