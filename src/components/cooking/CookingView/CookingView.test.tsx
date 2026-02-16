@@ -329,9 +329,21 @@ describe('CookingView', () => {
       expect(screen.queryByText('← Prev')).not.toBeInTheDocument()
     })
 
-    it('disables Next → when viewing the current step', () => {
-      renderNavView()
+    it('disables Next → when viewing the last step', () => {
+      renderNavView({ trackSteps: { main3: 2, sauce: 0 } })
       expect(screen.getByText('Next →')).toBeDisabled()
+    })
+
+    it('enables Next → to browse future steps', () => {
+      renderNavView({ trackSteps: { main3: 0, sauce: 0 } })
+      expect(screen.getByText('Next →')).not.toBeDisabled()
+    })
+
+    it('clicking Next shows future step as read-only', () => {
+      renderNavView({ trackSteps: { main3: 0, sauce: 0 } })
+      fireEvent.click(screen.getByText('Next →'))
+      expect(screen.getByText('Add pasta')).toBeInTheDocument()
+      expect(screen.getByText('Reviewing step')).toBeInTheDocument()
     })
 
     it('clicking Prev shows previous step content', () => {

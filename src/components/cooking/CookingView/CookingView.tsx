@@ -60,7 +60,7 @@ export function CookingView({
   const viewStep = curTrack?.steps[viewStepIdx]
   const isReviewing = viewStepIdx !== curStepIdx
   const canGoBack = viewStepIdx > 0
-  const canGoForward = viewStepIdx < curStepIdx
+  const canGoForward = viewStepIdx < totalSteps - 1
   const pendingTrack = pendingTrackStart
     ? allTracks.find((t) => t.id === pendingTrackStart)
     : null
