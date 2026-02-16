@@ -24,6 +24,42 @@ interface CookingViewProps {
   onExit: () => void
 }
 
+function getActiveTimersNotOnActiveViewedStep(
+  stepTimers: StepTimerRegistry,
+  activeTrack: string | null,
+  trackSteps: Record<string, number>,
+  curStepIdx: number,
+  isReviewing: boolean,
+) {
+  const otherTrackPills = stepTimers.getTimersForOtherTracks(
+    activeTrack,
+    trackSteps,
+  )
+
+  const currentStepTimerKey = `${activeTrack}:${curStepIdx}`
+  const currentStepTimerEntry = stepTimers.getEntry(currentStepTimerKey)
+  const showCurrentStepPill =
+    isReviewing &&
+    currentStepTimerEntry &&
+    (currentStepTimerEntry.running || currentStepTimerEntry.done)
+
+  const toastPills: typeof otherTrackPills = [
+    ...(showCurrentStepPill
+      ? [
+          {
+            trackId: activeTrack!,
+            timerKey: currentStepTimerKey,
+            timeLeft: currentStepTimerEntry.timeLeft,
+            duration: currentStepTimerEntry.duration,
+            done: currentStepTimerEntry.done,
+          },
+        ]
+      : []),
+    ...otherTrackPills,
+  ]
+  return toastPills
+}
+
 export function CookingView({
   recipe,
   portionsMultiplier,
@@ -64,8 +100,13 @@ export function CookingView({
   const pendingTrack = pendingTrackStart
     ? allTracks.find((t) => t.id === pendingTrackStart)
     : null
-
-  const toastPills = stepTimers.getTimersForOtherTracks(activeTrack, trackSteps)
+  const toastPills = getActiveTimersNotOnActiveViewedStep(
+    stepTimers,
+    activeTrack,
+    trackSteps,
+    curStepIdx,
+    isReviewing,
+  )
 
   const hasRunningStepTimers = stage.tracks.some((t) => {
     const idx = trackSteps[t.id] ?? 0
@@ -176,7 +217,11 @@ export function CookingView({
                 timeLeft={pill.timeLeft}
                 total={pill.duration}
                 done={pill.done}
-                onView={() => onSetActiveTrack(pill.trackId)}
+                onView={() =>
+                  pill.trackId === activeTrack
+                    ? setViewStepIdx(curStepIdx)
+                    : onSetActiveTrack(pill.trackId)
+                }
                 onSkip={() => setShowSkipFor(pill.timerKey)}
               />
             )

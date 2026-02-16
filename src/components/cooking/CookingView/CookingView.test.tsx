@@ -377,5 +377,135 @@ describe('CookingView', () => {
       renderNavView({ trackSteps: { main3: 0, sauce: 0 } })
       expect(screen.getByText('← Prev')).toBeDisabled()
     })
+
+    describe('current step timer toast pill', () => {
+      function renderWithCurrentStepTimer(
+        overrides: DefaultPropsOverrides = {},
+      ) {
+        return renderNavView({
+          trackSteps: { main3: 1, sauce: 0 },
+          stepTimers: makeStepTimers({
+            entries: {
+              'main3:1': {
+                timeLeft: 45,
+                running: true,
+                done: false,
+                duration: 120,
+              },
+            },
+          }),
+          ...overrides,
+        })
+      }
+
+      it('shows current step timer pill when navigating away from a step with a running timer', () => {
+        renderWithCurrentStepTimer()
+        fireEvent.click(screen.getByText('← Prev'))
+        expect(screen.getByText(/remaining/)).toBeInTheDocument()
+      })
+
+      it('does not show current step timer pill when viewing the current step', () => {
+        const { container } = renderWithCurrentStepTimer()
+        expect(
+          container.querySelector("[class*='bgTimerTray']"),
+        ).not.toBeInTheDocument()
+      })
+
+      it('hides current step timer pill when navigating back to the current step', () => {
+        const { container } = renderWithCurrentStepTimer()
+        fireEvent.click(screen.getByText('← Prev'))
+        expect(screen.getByText(/remaining/)).toBeInTheDocument()
+        fireEvent.click(screen.getByText('Next →'))
+        expect(
+          container.querySelector("[class*='bgTimerTray']"),
+        ).not.toBeInTheDocument()
+      })
+
+      it('shows current step timer pill for a done (not yet advanced) timer', () => {
+        renderNavView({
+          trackSteps: { main3: 1, sauce: 0 },
+          stepTimers: makeStepTimers({
+            entries: {
+              'main3:1': {
+                timeLeft: 0,
+                running: false,
+                done: true,
+                duration: 120,
+              },
+            },
+          }),
+        })
+        fireEvent.click(screen.getByText('← Prev'))
+        expect(screen.getByRole('button', { name: 'View' })).toBeInTheDocument()
+      })
+
+      it('does not show current step timer pill when timer is idle', () => {
+        const { container } = renderNavView({
+          trackSteps: { main3: 1, sauce: 0 },
+          stepTimers: makeStepTimers({
+            entries: {
+              'main3:1': {
+                timeLeft: 120,
+                running: false,
+                done: false,
+                duration: 120,
+              },
+            },
+          }),
+        })
+        fireEvent.click(screen.getByText('← Prev'))
+        expect(
+          container.querySelector("[class*='bgTimerTray']"),
+        ).not.toBeInTheDocument()
+      })
+
+      it('clicking View on done current step pill navigates back to current step instead of switching track', () => {
+        const { props } = renderNavView({
+          trackSteps: { main3: 1, sauce: 0 },
+          stepTimers: makeStepTimers({
+            entries: {
+              'main3:1': {
+                timeLeft: 0,
+                running: false,
+                done: true,
+                duration: 120,
+              },
+            },
+          }),
+        })
+        fireEvent.click(screen.getByText('← Prev'))
+        fireEvent.click(screen.getByRole('button', { name: 'View' }))
+        expect(props.onSetActiveTrack).not.toHaveBeenCalled()
+        expect(screen.getByText('Add pasta')).toBeInTheDocument()
+      })
+
+      it('shows both current step pill and other track pills simultaneously', () => {
+        renderNavView({
+          trackSteps: { main3: 1, sauce: 0 },
+          stepTimers: makeStepTimers({
+            entries: {
+              'main3:1': {
+                timeLeft: 45,
+                running: true,
+                done: false,
+                duration: 120,
+              },
+            },
+            toastPills: [
+              {
+                trackId: 'sauce',
+                timerKey: 'sauce:0',
+                timeLeft: 30,
+                duration: 60,
+                done: false,
+              },
+            ],
+          }),
+        })
+        fireEvent.click(screen.getByText('← Prev'))
+        const remainingLabels = screen.getAllByText(/remaining/)
+        expect(remainingLabels).toHaveLength(2)
+      })
+    })
   })
 })
