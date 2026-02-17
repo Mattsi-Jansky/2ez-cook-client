@@ -35,7 +35,7 @@
     },
     {
       "name": "Hot chilli powder",
-      "note": "To taste — start with 1 teaspoon and add more if you like it spicy."
+      "note": "1tsp"
     },
     {
       "name": "Small tortilla wraps",
@@ -140,11 +140,12 @@
               "hint": "You want them softened but still with a bit of bite."
             },
             {
-              "instruction": "Add the {1} chopped tomatoes, {2} drained kidney beans, {3} drained sweetcorn, and hot chilli powder to taste. Stir to combine, bring to a boil, then leave uncovered to thicken.",
+              "instruction": "Add the {1} chopped tomatoes, {2} drained kidney beans, {3} drained sweetcorn, and {4} hot chilli powder (or to taste). Stir to combine, bring to a boil, then leave uncovered to thicken.",
               "quantities": [
                 { "value": 800, "unit": "g" },
                 { "value": 800, "unit": "g" },
-                { "value": 400, "unit": "g" }
+                { "value": 400, "unit": "g" },
+                { "value": 1, "unit": "tsp" }
               ],
               "timerDuration": 480,
               "timerLabel": "Thickening",
