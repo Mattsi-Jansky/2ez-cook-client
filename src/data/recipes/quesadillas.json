@@ -136,7 +136,7 @@
               "instruction": "Add the chopped red peppers to the pan. Cook on medium heat, stirring occasionally.",
               "timerDuration": 300,
               "timerLabel": "Peppers softening",
-              "actionLabel": "Peppers are in the pan",
+              "actionLabel": "Peppers are cooked",
               "hint": "You want them softened but still with a bit of bite."
             },
             {
@@ -147,8 +147,8 @@
                 { "value": 400, "unit": "g" }
               ],
               "timerDuration": 480,
-              "timerLabel": "Filling thickening",
-              "actionLabel": "Everything is in the pan",
+              "timerLabel": "Thickening",
+              "actionLabel": "Everything is cooked",
               "hint": "Leaving the lid off lets moisture escape so the filling thickens — you don't want it too wet or the tortillas will go soggy."
             },
             {
