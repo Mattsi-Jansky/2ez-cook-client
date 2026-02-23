@@ -9,10 +9,6 @@
   transform: rotate(-90deg);
 }
 
-.progressCircle[data-running] {
-  transition: stroke-dashoffset 1s linear;
-}
-
 .progressCircle:not([data-running]) {
   transition: stroke-dashoffset 0.3s ease;
 }

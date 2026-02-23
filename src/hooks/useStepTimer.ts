@@ -27,46 +27,76 @@ export function useStepTimer({
   const [timeLeft, setTimeLeft] = useState(duration)
   const [running, setRunning] = useState(false)
   const [done, setDone] = useState(false)
-  const interval = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  const clear = () => {
-    if (interval.current) {
-      clearInterval(interval.current)
-      interval.current = null
+  const animationFrameHandle = useRef<number | null>(null)
+  const lastTimestamp = useRef<number | null>(null)
+  const lastWholeSecond = useRef(duration)
+
+  const cancel = useCallback(() => {
+    if (animationFrameHandle.current !== null) {
+      cancelAnimationFrame(animationFrameHandle.current)
+      animationFrameHandle.current = null
     }
-  }
+    lastTimestamp.current = null
+  }, [])
 
   useEffect(() => {
-    if (!running || timeLeft <= 0) return
-    interval.current = setInterval(() => {
+    if (!running) return
+
+    const tick = (timestamp: number) => {
+      if (lastTimestamp.current === null) {
+        lastTimestamp.current = timestamp
+        animationFrameHandle.current = requestAnimationFrame(tick)
+        return
+      }
+
+      const elapsed = (timestamp - lastTimestamp.current) / 1000
+      lastTimestamp.current = timestamp
+
       setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clear()
+        const next = prev - elapsed
+        if (next <= 0) {
+          cancel()
           setRunning(false)
           setDone(true)
           playChime()
           return 0
         }
-        if (prev <= 10) playTick()
-        return prev - 1
-      })
-    }, 1000)
-    return clear
-  }, [running, timeLeft])
 
-  const start = useCallback(() => setRunning(true), [])
+        const currentWholeSecond = Math.ceil(next)
+        if (currentWholeSecond < lastWholeSecond.current) {
+          lastWholeSecond.current = currentWholeSecond
+          if (currentWholeSecond <= 10) playTick()
+        }
+
+        return next
+      })
+
+      animationFrameHandle.current = requestAnimationFrame(tick)
+    }
+
+    animationFrameHandle.current = requestAnimationFrame(tick)
+    return cancel
+  }, [running, cancel])
+
+  const start = useCallback(() => {
+    lastWholeSecond.current = duration
+    setRunning(true)
+  }, [duration])
+
   const pause = useCallback(() => {
     setRunning(false)
-    clear()
-  }, [])
+    cancel()
+  }, [cancel])
+
   const resume = useCallback(() => setRunning(true), [])
 
   const forceComplete = useCallback(() => {
-    clear()
+    cancel()
     setRunning(false)
     setTimeLeft(0)
     setDone(true)
-  }, [])
+  }, [cancel])
 
   return {
     timeLeft,
