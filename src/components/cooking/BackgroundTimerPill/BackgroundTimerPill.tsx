@@ -37,7 +37,9 @@ export function BackgroundTimerPill({
       <div className={css.info}>
         <div className={css.trackLabel}>{track.label}</div>
         <div className={css.timeLabel}>
-          {done ? 'Done — tap View' : `${formatTime(timeLeft)} remaining`}
+          {done
+            ? `+${formatTime(-timeLeft)} overtime`
+            : `${formatTime(timeLeft)} remaining`}
         </div>
       </div>
 

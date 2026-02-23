@@ -95,7 +95,7 @@ describe('useStepTimerRegistry', () => {
     expect(result.current.getTimer('main:0', 10).timeLeft).toBe(5)
   })
 
-  it('marks timer as done when it reaches zero', () => {
+  it('marks timer as done when it reaches zero and keeps counting overtime', () => {
     const { result } = renderHook(() => useStepTimerRegistry())
 
     act(() => {
@@ -109,10 +109,21 @@ describe('useStepTimerRegistry', () => {
       vi.advanceTimersByTime(3000)
     })
 
-    const timer = result.current.getTimer('main:0', 3)
-    expect(timer.timeLeft).toBe(0)
-    expect(timer.done).toBe(true)
-    expect(timer.running).toBe(false)
+    const timerAtZero = result.current.getTimer('main:0', 3)
+    expect(timerAtZero.timeLeft).toBe(0)
+    expect(timerAtZero.done).toBe(true)
+    expect(timerAtZero.running).toBe(true)
+    expect(timerAtZero.overtime).toBe(0)
+
+    act(() => {
+      vi.advanceTimersByTime(5000)
+    })
+
+    const timerOvertime = result.current.getTimer('main:0', 3)
+    expect(timerOvertime.timeLeft).toBe(-5)
+    expect(timerOvertime.done).toBe(true)
+    expect(timerOvertime.running).toBe(true)
+    expect(timerOvertime.overtime).toBe(5)
   })
 
   it('force-completes a running timer', () => {

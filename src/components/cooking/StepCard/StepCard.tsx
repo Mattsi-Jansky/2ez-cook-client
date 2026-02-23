@@ -46,6 +46,11 @@ export function StepCard({
     else onComplete()
   }
 
+  const handleComplete = () => {
+    if (timer.done) timer.pause()
+    onComplete()
+  }
+
   const handleSkipConfirm = () => {
     timer.forceComplete()
     setShowSkip(false)
@@ -97,7 +102,7 @@ export function StepCard({
         )}
 
         {/* Timer ring (show ring in viewMode but hide controls) */}
-        {isTimer && !timer.done && (
+        {isTimer && (
           <div className={css.timerArea}>
             <CircularTimer
               duration={step.timerDuration!}
@@ -105,13 +110,14 @@ export function StepCard({
               running={timer.running}
               color={track.color}
               label={step.timerLabel}
+              overtime={timer.overtime}
             />
             {!readOnly && timer.notStarted && (
               <Btn onClick={timer.start} variant="track">
                 {step.actionLabel || 'Start timer'}
               </Btn>
             )}
-            {!readOnly && timer.running && (
+            {!readOnly && timer.running && !timer.done && (
               <Btn onClick={timer.pause} variant="ghost">
                 ⏸ Pause
               </Btn>
@@ -138,17 +144,17 @@ export function StepCard({
               )}
             {(step.completionType === 'manual' || timer.done || isFinal) && (
               <Btn
-                onClick={onComplete}
+                onClick={timer.done ? handleComplete : onComplete}
                 variant={isFinal ? 'success' : 'track'}
                 size={isFinal ? 'lg' : 'md'}
               >
                 {step.actionLabel || 'Next step →'}
               </Btn>
             )}
-            {timer.done && !isFinal && (
+            {timer.done && !isFinal && !timer.overtime && (
               <div className={css.timerComplete}>Timer complete</div>
             )}
-            {timer.running && (
+            {timer.running && !timer.done && (
               <button onClick={handleSkipAttempt} className={css.skipBtn}>
                 Skip timer →
               </button>

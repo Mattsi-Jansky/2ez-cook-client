@@ -17,6 +17,11 @@
   transition: stroke-dashoffset 0.3s ease;
 }
 
+.progressCircle[data-overtime] {
+  opacity: 0.4;
+  transition: none;
+}
+
 .overlay {
   position: relative;
   display: flex;
@@ -32,9 +37,36 @@
   letter-spacing: 2px;
 }
 
+.overtimeTime {
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--color-overtime);
+  letter-spacing: 2px;
+  animation: overtimePulse 2s ease-in-out infinite;
+}
+
 .label {
   font-size: 13px;
   color: var(--color-muted);
   margin-top: 2px;
   font-weight: 500;
+}
+
+.overtimeLabel {
+  font-size: 11px;
+  color: var(--color-overtime);
+  margin-top: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+@keyframes overtimePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }

@@ -50,7 +50,7 @@ describe('BackgroundTimerPill', () => {
         onSkip={vi.fn()}
       />,
     )
-    expect(screen.getByText('Done — tap View')).toBeInTheDocument()
+    expect(screen.getByText('+0:00 overtime')).toBeInTheDocument()
   })
 
   it('shows timer icon when running', () => {

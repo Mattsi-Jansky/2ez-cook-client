@@ -12,6 +12,7 @@ export interface StepTimerState {
   timeLeft: number
   running: boolean
   done: boolean
+  overtime: number
   notStarted: boolean
   paused: boolean
   start: () => void
@@ -119,25 +120,23 @@ export function useStepTimerRegistry() {
 
   useEffect(() => {
     Object.entries(timers).forEach(([key, entry]) => {
-      if (entry.running && !entry.done && !intervals.current[key]) {
+      if (entry.running && !intervals.current[key]) {
         intervals.current[key] = setInterval(() => {
           setTimers((prev) => {
             const cur = prev[key]
-            if (!cur || !cur.running || cur.done) {
+            if (!cur || !cur.running) {
               clearInterval(intervals.current[key])
               delete intervals.current[key]
               return prev
             }
-            if (cur.timeLeft <= 1) {
-              clearInterval(intervals.current[key])
-              delete intervals.current[key]
+            if (!cur.done && cur.timeLeft <= 1) {
               playChime()
               return {
                 ...prev,
-                [key]: { ...cur, timeLeft: 0, running: false, done: true },
+                [key]: { ...cur, timeLeft: 0, done: true },
               }
             }
-            if (cur.timeLeft <= 10) playTick()
+            if (!cur.done && cur.timeLeft <= 10) playTick()
             return { ...prev, [key]: { ...cur, timeLeft: cur.timeLeft - 1 } }
           })
         }, 1000)
@@ -213,6 +212,7 @@ export function useStepTimerRegistry() {
         timeLeft,
         running,
         done,
+        overtime: done ? Math.max(0, -timeLeft) : 0,
         notStarted: !running && timeLeft === dur && !done,
         paused: !running && timeLeft < dur && !done,
         start: () => start(key),
