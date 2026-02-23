@@ -15,6 +15,7 @@ export interface StepTimerEntry {
 
 export interface StepTimerState {
   timeLeft: number
+  duration: number
   running: boolean
   done: boolean
   overtime: number
@@ -24,6 +25,7 @@ export interface StepTimerState {
   pause: () => void
   resume: () => void
   forceComplete: () => void
+  addMinute: () => void
 }
 
 export type StepTimerMap = Record<string, StepTimerEntry>
@@ -114,6 +116,34 @@ export function useStepTimerRegistry() {
           running: false,
           done: true,
           frozenTimeLeft: 0,
+        },
+      }
+    })
+  }, [])
+
+  const addMinute = useCallback((key: string) => {
+    setTimers((prev) => {
+      const cur = prev[key]
+      if (!cur || cur.done) return prev
+      const addedSeconds = 60
+      if (cur.running) {
+        return {
+          ...prev,
+          [key]: {
+            ...cur,
+            timeLeft: cur.timeLeft + addedSeconds,
+            frozenTimeLeft: cur.frozenTimeLeft + addedSeconds,
+            duration: cur.duration + addedSeconds,
+          },
+        }
+      }
+      return {
+        ...prev,
+        [key]: {
+          ...cur,
+          timeLeft: cur.timeLeft + addedSeconds,
+          frozenTimeLeft: cur.frozenTimeLeft + addedSeconds,
+          duration: cur.duration + addedSeconds,
         },
       }
     })
@@ -289,6 +319,7 @@ export function useStepTimerRegistry() {
 
       return {
         timeLeft,
+        duration: dur,
         running,
         done,
         overtime: done ? Math.max(0, -timeLeft) : 0,
@@ -298,9 +329,10 @@ export function useStepTimerRegistry() {
         pause: () => pause(key),
         resume: () => resume(key),
         forceComplete: () => forceComplete(key),
+        addMinute: () => addMinute(key),
       }
     },
-    [timers, ensureTimer, start, pause, resume, forceComplete],
+    [timers, ensureTimer, start, pause, resume, forceComplete, addMinute],
   )
 
   return {

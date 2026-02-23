@@ -270,6 +270,86 @@ describe('useStepTimerRegistry', () => {
     expect(pills).toHaveLength(0)
   })
 
+  it('addMinute adds 60 seconds to a running timer', () => {
+    const { result } = renderHook(() => useStepTimerRegistry())
+
+    act(() => {
+      result.current.getTimer('main:0', 30)
+    })
+    act(() => {
+      result.current.getTimer('main:0', 30).start()
+    })
+    act(() => {
+      vi.advanceTimersByTime(5000)
+    })
+
+    expect(result.current.getTimer('main:0', 30).timeLeft).toBe(25)
+
+    act(() => {
+      result.current.getTimer('main:0', 30).addMinute()
+    })
+
+    act(() => {
+      vi.advanceTimersByTime(1000)
+    })
+
+    const timer = result.current.getTimer('main:0', 30)
+    expect(timer.timeLeft).toBe(84)
+    expect(timer.running).toBe(true)
+  })
+
+  it('addMinute adds 60 seconds to a paused timer', () => {
+    const { result } = renderHook(() => useStepTimerRegistry())
+
+    act(() => {
+      result.current.getTimer('main:0', 30)
+    })
+    act(() => {
+      result.current.getTimer('main:0', 30).start()
+    })
+    act(() => {
+      vi.advanceTimersByTime(10000)
+    })
+    act(() => {
+      result.current.getTimer('main:0', 30).pause()
+    })
+
+    expect(result.current.getTimer('main:0', 30).timeLeft).toBe(20)
+
+    act(() => {
+      result.current.getTimer('main:0', 30).addMinute()
+    })
+
+    const timer = result.current.getTimer('main:0', 30)
+    expect(timer.timeLeft).toBe(80)
+    expect(timer.paused).toBe(true)
+  })
+
+  it('addMinute does nothing on a done/overtime timer', () => {
+    const { result } = renderHook(() => useStepTimerRegistry())
+
+    act(() => {
+      result.current.getTimer('main:0', 3)
+    })
+    act(() => {
+      result.current.getTimer('main:0', 3).start()
+    })
+    act(() => {
+      vi.advanceTimersByTime(5000)
+    })
+
+    const timerBefore = result.current.getTimer('main:0', 3)
+    expect(timerBefore.done).toBe(true)
+
+    act(() => {
+      result.current.getTimer('main:0', 3).addMinute()
+    })
+
+    const timerAfter = result.current.getTimer('main:0', 3)
+    expect(timerAfter.done).toBe(true)
+    expect(timerAfter.timeLeft).toBe(timerBefore.timeLeft)
+  })
+
   it('preserves timer state across getTimer calls (simulates remount)', () => {
     const { result } = renderHook(() => useStepTimerRegistry())
 

@@ -105,7 +105,7 @@ export function StepCard({
         {isTimer && (
           <div className={css.timerArea}>
             <CircularTimer
-              duration={step.timerDuration!}
+              duration={timer.duration}
               timeLeft={timer.timeLeft}
               running={timer.running}
               color={track.color}
@@ -118,9 +118,14 @@ export function StepCard({
               </Btn>
             )}
             {!readOnly && timer.running && !timer.done && (
-              <Btn onClick={timer.pause} variant="ghost">
-                ⏸ Pause
-              </Btn>
+              <>
+                <Btn onClick={timer.pause} variant="ghost">
+                  ⏸ Pause
+                </Btn>
+                <Btn onClick={timer.addMinute} variant="ghost" size="sm">
+                  +1 min
+                </Btn>
+              </>
             )}
             {!readOnly && timer.paused && (
               <Btn onClick={timer.resume} variant="track" size="sm">
