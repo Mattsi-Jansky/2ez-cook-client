@@ -25,7 +25,7 @@ export function StagesProgressBar({
   viewStageIdx,
   onClickStage,
 }: StagesProgressBarProps) {
-  const isReviewingPastStage =
+  const isViewingOtherStage =
     viewStageIdx !== undefined && viewStageIdx !== currentStageIdx
 
   return (
@@ -33,8 +33,7 @@ export function StagesProgressBar({
       {stages.map((stage, i) => {
         const state = nodeState(i, currentStageIdx, viewStageIdx)
         const isCompleted = i < currentStageIdx
-        const isClickable =
-          i < currentStageIdx || (i === currentStageIdx && isReviewingPastStage)
+        const isClickable = i !== currentStageIdx || isViewingOtherStage
 
         return (
           <div
@@ -46,7 +45,7 @@ export function StagesProgressBar({
             onClick={isClickable ? () => onClickStage?.(i) : undefined}
           >
             <div className={css.node} data-state={state}>
-              {(state === 'done' || state === 'viewed') && (
+              {(state === 'done' || (state === 'viewed' && isCompleted)) && (
                 <span className={css.check}>✓</span>
               )}
               {state === 'current' && <div className={css.pulse} />}

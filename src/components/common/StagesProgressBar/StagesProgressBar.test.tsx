@@ -147,7 +147,7 @@ describe('StagesProgressBar', () => {
     expect(onClickStage).toHaveBeenCalledWith(2)
   })
 
-  it('does not call onClickStage on future stages', () => {
+  it('calls onClickStage on future stages', () => {
     const onClickStage = vi.fn()
     const { container } = render(
       <StagesProgressBar
@@ -158,6 +158,19 @@ describe('StagesProgressBar', () => {
     )
     const items = container.querySelectorAll("[class*='stageItem']")
     fireEvent.click(items[2])
-    expect(onClickStage).not.toHaveBeenCalled()
+    expect(onClickStage).toHaveBeenCalledWith(2)
+  })
+
+  it('does not show check on a viewed future stage node', () => {
+    const { container } = render(
+      <StagesProgressBar
+        stages={stages}
+        currentStageIdx={1}
+        viewStageIdx={2}
+      />,
+    )
+    const stageItems = container.querySelectorAll("[class*='stageItem']")
+    const futureViewedNode = stageItems[2].querySelector("[class*='node']")
+    expect(futureViewedNode?.querySelector("[class*='check']")).toBeNull()
   })
 })

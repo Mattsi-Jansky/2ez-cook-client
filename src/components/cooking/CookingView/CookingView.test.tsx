@@ -64,6 +64,16 @@ const prepTrack: RecipeTrack = {
   ],
 }
 
+const plateTrack: RecipeTrack = {
+  id: 'plate',
+  label: 'Plate',
+  color: '#c4854a',
+  steps: [
+    { instruction: 'Arrange on the plate', completionType: 'manual' },
+    { instruction: 'Garnish and serve', completionType: 'final' },
+  ],
+}
+
 const twoStageRecipe: Recipe = {
   title: 'Test Pasta',
   description: 'A test recipe',
@@ -651,6 +661,94 @@ describe('CookingView', () => {
       expect(
         screen.queryByRole('button', { name: '↩ Back to current stage' }),
       ).not.toBeInTheDocument()
+    })
+  })
+
+  describe('future stage preview', () => {
+    const threeStageRecipe: Recipe = {
+      title: 'Test Pasta',
+      description: 'A test recipe',
+      servings: 2,
+      totalTime: '30 min',
+      ingredients: [],
+      equipment: [],
+      stages: [
+        {
+          id: 'stage-prep',
+          type: 'preparation',
+          label: 'Preparation',
+          description: 'Prep the ingredients',
+          tracks: [prepTrack],
+        },
+        {
+          id: 'stage-cook',
+          type: 'cooking',
+          label: 'Cooking',
+          description: 'Cook the pasta',
+          tracks: [mainTrack],
+        },
+        {
+          id: 'stage-plate',
+          type: 'cooking',
+          label: 'Plating',
+          description: 'Plate the dish',
+          tracks: [plateTrack],
+        },
+      ],
+    }
+
+    function renderFutureStageView(overrides: DefaultPropsOverrides = {}) {
+      return renderView({
+        recipe: threeStageRecipe,
+        currentStageIdx: 1,
+        trackSteps: { prep: 2, main: 0, plate: 0 },
+        activeTrack: 'main',
+        allTracks: [prepTrack, mainTrack, plateTrack],
+        startedTracks: new Set(['main']),
+        ...overrides,
+      })
+    }
+
+    it('shows future stage step content when a future stage node is clicked', () => {
+      const { container } = renderFutureStageView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[2])
+      expect(screen.getByText('Arrange on the plate')).toBeInTheDocument()
+    })
+
+    it('shows Previewing step indicator for future stage content', () => {
+      const { container } = renderFutureStageView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[2])
+      expect(screen.getByText('Previewing step')).toBeInTheDocument()
+    })
+
+    it('shows return button when previewing a future stage', () => {
+      const { container } = renderFutureStageView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[2])
+      expect(
+        screen.getByRole('button', { name: '↩ Back to current stage' }),
+      ).toBeInTheDocument()
+    })
+
+    it('Next navigates forward through future stage steps', () => {
+      const { container } = renderFutureStageView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[2])
+      expect(screen.getByText('Arrange on the plate')).toBeInTheDocument()
+      fireEvent.click(screen.getByText('Next →'))
+      expect(screen.getByText('Garnish and serve')).toBeInTheDocument()
+    })
+
+    it('returns to current stage when return button is clicked', () => {
+      const { container } = renderFutureStageView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[2])
+      fireEvent.click(
+        screen.getByRole('button', { name: '↩ Back to current stage' }),
+      )
+      expect(screen.getByText('Boil water')).toBeInTheDocument()
     })
   })
 })

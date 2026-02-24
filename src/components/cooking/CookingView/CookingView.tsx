@@ -82,6 +82,8 @@ export function CookingView({
   const [reviewedTrackId, setReviewedTrackId] = useState<string | null>(null)
 
   const isReviewingStage = reviewedStageIdx !== null
+  const isReviewingFutureStage =
+    reviewedStageIdx !== null && reviewedStageIdx > currentStageIdx
   const currentStage = recipe.stages[currentStageIdx]
   const stage = isReviewingStage
     ? recipe.stages[reviewedStageIdx!]
@@ -144,15 +146,16 @@ export function CookingView({
   }
 
   function handleStageClick(idx: number) {
-    if (idx < currentStageIdx) {
-      enterStageReview(idx)
-    } else if (idx === currentStageIdx && isReviewingStage) {
+    if (idx === currentStageIdx && isReviewingStage) {
       exitStageReview()
+    } else if (idx !== currentStageIdx) {
+      enterStageReview(idx)
     }
   }
 
   function stepViewMode(): 'current' | 'review' | 'preview' {
     if (!isReviewing && !isReviewingStage) return 'current'
+    if (isReviewingFutureStage) return 'preview'
     if (!isReviewingStage && viewStepIdx > curStepIdx) return 'preview'
     return 'review'
   }
