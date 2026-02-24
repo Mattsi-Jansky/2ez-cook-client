@@ -16,3 +16,4 @@
 - [x] Rethink stopwatch UI - what should happen after it reaches zero? I want to see how far over I am
   - And what about a +1 minute button?
 - [ ] Consider adding a stages progress bar above the steps progress bar, to show how far the user is through the recipe
+- [ ] Stage transition should not hide the top banner / stage progress bar
