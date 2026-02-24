@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { CookingView } from './CookingView'
-import type { Recipe, RecipeTrack } from '../../../types'
+import type { Recipe, RecipeStage, RecipeTrack } from '../../../types'
 import type {
   StepTimerMap,
   ActiveTimerInfo,
@@ -141,6 +141,8 @@ interface DefaultPropsOverrides {
   startedTracks?: Set<string>
   stepTimers?: ReturnType<typeof makeStepTimers>
   allTracks?: RecipeTrack[]
+  pendingNextStage?: RecipeStage
+  onNextStageContinue?: () => void
 }
 
 function renderView(overrides: DefaultPropsOverrides = {}) {
@@ -781,6 +783,72 @@ describe('CookingView', () => {
         screen.getByRole('button', { name: '↩ Back to current step' }),
       )
       expect(screen.getByText('Boil water')).toBeInTheDocument()
+    })
+  })
+
+  describe('stage transition', () => {
+    function renderTransitionView(overrides: DefaultPropsOverrides = {}) {
+      return renderView({
+        recipe: twoStageRecipe,
+        currentStageIdx: 0,
+        trackSteps: { prep: 2, main: 0 },
+        activeTrack: 'prep',
+        allTracks: [prepTrack, mainTrack],
+        startedTracks: new Set(['prep']),
+        pendingNextStage: twoStageRecipe.stages[1],
+        onNextStageContinue: vi.fn(),
+        ...overrides,
+      })
+    }
+
+    it('shows next stage label in main content', () => {
+      renderTransitionView()
+      expect(
+        screen.getByRole('heading', { name: 'Cooking' }),
+      ).toBeInTheDocument()
+    })
+
+    it('shows next stage description in main content', () => {
+      renderTransitionView()
+      expect(screen.getByText('Cook the pasta')).toBeInTheDocument()
+    })
+
+    it('still shows recipe title in header', () => {
+      renderTransitionView()
+      expect(screen.getByText('Test Pasta')).toBeInTheDocument()
+    })
+
+    it('still shows current stage label in header', () => {
+      const { container } = renderTransitionView()
+      const stageLabelEl = container.querySelector("[class*='stageLabel']")
+      expect(stageLabelEl?.textContent).toBe('Preparation')
+    })
+
+    it('still shows the stages progress bar', () => {
+      const { container } = renderTransitionView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      expect(stageItems).toHaveLength(2)
+    })
+
+    it('does not show track switcher during transition', () => {
+      renderView({
+        pendingNextStage: recipe.stages[0],
+        onNextStageContinue: vi.fn(),
+      })
+      expect(screen.queryByText(/Sauce/)).not.toBeInTheDocument()
+    })
+
+    it('does not show step nav during transition', () => {
+      renderTransitionView()
+      expect(screen.queryByText('← Prev')).not.toBeInTheDocument()
+      expect(screen.queryByText('Next →')).not.toBeInTheDocument()
+    })
+
+    it('calls onNextStageContinue when Continue is clicked', () => {
+      const onNextStageContinue = vi.fn()
+      renderTransitionView({ onNextStageContinue })
+      fireEvent.click(screen.getByRole('button', { name: 'Continue →' }))
+      expect(onNextStageContinue).toHaveBeenCalledOnce()
     })
   })
 })

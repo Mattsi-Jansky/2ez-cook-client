@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import type { CSSProperties } from 'react'
-import type { Recipe, RecipeTrack } from '../../../types'
+import type { Recipe, RecipeStage, RecipeTrack } from '../../../types'
 import type { StepTimerRegistry } from '../../../hooks/useStepTimerRegistry'
 import { ProgressBar, SkipTimerModal, StagesProgressBar } from '../../common'
 import { StepCard } from '../StepCard/StepCard'
 import { BackgroundTimerPill } from '../BackgroundTimerPill/BackgroundTimerPill'
 import { TrackInterruptCard } from '../TrackInterruptCard/TrackInterruptCard'
+import { StageTransition } from '../StageTransition/StageTransition'
 import css from './CookingView.module.css'
 
 interface CookingViewProps {
@@ -22,6 +23,8 @@ interface CookingViewProps {
   onSwitchTrack: (tid: string) => void
   onSetActiveTrack: (tid: string) => void
   onExit: () => void
+  pendingNextStage?: RecipeStage
+  onNextStageContinue?: () => void
 }
 
 function getActiveTimersNotOnActiveViewedStep(
@@ -74,7 +77,10 @@ export function CookingView({
   onSwitchTrack,
   onSetActiveTrack,
   onExit,
+  pendingNextStage,
+  onNextStageContinue,
 }: CookingViewProps) {
+  const isTransitioning = !!pendingNextStage
   const [showSkipFor, setShowSkipFor] = useState<string | null>(null)
   const [viewStepIdx, setViewStepIdx] = useState(0)
   const [prevStepKey, setPrevStepKey] = useState(`${activeTrack}:0`)
@@ -219,8 +225,8 @@ export function CookingView({
             />
           )}
 
-          {/* Track switcher — current stage only */}
-          {!isReviewingStage && stage.tracks.length > 1 && (
+          {/* Track switcher */}
+          {!isReviewingStage && !isTransitioning && stage.tracks.length > 1 && (
             <div className={css.trackSwitcher}>
               {stage.tracks.map((t) => {
                 const started = startedTracks.has(t.id)
@@ -249,24 +255,27 @@ export function CookingView({
             viewIndex={isReviewing ? viewStepIdx : undefined}
           />
 
-          {totalSteps > 1 && isTrackStarted && !isTrackDone && (
-            <div className={css.stepNav}>
-              <button
-                disabled={!canGoBack}
-                onClick={() => setViewStepIdx((i) => i - 1)}
-                className={css.stepNavBtn}
-              >
-                ← Prev
-              </button>
-              <button
-                disabled={!canGoForward}
-                onClick={() => setViewStepIdx((i) => i + 1)}
-                className={css.stepNavBtn}
-              >
-                Next →
-              </button>
-            </div>
-          )}
+          {totalSteps > 1 &&
+            isTrackStarted &&
+            !isTrackDone &&
+            !isTransitioning && (
+              <div className={css.stepNav}>
+                <button
+                  disabled={!canGoBack}
+                  onClick={() => setViewStepIdx((i) => i - 1)}
+                  className={css.stepNavBtn}
+                >
+                  ← Prev
+                </button>
+                <button
+                  disabled={!canGoForward}
+                  onClick={() => setViewStepIdx((i) => i + 1)}
+                  className={css.stepNavBtn}
+                >
+                  Next →
+                </button>
+              </div>
+            )}
         </div>
       </div>
 
@@ -305,7 +314,12 @@ export function CookingView({
 
       {/* Main content */}
       <div className={css.mainContent}>
-        {!isTrackStarted ? (
+        {isTransitioning ? (
+          <StageTransition
+            toStage={pendingNextStage!}
+            onContinue={onNextStageContinue!}
+          />
+        ) : !isTrackStarted ? (
           <div className={css.trackComplete}>
             <div className={css.trackCompleteEmoji}>○</div>
             <div className={css.trackCompleteTitle}>
