@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { CSSProperties } from 'react'
 import type { Recipe, RecipeTrack } from '../../../types'
 import type { StepTimerRegistry } from '../../../hooks/useStepTimerRegistry'
-import { ProgressBar, SkipTimerModal } from '../../common'
+import { ProgressBar, SkipTimerModal, StagesProgressBar } from '../../common'
 import { StepCard } from '../StepCard/StepCard'
 import { BackgroundTimerPill } from '../BackgroundTimerPill/BackgroundTimerPill'
 import { TrackInterruptCard } from '../TrackInterruptCard/TrackInterruptCard'
@@ -152,6 +152,13 @@ export function CookingView({
               ✕ Exit
             </button>
           </div>
+
+          {recipe.stages.length > 1 && (
+            <StagesProgressBar
+              stages={recipe.stages}
+              currentStageIdx={currentStageIdx}
+            />
+          )}
 
           {/* Track switcher */}
           {stage.tracks.length > 1 && (

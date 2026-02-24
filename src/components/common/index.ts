@@ -1,5 +1,6 @@
 export { Btn } from './Btn/Btn'
 export { ProgressBar } from './ProgressBar/ProgressBar'
+export { StagesProgressBar } from './StagesProgressBar/StagesProgressBar'
 export { CircularTimer } from './CircularTimer/CircularTimer'
 export { SkipTimerModal } from './SkipTimerModal/SkipTimerModal'
 export { ChecklistItem } from './ChecklistItem/ChecklistItem'
