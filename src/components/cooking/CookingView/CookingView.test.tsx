@@ -326,7 +326,7 @@ describe('CookingView', () => {
     expect(props.onSetActiveTrack).toHaveBeenCalledWith('sauce')
   })
 
-  it('sets data-has-bg-timers when toast pills are present', () => {
+  it('sets data-tray-open when toast pills are present', () => {
     const { container } = renderView({
       stepTimers: makeStepTimers({
         toastPills: [
@@ -340,14 +340,12 @@ describe('CookingView', () => {
         ],
       }),
     })
-    expect(container.firstElementChild).toHaveAttribute('data-has-bg-timers')
+    expect(container.firstElementChild).toHaveAttribute('data-tray-open')
   })
 
-  it('does not set data-has-bg-timers when no toast pills', () => {
+  it('does not set data-tray-open when no toast pills', () => {
     const { container } = renderView()
-    expect(container.firstElementChild).not.toHaveAttribute(
-      'data-has-bg-timers',
-    )
+    expect(container.firstElementChild).not.toHaveAttribute('data-tray-open')
   })
 
   describe('step review navigation', () => {
@@ -430,6 +428,42 @@ describe('CookingView', () => {
       expect(screen.queryByText('Previewing step')).not.toBeInTheDocument()
     })
 
+    it('shows return button when viewing a previous step', () => {
+      renderNavView()
+      fireEvent.click(screen.getByText('← Prev'))
+      expect(
+        screen.getByRole('button', { name: '↩ Back to current step' }),
+      ).toBeInTheDocument()
+    })
+
+    it('shows return button when viewing a future step', () => {
+      renderNavView({ trackSteps: { main3: 0, sauce: 0 } })
+      fireEvent.click(screen.getByText('Next →'))
+      expect(
+        screen.getByRole('button', { name: '↩ Back to current step' }),
+      ).toBeInTheDocument()
+    })
+
+    it('clicking return button returns to the current step', () => {
+      renderNavView()
+      fireEvent.click(screen.getByText('← Prev'))
+      expect(screen.getByText('Add pasta')).toBeInTheDocument()
+      fireEvent.click(
+        screen.getByRole('button', { name: '↩ Back to current step' }),
+      )
+      expect(screen.getByText('Drain and serve')).toBeInTheDocument()
+      expect(
+        screen.queryByRole('button', { name: '↩ Back to current step' }),
+      ).not.toBeInTheDocument()
+    })
+
+    it('does not show return button on the current step', () => {
+      renderNavView()
+      expect(
+        screen.queryByRole('button', { name: '↩ Back to current step' }),
+      ).not.toBeInTheDocument()
+    })
+
     it('disables Prev when at step 0', () => {
       renderNavView({ trackSteps: { main3: 0, sauce: 0 } })
       expect(screen.getByText('← Prev')).toBeDisabled()
@@ -503,7 +537,7 @@ describe('CookingView', () => {
       })
 
       it('does not show current step timer pill when timer is idle', () => {
-        const { container } = renderNavView({
+        renderNavView({
           trackSteps: { main3: 1, sauce: 0 },
           stepTimers: makeStepTimers({
             entries: {
@@ -520,9 +554,7 @@ describe('CookingView', () => {
           }),
         })
         fireEvent.click(screen.getByText('← Prev'))
-        expect(
-          container.querySelector("[class*='bgTimerTray']"),
-        ).not.toBeInTheDocument()
+        expect(screen.queryByText(/remaining/)).not.toBeInTheDocument()
       })
 
       it('clicking View on done current step pill navigates back to current step instead of switching track', () => {
@@ -613,7 +645,7 @@ describe('CookingView', () => {
       const stageItems = container.querySelectorAll("[class*='stageItem']")
       fireEvent.click(stageItems[0])
       expect(
-        screen.getByRole('button', { name: '↩ Back to current stage' }),
+        screen.getByRole('button', { name: '↩ Back to current step' }),
       ).toBeInTheDocument()
     })
 
@@ -623,11 +655,11 @@ describe('CookingView', () => {
       fireEvent.click(stageItems[0])
       expect(screen.getByText('Season everything')).toBeInTheDocument()
       fireEvent.click(
-        screen.getByRole('button', { name: '↩ Back to current stage' }),
+        screen.getByRole('button', { name: '↩ Back to current step' }),
       )
       expect(screen.getByText('Boil water')).toBeInTheDocument()
       expect(
-        screen.queryByRole('button', { name: '↩ Back to current stage' }),
+        screen.queryByRole('button', { name: '↩ Back to current step' }),
       ).not.toBeInTheDocument()
     })
 
@@ -659,7 +691,7 @@ describe('CookingView', () => {
     it('does not show return button when not reviewing a past stage', () => {
       renderStageReviewView()
       expect(
-        screen.queryByRole('button', { name: '↩ Back to current stage' }),
+        screen.queryByRole('button', { name: '↩ Back to current step' }),
       ).not.toBeInTheDocument()
     })
   })
@@ -728,7 +760,7 @@ describe('CookingView', () => {
       const stageItems = container.querySelectorAll("[class*='stageItem']")
       fireEvent.click(stageItems[2])
       expect(
-        screen.getByRole('button', { name: '↩ Back to current stage' }),
+        screen.getByRole('button', { name: '↩ Back to current step' }),
       ).toBeInTheDocument()
     })
 
@@ -746,7 +778,7 @@ describe('CookingView', () => {
       const stageItems = container.querySelectorAll("[class*='stageItem']")
       fireEvent.click(stageItems[2])
       fireEvent.click(
-        screen.getByRole('button', { name: '↩ Back to current stage' }),
+        screen.getByRole('button', { name: '↩ Back to current step' }),
       )
       expect(screen.getByText('Boil water')).toBeInTheDocument()
     })

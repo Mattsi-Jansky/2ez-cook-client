@@ -138,6 +138,14 @@ export function CookingView({
     setViewStepIdx(lastViewableStepIdx)
   }
 
+  function returnToCurrentStep() {
+    if (isReviewingStage) {
+      exitStageReview()
+    } else {
+      setViewStepIdx(activeTrackIdx)
+    }
+  }
+
   function exitStageReview() {
     setReviewedStageIdx(null)
     setReviewedTrackId(null)
@@ -163,7 +171,9 @@ export function CookingView({
   return (
     <div
       className={css.container}
-      data-has-bg-timers={toastPills.length > 0 || undefined}
+      data-tray-open={
+        toastPills.length > 0 || isReviewing || isReviewingStage || undefined
+      }
     >
       {/* Skip confirmation modal */}
       {showSkipFor &&
@@ -194,14 +204,6 @@ export function CookingView({
             <div>
               <div className={css.recipeTitle}>{recipe.title}</div>
               <div className={css.stageLabel}>{stage.label}</div>
-              {isReviewingStage && (
-                <button
-                  className={css.returnToCurrentBtn}
-                  onClick={exitStageReview}
-                >
-                  ↩ Back to current stage
-                </button>
-              )}
             </div>
             <button onClick={onExit} className={css.exitBtn}>
               ✕ Exit
@@ -268,9 +270,17 @@ export function CookingView({
         </div>
       </div>
 
-      {/* Toast timer pills */}
-      {toastPills.length > 0 && (
+      {/* Toasts ('data tray') */}
+      {(toastPills.length > 0 || isReviewing || isReviewingStage) && (
         <div className={css.bgTimerTray}>
+          {(isReviewing || isReviewingStage) && (
+            <button
+              className={css.returnToCurrentBtn}
+              onClick={returnToCurrentStep}
+            >
+              ↩ Back to current step
+            </button>
+          )}
           {toastPills.map((pill) => {
             const tr = allTracks.find((x) => x.id === pill.trackId)
             if (!tr) return null
