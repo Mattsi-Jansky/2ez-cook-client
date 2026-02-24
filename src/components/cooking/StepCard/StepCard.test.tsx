@@ -6,14 +6,17 @@ import type { StepTimerState } from '../../../hooks/useStepTimerRegistry'
 
 const mockTimer: StepTimerState = {
   timeLeft: 0,
+  duration: 0,
   running: false,
   done: false,
+  overtime: 0,
   notStarted: true,
   paused: false,
   start: vi.fn(),
   pause: vi.fn(),
   resume: vi.fn(),
   forceComplete: vi.fn(),
+  addMinute: vi.fn(),
 }
 
 const track: RecipeTrack = {

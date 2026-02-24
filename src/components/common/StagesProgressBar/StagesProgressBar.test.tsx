@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { render } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
+import { render, fireEvent } from '@testing-library/react'
 import { StagesProgressBar } from './StagesProgressBar'
 import type { RecipeStage } from '../../../types'
 
@@ -90,5 +90,74 @@ describe('StagesProgressBar', () => {
     )
     const pulse = container.querySelector("[class*='pulse']")
     expect(pulse).toBeInTheDocument()
+  })
+
+  it('marks a past stage as viewed when viewStageIdx differs from currentStageIdx', () => {
+    const { container } = render(
+      <StagesProgressBar
+        stages={stages}
+        currentStageIdx={2}
+        viewStageIdx={0}
+      />,
+    )
+    const states = getNodeStates(container)
+    expect(states[0]).toBe('viewed')
+    expect(states[1]).toBe('done')
+    expect(states[2]).toBe('current')
+  })
+
+  it('shows check on viewed node', () => {
+    const { container } = render(
+      <StagesProgressBar
+        stages={stages}
+        currentStageIdx={2}
+        viewStageIdx={0}
+      />,
+    )
+    const checks = container.querySelectorAll("[class*='check']")
+    expect(checks.length).toBeGreaterThan(0)
+  })
+
+  it('calls onClickStage when a past stage is clicked', () => {
+    const onClickStage = vi.fn()
+    const { container } = render(
+      <StagesProgressBar
+        stages={stages}
+        currentStageIdx={2}
+        onClickStage={onClickStage}
+      />,
+    )
+    const items = container.querySelectorAll("[class*='stageItem']")
+    fireEvent.click(items[0])
+    expect(onClickStage).toHaveBeenCalledWith(0)
+  })
+
+  it('calls onClickStage on the current stage when reviewing a past stage', () => {
+    const onClickStage = vi.fn()
+    const { container } = render(
+      <StagesProgressBar
+        stages={stages}
+        currentStageIdx={2}
+        viewStageIdx={0}
+        onClickStage={onClickStage}
+      />,
+    )
+    const items = container.querySelectorAll("[class*='stageItem']")
+    fireEvent.click(items[2])
+    expect(onClickStage).toHaveBeenCalledWith(2)
+  })
+
+  it('does not call onClickStage on future stages', () => {
+    const onClickStage = vi.fn()
+    const { container } = render(
+      <StagesProgressBar
+        stages={stages}
+        currentStageIdx={0}
+        onClickStage={onClickStage}
+      />,
+    )
+    const items = container.querySelectorAll("[class*='stageItem']")
+    fireEvent.click(items[2])
+    expect(onClickStage).not.toHaveBeenCalled()
   })
 })

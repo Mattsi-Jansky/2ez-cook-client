@@ -54,6 +54,41 @@ const recipe: Recipe = {
   ],
 }
 
+const prepTrack: RecipeTrack = {
+  id: 'prep',
+  label: 'Prep',
+  color: '#7b9e6b',
+  steps: [
+    { instruction: 'Wash the vegetables', completionType: 'manual' },
+    { instruction: 'Season everything', completionType: 'manual' },
+  ],
+}
+
+const twoStageRecipe: Recipe = {
+  title: 'Test Pasta',
+  description: 'A test recipe',
+  servings: 2,
+  totalTime: '30 min',
+  ingredients: [],
+  equipment: [],
+  stages: [
+    {
+      id: 'stage-prep',
+      type: 'preparation',
+      label: 'Preparation',
+      description: 'Prep the ingredients',
+      tracks: [prepTrack],
+    },
+    {
+      id: 'stage-cook',
+      type: 'cooking',
+      label: 'Cooking',
+      description: 'Cook the pasta',
+      tracks: [mainTrack],
+    },
+  ],
+}
+
 function makeStepTimers({
   entries = {},
   toastPills = [],
@@ -64,14 +99,17 @@ function makeStepTimers({
   return {
     getTimer: vi.fn(() => ({
       timeLeft: 0,
+      duration: 0,
       running: false,
       done: false,
+      overtime: 0,
       notStarted: true,
       paused: false,
       start: vi.fn(),
       pause: vi.fn(),
       resume: vi.fn(),
       forceComplete: vi.fn(),
+      addMinute: vi.fn(),
     })),
     startTimer: vi.fn(),
     forceComplete: vi.fn(),
@@ -86,6 +124,7 @@ function makeStepTimers({
 
 interface DefaultPropsOverrides {
   recipe?: Recipe
+  currentStageIdx?: number
   trackSteps?: Record<string, number>
   activeTrack?: string | null
   pendingTrackStart?: string | null
@@ -192,7 +231,15 @@ describe('CookingView', () => {
       trackSteps: { main: 2, sauce: 0 },
       stepTimers: makeStepTimers({
         entries: {
-          'sauce:0': { timeLeft: 30, running: true, done: false, duration: 60 },
+          'sauce:0': {
+            timeLeft: 30,
+            running: true,
+            done: false,
+            duration: 60,
+            resumedAt: 0,
+            frozenTimeLeft: 30,
+            lastWholeSecond: 30,
+          },
         },
       }),
     })
@@ -391,6 +438,9 @@ describe('CookingView', () => {
                 running: true,
                 done: false,
                 duration: 120,
+                resumedAt: 0,
+                frozenTimeLeft: 45,
+                lastWholeSecond: 45,
               },
             },
           }),
@@ -431,6 +481,9 @@ describe('CookingView', () => {
                 running: false,
                 done: true,
                 duration: 120,
+                resumedAt: 0,
+                frozenTimeLeft: 0,
+                lastWholeSecond: 0,
               },
             },
           }),
@@ -449,6 +502,9 @@ describe('CookingView', () => {
                 running: false,
                 done: false,
                 duration: 120,
+                resumedAt: 0,
+                frozenTimeLeft: 120,
+                lastWholeSecond: 120,
               },
             },
           }),
@@ -469,6 +525,9 @@ describe('CookingView', () => {
                 running: false,
                 done: true,
                 duration: 120,
+                resumedAt: 0,
+                frozenTimeLeft: 0,
+                lastWholeSecond: 0,
               },
             },
           }),
@@ -489,6 +548,9 @@ describe('CookingView', () => {
                 running: true,
                 done: false,
                 duration: 120,
+                resumedAt: 0,
+                frozenTimeLeft: 45,
+                lastWholeSecond: 45,
               },
             },
             toastPills: [
@@ -506,6 +568,89 @@ describe('CookingView', () => {
         const remainingLabels = screen.getAllByText(/remaining/)
         expect(remainingLabels).toHaveLength(2)
       })
+    })
+  })
+
+  describe('stage review', () => {
+    function renderStageReviewView(overrides: DefaultPropsOverrides = {}) {
+      return renderView({
+        recipe: twoStageRecipe,
+        currentStageIdx: 1,
+        trackSteps: { prep: 2, main: 0 },
+        activeTrack: 'main',
+        allTracks: [prepTrack, mainTrack],
+        startedTracks: new Set(['main']),
+        ...overrides,
+      })
+    }
+
+    it('shows the stages progress bar for multi-stage recipes', () => {
+      const { container } = renderStageReviewView()
+      expect(
+        container.querySelector("[class*='container']"),
+      ).toBeInTheDocument()
+    })
+
+    it('shows past stage step content when a past stage node is clicked', () => {
+      const { container } = renderStageReviewView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[0])
+      expect(screen.getByText('Season everything')).toBeInTheDocument()
+    })
+
+    it('shows return to current stage button when reviewing a past stage', () => {
+      const { container } = renderStageReviewView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[0])
+      expect(
+        screen.getByRole('button', { name: '↩ Back to current stage' }),
+      ).toBeInTheDocument()
+    })
+
+    it('returns to current stage content when return button is clicked', () => {
+      const { container } = renderStageReviewView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[0])
+      expect(screen.getByText('Season everything')).toBeInTheDocument()
+      fireEvent.click(
+        screen.getByRole('button', { name: '↩ Back to current stage' }),
+      )
+      expect(screen.getByText('Boil water')).toBeInTheDocument()
+      expect(
+        screen.queryByRole('button', { name: '↩ Back to current stage' }),
+      ).not.toBeInTheDocument()
+    })
+
+    it('shows the reviewed stage label in the header', () => {
+      const { container } = renderStageReviewView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[0])
+      const stageLabelEl = container.querySelector("[class*='stageLabel']")
+      expect(stageLabelEl?.textContent).toBe('Preparation')
+    })
+
+    it('step nav is visible when reviewing a past stage with multiple steps', () => {
+      const { container } = renderStageReviewView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[0])
+      expect(screen.getByText('← Prev')).toBeInTheDocument()
+      expect(screen.getByText('Next →')).toBeInTheDocument()
+    })
+
+    it('Prev navigates through reviewed stage steps', () => {
+      const { container } = renderStageReviewView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[0])
+      expect(screen.getByText('Season everything')).toBeInTheDocument()
+      fireEvent.click(screen.getByText('← Prev'))
+      expect(screen.getByText('Wash the vegetables')).toBeInTheDocument()
+    })
+
+    it('does not show return button when not reviewing a past stage', () => {
+      renderStageReviewView()
+      expect(
+        screen.queryByRole('button', { name: '↩ Back to current stage' }),
+      ).not.toBeInTheDocument()
     })
   })
 })

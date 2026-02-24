@@ -24,7 +24,7 @@
   transition: background 0.4s ease;
 }
 
-.stageItem[data-state='done']:not(:last-child)::after {
+.stageItem[data-completed]:not(:last-child)::after {
   background: var(--color-primary);
 }
 
@@ -42,6 +42,12 @@
 
 .node[data-state='done'] {
   background: var(--color-primary);
+}
+
+.node[data-state='viewed'] {
+  background: color-mix(in srgb, var(--color-primary) 60%, transparent);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .node[data-state='current'] {
@@ -81,6 +87,22 @@
     opacity: 1;
     transform: scale(1.2);
   }
+}
+
+.stageItem[data-clickable] {
+  cursor: pointer;
+}
+
+.stageItem[data-clickable]:hover .node {
+  filter: brightness(1.15);
+  transform: scale(1.15);
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
+}
+
+.stageItem[data-clickable]:hover .label {
+  color: var(--color-primary);
 }
 
 .label {
