@@ -115,8 +115,14 @@ export function CookingView({
 
   const viewStep = curTrack?.steps[viewStepIdx]
   const isReviewing = viewStepIdx !== curStepIdx
-  const canGoBack = viewStepIdx > 0
-  const canGoForward = viewStepIdx < totalSteps - 1
+  const displayedStageIdx = isReviewingStage
+    ? reviewedStageIdx!
+    : currentStageIdx
+  const prevStageIdx = displayedStageIdx > 0 ? displayedStageIdx - 1 : null
+  const nextStageIdx =
+    displayedStageIdx < recipe.stages.length - 1 ? displayedStageIdx + 1 : null
+  const canGoBack = viewStepIdx > 0 || prevStageIdx !== null
+  const canGoForward = viewStepIdx < totalSteps - 1 || nextStageIdx !== null
   const pendingTrack = pendingTrackStart
     ? allTracks.find((t) => t.id === pendingTrackStart)
     : null
@@ -133,15 +139,29 @@ export function CookingView({
     return stepTimers.isRunning(`${t.id}:${idx}`)
   })
 
-  function enterStageReview(stageIdx: number) {
+  function enterStageReview(stageIdx: number, startAtStep?: number) {
     const reviewedStage = recipe.stages[stageIdx]
     const mainTrack =
       reviewedStage.tracks.find((t) => !t.isParallel) || reviewedStage.tracks[0]
-    const completedCount = trackSteps[mainTrack.id] || 0
-    const lastViewableStepIdx = Math.max(0, completedCount - 1)
     setReviewedStageIdx(stageIdx)
     setReviewedTrackId(mainTrack.id)
-    setViewStepIdx(lastViewableStepIdx)
+    setViewStepIdx(startAtStep ?? mainTrack.steps.length - 1)
+  }
+
+  function handlePrev() {
+    if (viewStepIdx > 0) {
+      setViewStepIdx((i) => i - 1)
+    } else if (prevStageIdx !== null) {
+      enterStageReview(prevStageIdx)
+    }
+  }
+
+  function handleNext() {
+    if (viewStepIdx < totalSteps - 1) {
+      setViewStepIdx((i) => i + 1)
+    } else if (nextStageIdx !== null) {
+      enterStageReview(nextStageIdx, 0)
+    }
   }
 
   function returnToCurrentStep() {
@@ -163,7 +183,8 @@ export function CookingView({
     if (idx === currentStageIdx && isReviewingStage) {
       exitStageReview()
     } else if (idx !== currentStageIdx) {
-      enterStageReview(idx)
+      const startAtStep = idx > currentStageIdx ? 0 : undefined
+      enterStageReview(idx, startAtStep)
     }
   }
 
@@ -255,21 +276,21 @@ export function CookingView({
             viewIndex={isReviewing ? viewStepIdx : undefined}
           />
 
-          {totalSteps > 1 &&
+          {(canGoBack || canGoForward) &&
             isTrackStarted &&
             !isTrackDone &&
             !isTransitioning && (
               <div className={css.stepNav}>
                 <button
                   disabled={!canGoBack}
-                  onClick={() => setViewStepIdx((i) => i - 1)}
+                  onClick={handlePrev}
                   className={css.stepNavBtn}
                 >
                   ← Prev
                 </button>
                 <button
                   disabled={!canGoForward}
-                  onClick={() => setViewStepIdx((i) => i + 1)}
+                  onClick={handleNext}
                   className={css.stepNavBtn}
                 >
                   Next →

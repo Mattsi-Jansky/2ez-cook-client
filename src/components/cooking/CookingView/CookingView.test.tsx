@@ -851,4 +851,136 @@ describe('CookingView', () => {
       expect(onNextStageContinue).toHaveBeenCalledOnce()
     })
   })
+
+  describe('cross-stage step navigation', () => {
+    function renderCrossStageView(overrides: DefaultPropsOverrides = {}) {
+      return renderView({
+        recipe: twoStageRecipe,
+        currentStageIdx: 1,
+        trackSteps: { prep: 2, main: 0 },
+        activeTrack: 'main',
+        allTracks: [prepTrack, mainTrack],
+        startedTracks: new Set(['main']),
+        ...overrides,
+      })
+    }
+
+    it('Prev at step 0 of a stage navigates to the last step of the previous stage', () => {
+      renderCrossStageView()
+      fireEvent.click(screen.getByText('← Prev'))
+      expect(screen.getByText('Season everything')).toBeInTheDocument()
+    })
+
+    it('Prev is not disabled when at step 0 with a previous stage', () => {
+      renderCrossStageView()
+      expect(screen.getByText('← Prev')).not.toBeDisabled()
+    })
+
+    it('Prev is disabled when at step 0 of the first stage', () => {
+      renderCrossStageView({
+        currentStageIdx: 0,
+        trackSteps: { prep: 0, main: 0 },
+        activeTrack: 'prep',
+        startedTracks: new Set(['prep']),
+      })
+      expect(screen.getByText('← Prev')).toBeDisabled()
+    })
+
+    it('Next at the last step of a stage navigates to the first step of the next stage', () => {
+      renderCrossStageView({
+        currentStageIdx: 0,
+        trackSteps: { prep: 1, main: 0 },
+        activeTrack: 'prep',
+        startedTracks: new Set(['prep']),
+      })
+      fireEvent.click(screen.getByText('Next →'))
+      expect(screen.getByText('Boil water')).toBeInTheDocument()
+    })
+
+    it('Next is not disabled when at last step with a following stage', () => {
+      renderCrossStageView({
+        currentStageIdx: 0,
+        trackSteps: { prep: 1, main: 0 },
+        activeTrack: 'prep',
+        startedTracks: new Set(['prep']),
+      })
+      expect(screen.getByText('Next →')).not.toBeDisabled()
+    })
+
+    it('Next is disabled when at last step of the final stage', () => {
+      renderCrossStageView({ trackSteps: { prep: 2, main: 1 } })
+      expect(screen.getByText('Next →')).toBeDisabled()
+    })
+
+    it('Prev from a reviewed past stage at step 0 goes to the stage before it', () => {
+      const threeStageRecipe: Recipe = {
+        ...twoStageRecipe,
+        stages: [
+          {
+            id: 's0',
+            type: 'preparation',
+            label: 'Prep',
+            description: '',
+            tracks: [prepTrack],
+          },
+          {
+            id: 's1',
+            type: 'cooking',
+            label: 'Cooking',
+            description: '',
+            tracks: [mainTrack],
+          },
+          {
+            id: 's2',
+            type: 'cooking',
+            label: 'Plating',
+            description: '',
+            tracks: [plateTrack],
+          },
+        ],
+      }
+      const { container } = renderView({
+        recipe: threeStageRecipe,
+        currentStageIdx: 2,
+        trackSteps: { prep: 2, main: 2, plate: 0 },
+        activeTrack: 'plate',
+        allTracks: [prepTrack, mainTrack, plateTrack],
+        startedTracks: new Set(['plate']),
+      })
+      // Enter review of stage 1 (Cooking)
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[1])
+      // Now at last step of stage 1. Navigate to step 0 within that stage first.
+      fireEvent.click(screen.getByText('← Prev'))
+      // Now at step 0 of stage 1. Prev should go to stage 0 (Prep).
+      fireEvent.click(screen.getByText('← Prev'))
+      expect(screen.getByText('Season everything')).toBeInTheDocument()
+    })
+
+    it('Prev shows the last step of an in-progress adjacent stage, not the current active step', () => {
+      // prepTrack has 2 steps; trackSteps=0 means step 0 is active, step 1 is the last step of the stage
+      renderView({
+        recipe: twoStageRecipe,
+        currentStageIdx: 1,
+        trackSteps: { prep: 0, main: 0 },
+        activeTrack: 'main',
+        allTracks: [prepTrack, mainTrack],
+        startedTracks: new Set(['main']),
+      })
+      fireEvent.click(screen.getByText('← Prev'))
+      // Should land on last step ("Season everything"), not active step 0 ("Wash the vegetables")
+      expect(screen.getByText('Season everything')).toBeInTheDocument()
+    })
+
+    it('Next from a reviewed stage at last step navigates to the first step of the adjacent stage', () => {
+      // Enter review of stage 0 (Prep) — shows last step 'Season everything'
+      const { container } = renderCrossStageView()
+      const stageItems = container.querySelectorAll("[class*='stageItem']")
+      fireEvent.click(stageItems[0])
+      expect(screen.getByText('Season everything')).toBeInTheDocument()
+      // Next from last step of reviewed stage 0 → shows first step of stage 1
+      fireEvent.click(screen.getByText('Next →'))
+      expect(screen.getByText('Boil water')).toBeInTheDocument()
+    })
+  })
 })
