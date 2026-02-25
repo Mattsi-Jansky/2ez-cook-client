@@ -17,3 +17,5 @@
   - And what about a +1 minute button?
 - [x] Consider adding a stages progress bar above the steps progress bar, to show how far the user is through the recipe
 - [ ] Stage transition should not hide the top banner / stage progress bar
+- [ ] bug: returning to the active step from viewing a different stage doesn't cause the step to become active
+- [ ] bug: previewing the first step of the next stage highlights the step in the step progress bar as if it were active, not just being previewed (doesn't affect steps after the first)
