@@ -1,0 +1,321 @@
+{
+  "title": "Veggie Takoyaki",
+  "description": "Takoyaki with mushroom instead of oyster",
+  "servings": 6,
+  "totalTime": "35 min",
+  "ingredients": [
+    {
+      "name": "kombu (kelp)",
+      "quantity": 1,
+      "unit": "piece (approx 10cm square)"
+    },
+    {
+      "name": "kelp granules",
+      "quantity": 2,
+      "unit": "tbsp"
+    },
+    {
+      "name": "flax seed oil",
+      "quantity": 3,
+      "unit": "drops"
+    },
+    {
+      "name": "250g plain flour",
+      "quantity": 250,
+      "unit": "g"
+    },
+    {
+      "name": "large eggs",
+      "quantity": 2,
+      "unit": "eggs"
+    },
+    {
+      "name": "Soy sauce (japanese, e.g. Kikkoman)",
+      "quantity": 1,
+      "unit": "tsp"
+    },
+    {
+      "name": "Sea salt",
+      "quantity": 1,
+      "unit": "tsp"
+    },
+    {
+      "name": "Vegetable oil",
+      "quantity": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "name": "Butter or margarine",
+      "quantity": 1,
+      "unit": "tablespoon"
+    },
+    {
+      "name": "King oyster mushrooms",
+      "quantity": 1,
+      "unit": "mushrooms"
+    },
+    {
+      "name": "benishouga (red-pickled ginger)",
+      "quantity": 50,
+      "unit": "g"
+    },
+    {
+      "name": "tenkasu (tempura batter bits)",
+      "quantity": 1,
+      "unit": "packet"
+    },
+    {
+      "name": "large spring onion",
+      "quantity": 1,
+      "unit": "onion"
+    },
+    {
+      "name": "Aonori (aka sea lettuce)",
+      "quantity": 2,
+      "unit": "tbsp"
+    },
+    {
+      "name": "Paprika",
+      "quantity": 1,
+      "unit": "tsp"
+    },
+    {
+      "name": "garlic powder",
+      "quantity": 1,
+      "unit": "tsp"
+    },
+    {
+      "name": "Okonomi Sauce (also called 'Otafuku Okonomiyaki Sauce Kokusai')",
+      "quantity": 3,
+      "unit": "tbsp"
+    },
+    {
+      "name": "Japanese Mayonaise (distinct flavour to western mayonnaise)",
+      "quantity": 3,
+      "unit": "tbsp"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Takoyaki pan",
+      "note": "A special tray-shaped pan for making Takoyaki. Has many small spherical holes."
+    },
+    {
+      "name": "Normal saucepan"
+    },
+    {
+      "name": "Mixing bowl and whisk (or a big blender/mixer)"
+    },
+    {
+      "name": "Frying pan"
+    },
+    {
+      "name": "Saucepan"
+    },
+    {
+      "name": "Fine collinder/sivve"
+    },
+    {
+      "name": "Oil brush"
+    },
+    {
+      "name": "Wooden skewers or toothpicks"
+    }
+  ],
+  "stages": [
+    {
+      "type": "preparation",
+      "label": "Dashi & Mushrooms",
+      "description": "Prepare the Takoyaki by making the Dashi and fried mushrooms",
+      "tracks": [
+        {
+          "label": "Dashi",
+          "steps": [
+            {
+              "instruction": "Place a {1}  of cold water into your saucepan and add {2} of Kombu",
+              "quantities": [
+                { "value": 1, "unit": "litres" },
+                {
+                  "value": 1,
+                  "unit": "pieces"
+                }
+              ]
+            },
+            {
+              "instruction": "Bring to a gentle simmer, then remove the kombu"
+            },
+            {
+              "instruction": "Add {1} kelp granules, and {2} of flax seed oil",
+              "quantities": [
+                {
+                  "value": 2,
+                  "unit": "tbsp"
+                },
+                {
+                  "value": 3,
+                  "unit": "drops"
+                }
+              ]
+            },
+            {
+              "instruction": "Bring to the boil for 3 seconds, then turn off the heat",
+              "startTrack": "Fried mushrooms"
+            },
+            {
+              "instruction": "Allow the pot to stand for 10 minutes",
+              "timerDuration": 600
+            },
+            {
+              "instruction": "Strain the Dashi, to remove the Kelp"
+            }
+          ]
+        },
+        {
+          "label": "Fried mushrooms",
+          "isParallel": true,
+          "steps": [
+            {
+              "instruction": "Add {1} of butter to a frying pan, medium-high heat",
+              "quantities": [
+                {
+                  "value": 1,
+                  "unit": "tbsp"
+                }
+              ]
+            },
+            {
+              "instruction": "Once butter is melted, add the chopped mushrooms"
+            },
+            {
+              "instruction": "Sprinkle with 0.5tsp salt, 1tsp paprika, 1tsp gralic powder"
+            },
+            {
+              "instruction": "Cook the mushrooms, stirring occasionally",
+              "timerDuration": 510,
+              "timerLabel": "Fried mushrooms"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cooking",
+      "label": "Batter",
+      "description": "Prepare for the Takoyaki by making the batter",
+      "tracks": [
+        {
+          "label": "Batter",
+          "steps": [
+            {
+              "instruction": "Crack 2 large eggs into your large mixing bowl",
+              "hint": "You can use a mixer/blender here if you have a big enough one"
+            },
+            {
+              "instruction": "Add and stir in the Dashi"
+            },
+            {
+              "instruction": "Mix in the {1} of plain flour",
+              "quantities": [
+                {
+                  "value": 250,
+                  "unit": "g"
+                }
+              ]
+            },
+            {
+              "instruction": "Mix in {1} of your Japanese soy sauce and {2} of sea salt",
+              "quantities": [
+                {
+                  "value": 1,
+                  "unit": "tsp"
+                },
+                {
+                  "value": 1,
+                  "unit": "tsp"
+                }
+              ]
+            },
+            {
+              "instruction": "Mix everything together, outcome should be quite watery and smooth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "preparation",
+      "label": "Preparation - Takoyaki",
+      "description": "Prepare ingredients for cooking the Takoyaki",
+      "tracks": [
+        {
+          "label": "Takoyaki",
+          "steps": [
+            {
+              "instruction": "Measure the {1} Tenkasu into a container",
+              "quantities": [
+                {
+                  "value": 50,
+                  "unit": "g"
+                }
+              ]
+            },
+            {
+              "instruction": "Measure the {1} Benishouga into another container",
+              "quantities": [
+                {
+                  "value": 50,
+                  "unit": "g"
+                }
+              ]
+            },
+            {
+              "instruction": "Peel spring onion, discard peel, finely slice and separate whites and greens"
+            },
+            {
+              "instruction": "Ensure that all your fillings (Tenkasu, Benishouga, spring onion, cooked mushroom cubes) are arranged into easy to reach places"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cooking",
+      "label": "Cooking - Takoyaki",
+      "description": "Cook the batter in our Takoyaki pan and add the fillings",
+      "tracks": [
+        {
+          "label": "Takoyaki",
+          "steps": [
+            {
+              "instruction": "Place the Takoyaki pan over your hob and heat it until you can feel from a short distance that it is hot"
+            },
+            {
+              "instruction": "Brush thoroughly with vegetable oil"
+            },
+            {
+              "instruction": "Pour in the batter, completely filling the holes in the pan as well as the surrounds"
+            },
+            {
+              "instruction": "Drop a cube of mushroom into each hole"
+            },
+            {
+              "instruction": "Scatter whole pan liberally with Tenkasu, Benishouga, and spring onions"
+            },
+            {
+              "instruction": "As the batter starts to firm, use your skewer to mark out a grid around each hole, lifting the batter that isn't in the holes"
+            },
+            {
+              "instruction": "Insert the skewer into the base of each hole to roll it over and create a sphere"
+            },
+            {
+              "instruction": "Remove the balls (toothpicks/skewers help here) and place on a serving tray/plate"
+            },
+            {
+              "instruction": "Drizzle liberally with Okonomi sauce, Japanese Mayonnaise, and sprinkle with Aonori"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
