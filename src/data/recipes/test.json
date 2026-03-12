@@ -1,0 +1,153 @@
+{
+  "title": "Test Quesadillas",
+  "description": "Easy, quick, and tasty veggie quesadillas loaded with a spicy bean and pepper filling, layered with melted cheddar cheese.",
+  "servings": 6,
+  "totalTime": "35 min",
+  "ingredients": [
+    {
+      "name": "Cooking oil",
+      "quantity": 2,
+      "unit": "tablespoons",
+      "note": "Plus a little extra for greasing the oven trays."
+    },
+    {
+      "name": "Red peppers",
+      "quantity": 4,
+      "unit": "whole"
+    },
+    {
+      "name": "Chopped tomatoes",
+      "quantity": 800,
+      "unit": "g",
+      "note": "Two standard 400 g tins."
+    },
+    {
+      "name": "Kidney beans",
+      "quantity": 800,
+      "unit": "g",
+      "note": "Two standard 400 g tins — drain and rinse before use."
+    },
+    {
+      "name": "Sweetcorn",
+      "quantity": 400,
+      "unit": "g",
+      "note": "One standard tin — drain before use."
+    },
+    {
+      "name": "Hot chilli powder",
+      "note": "1tsp"
+    },
+    {
+      "name": "Small tortilla wraps",
+      "quantity": 18,
+      "unit": "wraps",
+      "note": "About 16 cm diameter. Three wraps per quesadilla."
+    },
+    {
+      "name": "Grated cheddar cheese",
+      "quantity": 500,
+      "unit": "g",
+      "note": "Pre-grated saves time. Try mixing in monterey jack or gruyère for variety."
+    },
+    {
+      "name": "Sour cream",
+      "note": "For serving."
+    },
+    {
+      "name": "Coriander",
+      "note": "Fresh, for garnish."
+    },
+    {
+      "name": "Paprika",
+      "note": "For seasoning. Smoked paprika works well too."
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Two oven trays",
+      "note": "Also called sheet pans. Each tray should fit 3 quesadillas."
+    },
+    {
+      "name": "Large pan",
+      "note": "A wide frying pan or sauté pan for the filling."
+    },
+    {
+      "name": "Knife and cutting board"
+    },
+    {
+      "name": "Tin opener",
+      "note": "For the tomatoes, beans, and sweetcorn."
+    },
+    {
+      "name": "Colander",
+      "note": "For draining the beans and sweetcorn."
+    }
+  ],
+  "stages": [
+    {
+      "type": "cooking",
+      "label": "Cooking",
+      "description": "Cook the filling on the hob, then assemble and bake the quesadillas.",
+      "tracks": [
+        {
+          "label": "Filling",
+          "steps": [
+            {
+              "instruction": "Add the chopped red peppers to the pan. Cook on medium heat, stirring occasionally.",
+              "timerDuration": 10,
+              "timerLabel": "Peppers softening",
+              "actionLabel": "Peppers are cooked",
+              "hint": "You want them softened but still with a bit of bite."
+            },
+            {
+              "instruction": "Add the {1} chopped tomatoes, {2} drained kidney beans, {3} drained sweetcorn, and {4} hot chilli powder (or to taste). Stir to combine, bring to a boil, then leave uncovered to thicken.",
+              "quantities": [
+                { "value": 800, "unit": "g" },
+                { "value": 800, "unit": "g" },
+                { "value": 400, "unit": "g" },
+                { "value": 1, "unit": "tsp" }
+              ],
+              "timerDuration": 8,
+              "timerLabel": "Thickening",
+              "actionLabel": "Everything is cooked",
+              "hint": "Leaving the lid off lets moisture escape so the filling thickens — you don't want it too wet or the tortillas will go soggy."
+            },
+            {
+              "instruction": "Take the pan off the heat. The filling is ready for assembly.",
+              "actionLabel": "Filling is done"
+            },
+            {
+              "instruction": "Lightly oil the two oven trays. For each quesadilla (6 total, 3 per tray): place one tortilla down, spread on a layer of bean mixture, add cheese, place a second tortilla, spread more bean mixture, add more cheese, place a third tortilla on top, and finish with a sprinkle of cheese. You'll use {1} tortillas and {2} cheese in total.",
+              "quantities": [
+                { "value": 18, "unit": "wraps" },
+                { "value": 500, "unit": "g" }
+              ],
+              "actionLabel": "Quesadillas are assembled",
+              "hint": "Each quesadilla is a triple-decker: tortilla → filling → cheese → tortilla → filling → cheese → tortilla → cheese on top.",
+              "glossary": {
+                "triple-decker": {
+                  "title": "Layering order",
+                  "visual": "🫓",
+                  "text": "Three tortillas with filling and cheese between each layer, plus cheese on top to get a golden crust."
+                }
+              }
+            },
+            {
+              "instruction": "Place both trays in the preheated oven.",
+              "timerDuration": 600,
+              "timerLabel": "Quesadillas baking",
+              "actionLabel": "Trays are in the oven",
+              "isBackground": true,
+              "hint": "The cheese on top should be melted and golden. Keep an eye on them — ovens vary."
+            },
+            {
+              "instruction": "Remove the trays from the oven. Serve with sour cream, a sprinkle of paprika, and fresh coriander.",
+              "completionType": "final",
+              "actionLabel": "All done"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

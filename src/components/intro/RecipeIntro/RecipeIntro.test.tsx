@@ -150,7 +150,7 @@ describe('RecipeIntro', () => {
     fireEvent.click(screen.getByText('Large pot'))
     const badge = screen
       .getAllByText('✓')
-      .find((el) => el.getAttribute('data-success'))
+      .find((el) => el.hasAttribute('data-success'))
     expect(badge).toBeInTheDocument()
     expect(screen.queryByText(/not yet checked/)).not.toBeInTheDocument()
   })
