@@ -1,7 +1,8 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { RecipeIntro } from './RecipeIntro'
 import type { Recipe } from '../../../types'
+import { clearCheckedStorage } from './useCheckedItems'
 
 const recipe: Recipe = {
   title: 'Spaghetti Bolognese',
@@ -49,6 +50,10 @@ const recipe: Recipe = {
 }
 
 describe('RecipeIntro', () => {
+  beforeEach(() => {
+    clearCheckedStorage('Spaghetti Bolognese')
+  })
+
   it('renders the recipe title', () => {
     render(<RecipeIntro recipe={recipe} onStart={vi.fn()} />)
     expect(screen.getByText('Spaghetti Bolognese')).toBeInTheDocument()
