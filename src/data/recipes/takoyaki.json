@@ -1,6 +1,6 @@
 {
   "title": "Veggie Takoyaki",
-  "description": "Takoyaki with mushroom instead of oyster",
+  "description": "Takoyaki with mushroom instead of oyster. May take two batches across a 16-hole Takoyaki pan.",
   "servings": 32,
   "totalTime": "35 min",
   "ingredients": [
@@ -56,7 +56,7 @@
     },
     {
       "name": "benishouga (red-pickled ginger)",
-      "quantity": 50,
+      "quantity": 45,
       "unit": "g"
     },
     {
@@ -65,7 +65,7 @@
       "unit": "packet"
     },
     {
-      "name": "large spring onion",
+      "name": "spring onion",
       "quantity": 1,
       "unit": "onion"
     },
@@ -254,7 +254,7 @@
               "instruction": "Measure the {1} Tenkasu into a container",
               "quantities": [
                 {
-                  "value": 50,
+                  "value": 45,
                   "unit": "g"
                 }
               ]
@@ -263,13 +263,13 @@
               "instruction": "Measure the {1} Benishouga into another container",
               "quantities": [
                 {
-                  "value": 50,
+                  "value": 45,
                   "unit": "g"
                 }
               ]
             },
             {
-              "instruction": "Peel spring onion, discard peel, finely slice and separate whites and greens"
+              "instruction": "Peel spring onion, discard peel, finely slice"
             },
             {
               "instruction": "Ensure that all your fillings (Tenkasu, Benishouga, spring onion, cooked mushroom cubes) are arranged into easy to reach places"
