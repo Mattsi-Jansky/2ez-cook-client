@@ -1,0 +1,370 @@
+{
+  "title": "Vegetarian Tonkotsu-style Ramen",
+  "description": "A vegetarian Ramen with Tonkotsu-style broth. Makes 4-5 servings; you can make fewer and save the remaining broth for another time.",
+  "servings": 5,
+  "totalTime": "1 hr 15 min",
+  "ingredients": [
+    {
+      "name": "Medium onion",
+      "quantity": 0.5,
+      "unit": "onion",
+      "note": "For the broth."
+    },
+    {
+      "name": "Garlic",
+      "quantity": 8,
+      "unit": "cloves",
+      "note": "For the broth."
+    },
+    {
+      "name": "Ginger",
+      "quantity": 2.5,
+      "unit": "tbsp",
+      "note": "For the broth. Fresh minced, or ginger paste."
+    },
+    {
+      "name": "Peanut oil",
+      "quantity": 3,
+      "unit": "tbsp",
+      "note": "For the broth. Any vegetable cooking oil works as a substitute."
+    },
+    {
+      "name": "Kombu (dried kelp)",
+      "quantity": 8,
+      "unit": "g",
+      "note": "For the broth."
+    },
+    {
+      "name": "Vegetable stock cubes",
+      "note": "For the broth. Enough for 2 litres of stock per packaging instructions. Consider low-salt cubes to reduce risk of making the broth too salty."
+    },
+    {
+      "name": "Cashews",
+      "quantity": 240,
+      "unit": "ml",
+      "note": "For the broth."
+    },
+    {
+      "name": "Dried shiitake mushroom",
+      "quantity": 1,
+      "unit": "mushroom",
+      "note": "For the broth."
+    },
+    {
+      "name": "Almond milk",
+      "quantity": 240,
+      "unit": "ml",
+      "note": "For the broth. Any plant-based milk without a strong flavour."
+    },
+    {
+      "name": "Toasted sesame oil",
+      "quantity": 3,
+      "unit": "tbsp",
+      "note": "For the broth."
+    },
+    {
+      "name": "Soy sauce (japanese, e.g. Kikkoman)",
+      "quantity": 3,
+      "unit": "tbsp",
+      "note": "For the broth. Chinese soy sauce has a stronger flavour and will affect the broth."
+    },
+    {
+      "name": "Nutritional yeast flakes",
+      "quantity": 120,
+      "unit": "ml",
+      "note": "For the broth."
+    },
+    {
+      "name": "Fresh ramen noodles",
+      "note": "Cook per packet instructions."
+    },
+    {
+      "name": "Selection of mushrooms",
+      "note": "Shiitake, wood ear, enoki — try a variety of sizes and types."
+    },
+    {
+      "name": "Bok choy"
+    },
+    {
+      "name": "Marinated tofu"
+    },
+    {
+      "name": "Spring onions",
+      "quantity": 2,
+      "unit": "onions"
+    },
+    {
+      "name": "Nori",
+      "note": "A few pieces, for topping."
+    },
+    {
+      "name": "Spinach",
+      "note": "A few handfuls, for serving."
+    },
+    {
+      "name": "Eggs",
+      "quantity": 1,
+      "unit": "per serving",
+      "note": "Must be at room temperature. Optionally use marinated Ajitsuke Tamago eggs instead."
+    },
+    {
+      "name": "Courgette"
+    },
+    {
+      "name": "Salt"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Large saucepan or pot",
+      "note": "For the broth."
+    },
+    {
+      "name": "Normal saucepan",
+      "note": "For cooking noodles."
+    },
+    {
+      "name": "Frying pan",
+      "note": "For stir-frying vegetables."
+    },
+    {
+      "name": "Ladle",
+      "note": "For serving the broth."
+    },
+    {
+      "name": "Blender"
+    }
+  ],
+  "stages": [
+    {
+      "type": "preparation",
+      "label": "Preparation - Broth",
+      "description": "Prepare all the broth ingredients before cooking.",
+      "tracks": [
+        {
+          "label": "Broth Ingredients",
+          "steps": [
+            {
+              "instruction": "Ensure eggs for the later ramen step are out of the fridge and at room temperature.",
+              "actionLabel": "Eggs are out"
+            },
+            {
+              "instruction": "Mince the {1} of garlic.",
+              "quantities": [{ "value": 8, "unit": "cloves" }],
+              "actionLabel": "Garlic is minced"
+            },
+            {
+              "instruction": "Halve the onion. Store or discard the other half. Dice the half you're using.",
+              "actionLabel": "Onion is diced"
+            },
+            {
+              "instruction": "Peel and mince {1} of ginger.",
+              "quantities": [{ "value": 2.5, "unit": "tbsp" }],
+              "actionLabel": "Ginger is prepared",
+              "hint": "You can substitute ginger paste if preferred."
+            },
+            {
+              "instruction": "Prepare {1} of vegetable stock by mixing water with the appropriate number of stock cubes per packaging instructions.",
+              "quantities": [{ "value": 2, "unit": "litres" }],
+              "actionLabel": "Stock is prepared"
+            },
+            {
+              "instruction": "Measure out {1} of cashews.",
+              "quantities": [{ "value": 240, "unit": "ml" }],
+              "actionLabel": "Cashews measured"
+            },
+            {
+              "instruction": "Measure out {1} of kombu.",
+              "quantities": [{ "value": 8, "unit": "g" }],
+              "actionLabel": "Kombu measured"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cooking",
+      "label": "Cooking - Broth",
+      "description": "Cook the broth base, then blend in the cashew and mushroom mixture.",
+      "tracks": [
+        {
+          "label": "Broth",
+          "steps": [
+            {
+              "instruction": "Place the dried shiitake mushroom in {1} of hot (not boiling) water to rehydrate.",
+              "quantities": [{ "value": 240, "unit": "ml" }],
+              "actionLabel": "Mushroom is soaking"
+            },
+            {
+              "instruction": "Place the cashews in {1} of hot (not boiling) water to rehydrate.",
+              "quantities": [{ "value": 240, "unit": "ml" }],
+              "actionLabel": "Cashews are soaking"
+            },
+            {
+              "instruction": "Heat {1} peanut oil in the large saucepan/pot over medium-high heat.",
+              "quantities": [{ "value": 3, "unit": "tbsp" }],
+              "actionLabel": "Oil is hot"
+            },
+            {
+              "instruction": "Once oil is hot, add the diced onions. Stir infrequently.",
+              "timerDuration": 240,
+              "timerLabel": "Onions cooking",
+              "actionLabel": "Onions are cooking"
+            },
+            {
+              "instruction": "Add the garlic and ginger. Continue stirring infrequently.",
+              "timerDuration": 120,
+              "timerLabel": "Garlic and ginger cooking",
+              "actionLabel": "Garlic and ginger added"
+            },
+            {
+              "instruction": "Add the {1} vegetable stock. Bring to a boil, then reduce to a simmer. Add the kombu.",
+              "quantities": [{ "value": 2, "unit": "litres" }],
+              "timerDuration": 1200,
+              "timerLabel": "Broth simmering",
+              "actionLabel": "Broth is simmering",
+              "startTrack": "Meanwhile"
+            },
+            {
+              "instruction": "Take off heat. Strain out the onions, garlic, ginger, and kombu.",
+              "actionLabel": "Broth is strained"
+            },
+            {
+              "instruction": "Stir in the blended cashew/mushroom mix. It should be thick enough to coat a spoon. If too thick, add some of the saved soaking water. Add {1} salt, or to taste.",
+              "quantities": [{ "value": 0.3, "unit": "tsp" }],
+              "actionLabel": "Broth is finished"
+            }
+          ]
+        },
+        {
+          "label": "Meanwhile",
+          "isParallel": true,
+          "steps": [
+            {
+              "instruction": "Measure out {1} nutritional yeast flakes.",
+              "quantities": [{ "value": 120, "unit": "ml" }],
+              "actionLabel": "Yeast measured"
+            },
+            {
+              "instruction": "Measure out {1} almond milk.",
+              "quantities": [{ "value": 240, "unit": "ml" }],
+              "actionLabel": "Milk measured"
+            },
+            {
+              "instruction": "Remove the shiitake mushroom and cashews from their soaking water. Save the soaking water for later.",
+              "actionLabel": "Mushroom and cashews removed"
+            },
+            {
+              "instruction": "Blend the nutritional yeast, {1} sesame oil, {2} soy sauce, the mushroom, cashews, and almond milk on a low setting for 20 seconds.",
+              "quantities": [
+                { "value": 3, "unit": "tbsp" },
+                { "value": 3, "unit": "tbsp" }
+              ],
+              "actionLabel": "First blend done",
+              "hint": "If the consistency is too thick to blend, add some of the soaking water. The ideal texture should be quite thick but uniform."
+            },
+            {
+              "instruction": "Blend for a further 30 seconds until smooth.",
+              "actionLabel": "Blending complete"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "preparation",
+      "label": "Preparation - Ramen",
+      "description": "Prepare the ramen toppings and vegetables.",
+      "tracks": [
+        {
+          "label": "Ramen Ingredients",
+          "steps": [
+            {
+              "instruction": "Trim and slice the courgette.",
+              "actionLabel": "Courgette is sliced"
+            },
+            {
+              "instruction": "Slice your selection of mushrooms into roughly similar sizes. Small mushrooms can be cooked whole.",
+              "actionLabel": "Mushrooms are sliced",
+              "hint": "For enoki mushrooms, trim the roots, pull apart slightly with your hands — they'll separate further as they cook."
+            },
+            {
+              "instruction": "Trim the bok choy and slice into halves or large pieces.",
+              "actionLabel": "Bok choy is prepared"
+            },
+            {
+              "instruction": "Measure out as much marinated tofu as you'd like.",
+              "actionLabel": "Tofu is ready"
+            },
+            {
+              "instruction": "Trim the ends, branches, and outer layer of the {1}. Slice the remainder, keeping the white and green parts separate.",
+              "quantities": [{ "value": 2, "unit": "spring onions" }],
+              "actionLabel": "Spring onions are prepared"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cooking",
+      "label": "Cooking - Ramen",
+      "description": "Stir-fry the vegetables, cook the noodles, and assemble the bowls.",
+      "tracks": [
+        {
+          "label": "Stir-fry & Serving",
+          "steps": [
+            {
+              "instruction": "Add a drizzle of oil to your frying pan over medium-high heat.",
+              "actionLabel": "Pan is hot"
+            },
+            {
+              "instruction": "Once hot, add the white spring onion and mushrooms (except enoki). Stir regularly.",
+              "timerDuration": 300,
+              "timerLabel": "Mushrooms cooking",
+              "actionLabel": "Mushrooms are cooking"
+            },
+            {
+              "instruction": "Add the courgette, tofu, and bok choy. Boil a kettle for the noodles.",
+              "timerDuration": 180,
+              "timerLabel": "Vegetables cooking",
+              "actionLabel": "Vegetables added"
+            },
+            {
+              "instruction": "Add the enoki mushrooms, if using.",
+              "timerDuration": 60,
+              "timerLabel": "Enoki cooking",
+              "actionLabel": "Enoki added"
+            },
+            {
+              "instruction": "Add the green spring onion.",
+              "timerDuration": 60,
+              "timerLabel": "Final cooking",
+              "actionLabel": "Green onion added"
+            },
+            {
+              "instruction": "Remove from heat.",
+              "actionLabel": "Stir-fry is done"
+            },
+            {
+              "instruction": "Put heat under the broth again. Ensure it is boiling hot before serving.",
+              "actionLabel": "Broth is reheating"
+            },
+            {
+              "instruction": "Using the normal saucepan and the boiled water, cook the noodles per packet instructions.",
+              "actionLabel": "Noodles are cooked"
+            },
+            {
+              "instruction": "Slice each egg in half vertically.",
+              "actionLabel": "Eggs are sliced"
+            },
+            {
+              "instruction": "Serve the noodles, fried vegetables, and eggs between bowls along with a handful of spinach, then ladle as much boiling hot broth as you'd like into each bowl and top with nori.",
+              "completionType": "final",
+              "actionLabel": "All done"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
