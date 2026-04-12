@@ -302,10 +302,11 @@
               "instruction": "Scatter whole pan liberally with Tenkasu, Benishouga, and spring onions"
             },
             {
-              "instruction": "As the batter starts to firm, use your skewer to mark out a grid around each hole, lifting the batter that isn't in the holes"
+              "instruction": "As the batter starts to firm, use your skewer to mark out a grid around each hole, lifting the batter that isn't in the holes and moving it into them"
             },
             {
-              "instruction": "Insert the skewer into the base of each hole to roll it over and create a sphere"
+              "instruction": "Insert the skewer into the base of each hole to roll it over and create a sphere. Continue cooking and turning as needed to give an even cook, and prevent burning.",
+              "timerDuration": 720
             },
             {
               "instruction": "Remove the balls (toothpicks/skewers help here) and place on a serving tray/plate"
