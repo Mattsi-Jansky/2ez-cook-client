@@ -1,0 +1,144 @@
+{
+  "title": "Ajitsuke Tamago (Marinated eggs for Ramen)",
+  "description": "Soft-boiled, marinated eggs for Japanese cooking (Ramen, mostly).",
+  "servings": 6,
+  "totalTime": "20 min + 4-12 hrs marinating",
+  "ingredients": [
+    {
+      "name": "Eggs",
+      "quantity": 6,
+      "unit": "eggs"
+    },
+    {
+      "name": "Sake",
+      "quantity": 120,
+      "unit": "ml"
+    },
+    {
+      "name": "Soy sauce (japanese, e.g. Kikkoman)",
+      "quantity": 60,
+      "unit": "ml"
+    },
+    {
+      "name": "Mirin",
+      "quantity": 60,
+      "unit": "ml"
+    },
+    {
+      "name": "Sugar",
+      "quantity": 50,
+      "unit": "g"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Whisk"
+    },
+    {
+      "name": "Slotted spoon"
+    },
+    {
+      "name": "Fine needle or thumbtack",
+      "note": "For piercing the eggshell to release trapped air."
+    },
+    {
+      "name": "Saucepan"
+    },
+    {
+      "name": "Wide, shallow bowl",
+      "note": "For marinating the eggs."
+    },
+    {
+      "name": "Kitchen roll"
+    }
+  ],
+  "stages": [
+    {
+      "type": "preparation",
+      "label": "Preparation",
+      "description": "Prepare the marinade and eggs before cooking.",
+      "tracks": [
+        {
+          "label": "Marinade & Eggs",
+          "steps": [
+            {
+              "instruction": "Boil a full kettle.",
+              "actionLabel": "Kettle is boiled"
+            },
+            {
+              "instruction": "Whisk together the water, {1} sake, {2} soy sauce, {3} mirin, and {4} sugar until dissolved.",
+              "quantities": [
+                { "value": 120, "unit": "ml" },
+                { "value": 60, "unit": "ml" },
+                { "value": 60, "unit": "ml" },
+                { "value": 50, "unit": "g" }
+              ],
+              "actionLabel": "Marinade is mixed"
+            },
+            {
+              "instruction": "For each of the {1}, use your thumbtack or needle to poke a small hole at the base of the fat end of the egg.",
+              "quantities": [{ "value": 6, "unit": "eggs" }],
+              "actionLabel": "Eggs are pierced",
+              "hint": "This releases the air, preventing air pockets from forming."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cooking",
+      "label": "Cooking & Marinating",
+      "description": "Soft-boil the eggs, then marinate them in the prepared sauce.",
+      "tracks": [
+        {
+          "label": "Eggs",
+          "steps": [
+            {
+              "instruction": "Pour the boiled kettle water into the saucepan on a high heat.",
+              "actionLabel": "Water is in the pan"
+            },
+            {
+              "instruction": "Once it is boiling, reduce to a bare simmer.",
+              "actionLabel": "Heat is reduced"
+            },
+            {
+              "instruction": "Using the slotted spoon, add each of the {1} one at a time.",
+              "quantities": [{ "value": 6, "unit": "eggs" }],
+              "actionLabel": "Eggs are in the water"
+            },
+            {
+              "instruction": "Cook for 7 minutes.",
+              "timerDuration": 420,
+              "timerLabel": "Eggs cooking",
+              "actionLabel": "Eggs are cooked"
+            },
+            {
+              "instruction": "Switch off the heat. Use the slotted spoon to remove each egg.",
+              "actionLabel": "Eggs are removed"
+            },
+            {
+              "instruction": "Carefully peel the eggs under running cold water.",
+              "actionLabel": "Eggs are peeled"
+            },
+            {
+              "instruction": "Transfer the eggs to your bowl. Pour marinade in until the eggs are just barely covered, or floating.",
+              "actionLabel": "Eggs are in the marinade"
+            },
+            {
+              "instruction": "Place a double layer of kitchen roll over the eggs. Press down until completely saturated in the liquid.",
+              "actionLabel": "Kitchen roll is in place",
+              "hint": "This ensures that even if the eggs float, they will be fully submerged in the marinade."
+            },
+            {
+              "instruction": "Refrigerate for 4-12 hours. Never longer than 12 hours. When finished marinating, move the eggs to a container where they will keep in the fridge for 3 days.",
+              "timerLabel": "Marinating (minimum)",
+              "isBackground": true,
+              "actionLabel": "Eggs are marinating",
+              "completionType": "final"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
