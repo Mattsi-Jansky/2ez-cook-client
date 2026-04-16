@@ -20,3 +20,4 @@
 - [ ] bug: returning to the active step from viewing a different stage doesn't cause the step to become active
 - [ ] bug: previewing the first step of the next stage highlights the step in the step progress bar as if it were active, not just being previewed (doesn't affect steps after the first)
 - [ ] Make 'servings' an object that can specify what an individual serving is too, e.g. with Takoyaki is a serving a single Takoyaki or a number of them and if so how many?
+- [ ] bug: you can complete a stage without completing parallel tracks. This leaves the 'switch track' modal in place after you reach the next track, and clicking it breaks the app altogether - gets you into an unrecoverable state.
