@@ -1,0 +1,364 @@
+{
+  "title": "Vegetarian Pasta Bake",
+  "description": "A hearty vegetarian pasta bake with roasted Mediterranean vegetables in a rich tomato sauce, finished with a cheesy panko crust. Serves 4 at roughly 650 calories per serving.",
+  "servings": 4,
+  "totalTime": "1 hr 30 min",
+  "ingredients": [
+    {
+      "name": "Penne pasta",
+      "quantity": 300,
+      "unit": "g",
+      "note": "Dry weight."
+    },
+    {
+      "name": "Olive oil",
+      "quantity": 3,
+      "unit": "tbsp",
+      "note": "Most goes into frying the aubergine."
+    },
+    {
+      "name": "Aubergine",
+      "quantity": 1,
+      "unit": "aubergine",
+      "note": "Large."
+    },
+    {
+      "name": "Red onion",
+      "quantity": 1,
+      "unit": "onion"
+    },
+    {
+      "name": "Peppers",
+      "quantity": 2,
+      "unit": "peppers"
+    },
+    {
+      "name": "Courgettes",
+      "quantity": 2,
+      "unit": "courgettes"
+    },
+    {
+      "name": "Garlic",
+      "quantity": 3,
+      "unit": "cloves"
+    },
+    {
+      "name": "Tomato puree",
+      "note": "A good squeeze, around 2 tablespoons."
+    },
+    {
+      "name": "Cherry tomatoes",
+      "quantity": 400,
+      "unit": "g",
+      "note": "One standard tin."
+    },
+    {
+      "name": "Fresh basil",
+      "note": "Leaves and stems are both used — the stems go into the sauce."
+    },
+    {
+      "name": "Hard cheese",
+      "quantity": 25,
+      "unit": "g",
+      "note": "A vegetarian Italian-style hard cheese."
+    },
+    {
+      "name": "Mozzarella",
+      "quantity": 25,
+      "unit": "g"
+    },
+    {
+      "name": "Mature cheddar",
+      "quantity": 75,
+      "unit": "g"
+    },
+    {
+      "name": "Panko breadcrumbs",
+      "quantity": 20,
+      "unit": "g"
+    },
+    {
+      "name": "Salt"
+    },
+    {
+      "name": "Black pepper"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Frying pan",
+      "note": "Large enough to hold all the vegetables and sauce."
+    },
+    {
+      "name": "Ovenproof dish"
+    },
+    {
+      "name": "Saucepan",
+      "note": "For boiling the pasta."
+    },
+    {
+      "name": "Colander",
+      "note": "For draining the pasta."
+    },
+    {
+      "name": "Grater",
+      "note": "Not needed if your cheese is already grated."
+    },
+    {
+      "name": "Knife and cutting board"
+    },
+    {
+      "name": "Mug or cup",
+      "note": "For scooping out pasta water before draining."
+    },
+    {
+      "name": "Kettle",
+      "note": "To speed up boiling the pasta water."
+    }
+  ],
+  "stages": [
+    {
+      "type": "preparation",
+      "label": "Preparation",
+      "description": "Chop, pick, and measure everything into separate containers before any heat goes on.",
+      "tracks": [
+        {
+          "label": "Ingredients",
+          "steps": [
+            {
+              "instruction": "Crush and dice the {1} of garlic. Set aside in a small container.",
+              "quantities": [{ "value": 3, "unit": "cloves" }],
+              "actionLabel": "Garlic is prepared"
+            },
+            {
+              "instruction": "Chop the aubergine into bite-sized pieces. Set aside in a container.",
+              "actionLabel": "Aubergine is chopped"
+            },
+            {
+              "instruction": "Chop the red onion. Set aside in a separate container.",
+              "actionLabel": "Onion is chopped"
+            },
+            {
+              "instruction": "Chop the {1} and {2} into bite-sized pieces. Set them aside together in a separate container.",
+              "quantities": [
+                { "value": 2, "unit": "peppers" },
+                { "value": 2, "unit": "courgettes" }
+              ],
+              "actionLabel": "Peppers and courgettes are chopped"
+            },
+            {
+              "instruction": "Pick the leaves from the basil and set them aside in a container.",
+              "actionLabel": "Basil leaves are picked"
+            },
+            {
+              "instruction": "Finely chop the basil stems and set them aside in a separate container.",
+              "actionLabel": "Basil stems are chopped",
+              "hint": "The stems carry plenty of flavour and go into the sauce; the leaves are saved for the topping and garnish."
+            },
+            {
+              "instruction": "Fill and switch on the kettle for the pasta water.",
+              "actionLabel": "Kettle is on"
+            },
+            {
+              "instruction": "Measure out {1} of penne pasta.",
+              "quantities": [{ "value": 300, "unit": "g" }],
+              "actionLabel": "Pasta is measured"
+            },
+            {
+              "instruction": "Open the tin of cherry tomatoes so it's ready to pour.",
+              "actionLabel": "Tomatoes are open"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cooking",
+      "label": "Cooking — Pasta & Sauce",
+      "description": "The pasta cooks in parallel while you build the vegetable sauce on the hob — the app will manage the timing for you.",
+      "tracks": [
+        {
+          "label": "Sauce",
+          "steps": [
+            {
+              "instruction": "Heat {1} of olive oil in the frying pan over low–medium heat.",
+              "quantities": [{ "value": 2, "unit": "tbsp" }],
+              "actionLabel": "Oil is heating",
+              "startTrack": "Pasta"
+            },
+            {
+              "instruction": "Add the aubergine and stir well to coat it in the oil. Let it fry, stirring occasionally.",
+              "timerDuration": 780,
+              "timerLabel": "Aubergine frying",
+              "actionLabel": "Aubergine is fried"
+            },
+            {
+              "instruction": "Return the fried aubergine to its container. Try to keep as much oil in the pan as possible — if needed, tip a little oil back from the container into the pan.",
+              "actionLabel": "Aubergine is set aside"
+            },
+            {
+              "instruction": "Tip the onions into the pan and let them cook.",
+              "timerDuration": 360,
+              "timerLabel": "Onions cooking",
+              "actionLabel": "Onions are cooking"
+            },
+            {
+              "instruction": "Stir in the peppers and courgettes.",
+              "timerDuration": 960,
+              "timerLabel": "Peppers and courgettes cooking",
+              "actionLabel": "Peppers and courgettes added"
+            },
+            {
+              "instruction": "Add the garlic and stir.",
+              "timerDuration": 120,
+              "timerLabel": "Garlic cooking",
+              "actionLabel": "Garlic added"
+            },
+            {
+              "instruction": "Stir in the tomato puree.",
+              "timerDuration": 300,
+              "timerLabel": "Tomato puree cooking",
+              "actionLabel": "Tomato puree added"
+            },
+            {
+              "instruction": "Add the cooked aubergine, the tin of cherry tomatoes, the basil stems, and half the basil leaves. Bring to a gentle simmer.",
+              "actionLabel": "Sauce is at a gentle simmer",
+              "completionHint": "Small bubbles breaking gently across the surface — not a vigorous boil."
+            },
+            {
+              "instruction": "Let the sauce simmer gently.",
+              "timerDuration": 1320,
+              "timerLabel": "Sauce simmering",
+              "actionLabel": "Sauce has simmered"
+            },
+            {
+              "instruction": "Stir in {1} of salt and {2} of black pepper, then take the pan off the heat.",
+              "quantities": [
+                { "value": 1, "unit": "tsp" },
+                { "value": 1, "unit": "tsp" }
+              ],
+              "actionLabel": "Sauce is seasoned and off the heat"
+            }
+          ]
+        },
+        {
+          "label": "Pasta",
+          "isParallel": true,
+          "steps": [
+            {
+              "instruction": "Pour the boiled kettle water into the saucepan and bring it back to the boil. Add the penne and give it a stir.",
+              "actionLabel": "Pasta is in the water"
+            },
+            {
+              "instruction": "The pasta cooks in the background while you get on with the sauce. You'll be alerted when the timer is up.",
+              "timerDuration": 480,
+              "timerLabel": "Pasta cooking",
+              "actionLabel": "Pasta is cooking",
+              "isBackground": true,
+              "hint": "8 minutes suits most penne, but check your pack and adjust the timer if needed — aim to take it off about 2 minutes before the stated time, as it finishes cooking in the oven."
+            },
+            {
+              "instruction": "Drain the pasta, but first scoop out a mugful of the cooking water and keep it to one side.",
+              "actionLabel": "Pasta is drained, water reserved",
+              "completionHint": "The pasta should still be firm with a bite.",
+              "hint": "The reserved water is starchy and thick — it will help thicken the sauce later."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "preparation",
+      "label": "Preparation — Topping",
+      "description": "Heat the oven and mix the cheesy breadcrumb topping while the sauce rests.",
+      "tracks": [
+        {
+          "label": "Topping",
+          "steps": [
+            {
+              "instruction": "Heat the oven to 180°C fan.",
+              "actionLabel": "Oven is heating",
+              "hint": "If your oven isn't fan-assisted, set it to 200°C instead."
+            },
+            {
+              "instruction": "Measure {1} of panko breadcrumbs into a large container.",
+              "quantities": [{ "value": 20, "unit": "g" }],
+              "actionLabel": "Breadcrumbs measured"
+            },
+            {
+              "instruction": "Grate (or measure, if pre-grated) {1} of hard cheese, {2} of mozzarella, and {3} of mature cheddar into the same container as the breadcrumbs.",
+              "quantities": [
+                { "value": 25, "unit": "g" },
+                { "value": 25, "unit": "g" },
+                { "value": 75, "unit": "g" }
+              ],
+              "actionLabel": "Cheese is grated"
+            },
+            {
+              "instruction": "Add {1} of black pepper to the mixture.",
+              "quantities": [{ "value": 0.125, "unit": "tsp" }],
+              "actionLabel": "Pepper added"
+            },
+            {
+              "instruction": "Stir the breadcrumbs and cheese together until roughly mixed.",
+              "actionLabel": "Topping is mixed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cooking",
+      "label": "Assemble & Bake",
+      "description": "Combine the pasta and sauce, top with the cheesy breadcrumbs, and bake.",
+      "tracks": [
+        {
+          "label": "Assemble & Bake",
+          "steps": [
+            {
+              "instruction": "Mix the cooked pasta and sauce together, loosening it with a generous splash of the reserved pasta water.",
+              "actionLabel": "Pasta and sauce are combined",
+              "glossary": {
+                "generous splash": {
+                  "title": "How much pasta water?",
+                  "visual": "💧",
+                  "text": "Start with about half a mug. The starchy water loosens the sauce and helps it cling to the pasta — add more a little at a time if it looks dry."
+                }
+              }
+            },
+            {
+              "instruction": "Taste and season with more salt and pepper if you like.",
+              "actionLabel": "Seasoned to taste"
+            },
+            {
+              "instruction": "Tip the pasta into the ovenproof dish and spread it out evenly.",
+              "actionLabel": "Pasta is in the dish"
+            },
+            {
+              "instruction": "Spread the cheese and breadcrumb mixture evenly over the top of the pasta.",
+              "actionLabel": "Topping is spread"
+            },
+            {
+              "instruction": "Bake in the oven.",
+              "timerDuration": 600,
+              "timerLabel": "Baking",
+              "actionLabel": "First bake done"
+            },
+            {
+              "instruction": "Turn the dish around for even browning, then bake for a further 5 minutes.",
+              "timerDuration": 300,
+              "timerLabel": "Final bake",
+              "actionLabel": "Bake complete",
+              "completionHint": "The topping should be golden and crisp."
+            },
+            {
+              "instruction": "Garnish with the remaining basil leaves, if you're feeling posh, and serve.",
+              "completionType": "final",
+              "actionLabel": "All done"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
